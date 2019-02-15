@@ -1,0 +1,75 @@
+#header {
+    background: #c1eec3;
+}
+
+#navbar {
+    background: lightcyan;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 0px;
+}
+
+
+#examPromo {
+    padding: 20px;
+    background-color: lightgray;
+}
+
+#examPromo .moduleExams {
+    border: 3px white solid;
+    box-shadow: 2px 2px 10px 2px;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.carousel-caption {
+    background-color: rgb(0, 0, 0, 0.5);
+    border-radius: 50px;
+    width: 70%;
+}
+
+#whyChooseUs {
+    text-align: center;
+    padding:10px;
+}
+
+#whyChooseUs .whyOptions {
+    height: 250px;
+    color:white;
+    cursor:default;
+}
+
+#whyChooseUs .op1 {
+    background-image: url('https://pictures.ozy.com/pictures/900x900/0/3/1/103031_innovative.jpg');
+}
+
+#whyChooseUs .op2 {
+    background-image: url("https://voices.earth/wp-content/uploads/2018/08/iStock-826245986-900x900.jpg");
+}
+
+#whyChooseUs .op3 {
+    background-image: url('https://pictures.ozy.com/pictures/900x900/0/3/1/103031_innovative.jpg');
+}
+
+#whyChooseUs .op4 {
+    background-image: url("https://voices.earth/wp-content/uploads/2018/08/iStock-826245986-900x900.jpg");
+}
+
+#whyChooseUs .whyOptions .optionText {
+    margin: 0 -14px;
+    padding: 10px;
+    height:250px;
+    background-color: rgb(0, 0, 0, 0.5);
+    transition: all 0.3s;
+}
+
+#whyChooseUs .whyOptions .optionText:hover {
+    opacity: 0.5;
+}
+
+footer {
+    background: linear-gradient(45deg, #318CCA 0, rgb(85, 147, 29) 100%);
+    color:white;
+}
+

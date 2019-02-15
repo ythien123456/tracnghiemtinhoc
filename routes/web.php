@@ -12,5 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.main');
+});
+
+Route::get('/contact', function () {
+    if (View::exists('contact')) {
+        return view('contact');
+    } else {
+        return 'Trang liên hệ đang bị lỗi, bạn vui lòng quay lại sau';
+    }
 });
