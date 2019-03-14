@@ -1,3 +1,4 @@
+/* Layouts */
 #header {
     background: #c1eec3;
 }
@@ -9,7 +10,14 @@
     padding: 0px;
 }
 
+footer {
+    background: linear-gradient(45deg, #318CCA 0, rgb(85, 147, 29) 100%);
+    color:white;
+    width: 100%;
+}
+/* END layouts */
 
+/* Home Content */
 #examPromo {
     padding: 20px;
     background-color: lightgray;
@@ -40,22 +48,6 @@
     cursor:default;
 }
 
-#whyChooseUs .op1 {
-    background-image: url('https://pictures.ozy.com/pictures/900x900/0/3/1/103031_innovative.jpg');
-}
-
-#whyChooseUs .op2 {
-    background-image: url("https://voices.earth/wp-content/uploads/2018/08/iStock-826245986-900x900.jpg");
-}
-
-#whyChooseUs .op3 {
-    background-image: url('https://pictures.ozy.com/pictures/900x900/0/3/1/103031_innovative.jpg');
-}
-
-#whyChooseUs .op4 {
-    background-image: url("https://voices.earth/wp-content/uploads/2018/08/iStock-826245986-900x900.jpg");
-}
-
 #whyChooseUs .whyOptions .optionText {
     margin: 0 -14px;
     padding: 10px;
@@ -67,9 +59,58 @@
 #whyChooseUs .whyOptions .optionText:hover {
     opacity: 0.5;
 }
+/* END Home Content */
 
-footer {
-    background: linear-gradient(45deg, #318CCA 0, rgb(85, 147, 29) 100%);
-    color:white;
+/* Login & Register Forms */
+.loginWrapper {
+    width: 40%;
+    height: 350px;
+    border: 1px black solid;
+    margin: 20px auto;
+    padding: 45px;
+    border-radius: 20px;
 }
 
+.loginForm input, .loginForm button {
+    margin: 10px;
+}
+
+.registerWrapper {
+    width:50%;
+    margin: 10px auto;
+}
+
+label.error {
+    color:red;
+}
+/* END Login & Register Form */
+
+/* Exam List */
+.examTypeDescription {
+    border: 2px black solid;
+    padding:10px;
+    margin:10px;
+    font-size: 20px;
+}
+
+.examTypeDescription .examImage {
+    margin-right: 10px;
+}
+
+.examList {
+    border: 3px black solid;
+    margin-bottom: 10px;
+    padding:5px;
+}
+
+.examList .examInfo {
+    border: 2px lightblue solid;
+    padding: 10px;
+    height:200px;
+}
+
+.examList .examInfo .userStatistic {
+    padding: 20px 10px;
+    text-align: center;
+}
+/* END Exam List */
