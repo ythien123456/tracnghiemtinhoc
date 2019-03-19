@@ -103,10 +103,25 @@ label.error {
     padding:5px;
 }
 
+.examList li {
+    background:lightgray;
+}
+
+.examList li:nth-child(odd) {
+    background:lightblue;
+}
+
 .examList .examInfo {
     border: 2px lightblue solid;
-    padding: 10px;
-    height:200px;
+}
+
+.examList .examThumbnail {
+    max-width: 100%;
+}
+
+.examList .examDescription {
+    height: 110px;
+    max-height: 110px;
 }
 
 .examList .examInfo .userStatistic {
@@ -114,3 +129,26 @@ label.error {
     text-align: center;
 }
 /* END Exam List */
+
+/* Exam Details */
+
+.examDetailsContent {
+    padding:15px;
+}
+
+.examTakingForm ul {
+    list-style: none;
+}
+
+.examTakingForm .nav-tabs li {
+    margin:10px;
+    border:3px black solid;
+    border-radius:10px;
+    background: lightblue;
+}
+
+.examTakingForm .nav-tabs li a {
+    color:black;
+}
+
+/* END Exam Details */

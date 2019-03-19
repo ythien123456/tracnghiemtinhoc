@@ -10,7 +10,7 @@ class TestController extends Controller
 {
     public function index()
     {
-        $questions = Questions::paginate(20);
+        $questions = Questions::paginate(10);
         return view('paginateTest')->with('questions',$questions);
     }
 }
