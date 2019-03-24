@@ -13,7 +13,7 @@ class Accounts extends Model
         return $user;
     }
 
-    public static function registerAccount($email, $password, $firstName, $lastName, $gender, $workPlace, $phoneNumber, $address)
+    public static function store($email, $password, $firstName, $lastName, $gender, $workPlace, $phoneNumber, $address)
     {
         $account = new Accounts;
         $account->Email = $email;

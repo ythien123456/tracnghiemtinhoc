@@ -1,0 +1,12 @@
+/* START Login Page */
+
+.loginWrapper {
+    width: 30%;
+    margin: 20px auto;
+}
+
+.loginWrapper input {
+    margin: 10px;
+}
+
+/* END Login Page */

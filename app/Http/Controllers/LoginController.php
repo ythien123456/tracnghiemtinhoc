@@ -26,7 +26,7 @@ class LoginController extends Controller
             $request->session()->put('Role', $user->Role);
             $request->session()->put('FirstName', $user->FirstName);
             $request->session()->put('LastName', $user->LastName);
-            return redirect(url('/'));
+            return redirect(route('home'));
         } else {
             return view('login')
                 ->with('queryError','Sai tên đăng nhập hoặc mật khẩu!');

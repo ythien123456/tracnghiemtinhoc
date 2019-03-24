@@ -1,0 +1,91 @@
+.quizWrapper {
+    width: 50%;
+    margin: 0 auto;
+    background: gainsboro;
+    border-radius: 10px;
+}
+
+/*START Question Content*/
+.quizWrapper ul {
+    list-style: none;
+}
+
+.quizWrapper .content h3 {
+    font-weight: bold;
+}
+
+.quizWrapper .content ul li:hover {
+    background: lightgray;
+}
+
+.quizWrapper .content {
+    border-bottom: 1px white solid;
+    margin: 0 auto;
+    padding: 10px;
+    width: 100%;
+    height:350px;
+    overflow: auto;
+}
+
+.quizWrapper .content ul {
+}
+
+.quizWrapper .content ul li {
+    cursor: default;
+    padding: 5px;
+}
+
+.quizWrapper .content p, .content ul li {
+    font-size: 20px;
+}
+/* END Question content*/
+
+/* START Question List*/
+.quizWrapper .numbers {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.quizWrapper .numbers .questionsNum {
+    padding: 10px;
+    clear: both;
+}
+
+.quizWrapper .questionsNum ul li {
+    background: lightblue;
+    margin: 2px;
+    width: 100px;
+    height: 40px;
+    text-align: center;
+}
+
+/*END Question List*/
+
+/* START Navigate buttons */
+.quizWrapper .numbers .navigateBtn {
+    margin: 5px auto;
+    width: 60%;
+}
+
+.quizWrapper .numbers .navigateBtn .toPrevious {
+    float: left;
+    width: 150px;
+}
+
+.quizWrapper .numbers .navigateBtn .toNext {
+    float: right;
+    width: 150px;
+}
+/*END Navigate buttons*/
+
+.quizWrapper .examSubmit {
+    padding: 10px;
+}
+
+.quizWrapper .examSubmitBtn {
+    width: 20%;
+    height:50px;
+    font-weight: bold;
+    font-size: large;
+    text-transform: uppercase;
+}

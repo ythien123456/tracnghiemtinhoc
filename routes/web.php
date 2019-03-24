@@ -10,15 +10,18 @@
 | contains the 'web' middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
-    return view('home');
+    return view('homepage');
 });
 
-Route::get('/login', 'LoginController@showLogin');
-Route::get('logout', 'LoginController@logout');
-Route::post('login', 'LoginController@postLogin');
-Route::get('/register', 'RegisterController@showRegister');
+Route::get('/home', function () {
+    return view('homepage');
+})->name('home');
+
+Route::get('/login.html', 'LoginController@showLogin')->name('login');
+Route::get('logout.html', 'LoginController@logout')->name('logout');
+Route::post('login', 'LoginController@postLogin')->name('postLogin');
+Route::get('/register.html', 'RegisterController@showRegister');
 Route::post('register', 'RegisterController@postRegister');
 Route::group(array('prefix' => 'check'), function () {
     Route::post('check-email', 'RegisterController@checkEmail');
@@ -30,8 +33,8 @@ Route::group(array('prefix' => 'de-tong-hop'), function () {
         return view('examList')
             ->with(['examType' => 'Đề tổng hợp', 'examTypeID' => 2]);
     });
-    Route::get('/th-{examID}.html', 'ExamController@showQuestionsByExamID');
-    Route::post('/th-{examID}.html/submit', 'ExamController@submitExamAndCalculateScore');
+    Route::get('th-{examID}.html', 'ExamController@showQuestionsByExamID');
+    Route::post('th-{examID}.html/submit', 'ExamController@submitExamAndCalculateScore');
 });
 
 Route::group(array('prefix' => 'de-chuan'), function () {

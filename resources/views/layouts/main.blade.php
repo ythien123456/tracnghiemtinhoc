@@ -1,17 +1,43 @@
-<!doctype html>
-<html lang="vi">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="{{asset('public/css/style.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('public/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="{{asset('public/js/jquery-validate/jquery.validate.js')}}"></script>
-    <title>Trắc Nghiệm Tin Học Online</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        THTH |
+        @section('title')
+        @show
+    </title>
+
+    @section('additionalResources')
+    @show
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{asset('public/img/favicon.ico')}}" type="image/x-icon">
+    <!-- Font awesome -->
+    <link href="{{asset('public/css/font-awesome.css')}}" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="{{asset('public/css/bootstrap.css')}}" rel="stylesheet">
+    <!-- Slick slider -->
+    <link rel="stylesheet" type="text/css" href="{{asset('public/css/slick.css')}}">
+    <!-- Fancybox slider -->
+    <link rel="stylesheet" href="{{asset('public/css/jquery.fancybox.css')}}" type="text/css" media="screen"/>
+    <!-- Theme color -->
+    <link id="switcher" href="{{asset('public/css/theme-color/default-theme.css')}}" rel="stylesheet">
+    <!-- Main style sheet -->
+    <link href="{{asset('public/css/style.css')}}" rel="stylesheet">
+    <!-- custom style sheet -->
+    <link href="{{asset('public/css/custom.css')}}" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,300,300italic,500,700' rel='stylesheet'
+          type='text/css'>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
 {{--Begin Header--}}
@@ -29,8 +55,21 @@
 {{--Begin Footer--}}
 @include('layouts.footer')
 {{--End Footer--}}
-</body>
-<script type="text/javascript" src="{{asset('public/js/script.js')}}"></script>
-<script type="text/javascript" src="{{asset('public/js/bootstrap.min.js')}}"></script>
 
+</body>
+<!-- jQuery library -->
+<script src="{{asset('public/js/jquery.min.js')}}"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{{asset('public/js/bootstrap.js')}}"></script>
+<!-- Slick slider -->
+<script type="text/javascript" src="{{asset('public/js/slick.js')}}"></script>
+<!-- Counter -->
+<script type="text/javascript" src="{{asset('public/js/waypoints.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/js/jquery.counterup.js')}}"></script>
+<!-- Mixit slider -->
+<script type="text/javascript" src="{{asset('public/js/jquery.mixitup.js')}}"></script>
+<!-- Add fancyBox -->
+<script type="text/javascript" src="{{asset('public/js/jquery.fancybox.pack.js')}}"></script>
+<!-- Custom js -->
+<script src="{{asset('public/js/custom.js')}}"></script>
 </html>

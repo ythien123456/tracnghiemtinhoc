@@ -24,7 +24,7 @@ class RegisterController extends Controller
         $workPlace = $request->input('WorkPlace');
         $phoneNumber = $request->input('PhoneNumber');
         $address = $request->input('Address');
-        $registerResult = Accounts::registerAccount($email, md5($password), $firstName, $lastName, $gender, $workPlace, $phoneNumber, $address);
+        $registerResult = Accounts::store($email, md5($password), $firstName, $lastName, $gender, $workPlace, $phoneNumber, $address);
         if ($registerResult == true)
             return redirect('login')
                 ->with('registerSubmitMessage', 'Bạn đã đăng ký tài khoản thành công, hãy đăng nhập vào trang web!');

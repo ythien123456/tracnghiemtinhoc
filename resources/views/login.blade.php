@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    ĐĂNG NHẬP
+@endsection
+
 @section('content')
     <div class="container">
         @if(session('registerSubmitMessage'))
@@ -26,7 +30,7 @@
             <h2 class="text-center">
                 LOGIN
             </h2>
-            <form method="POST" class="loginForm">
+            <form method="POST" class="loginForm" action="{{route('postLogin')}}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 {{--dòng csrf_token() bắt buộc phải có (chống Cross-site Request Forgery), không có sẽ báo lỗi TokenMismatchException--}}
                 <input type="email" name="Email" class="form-control" placeholder="Email..">

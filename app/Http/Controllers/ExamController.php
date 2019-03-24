@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Models\Questions;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class ExamController extends Controller
 {
@@ -16,8 +17,17 @@ class ExamController extends Controller
     public function showQuestionsByExamID($examID)
     {
         $questions = Questions::getQuestionsByExamID($examID);
-        return view('examDetails')
-            ->with('questions', $questions);
+        if(Session::has('AccountID')) {
+            if(count($questions)>0)
+                return view('examDetails')
+                    ->with('questions', $questions);
+            else
+                return view('errors.404');
+        }
+        else {
+            return redirect(route('login'));
+        }
+
     }
 
     public function submitExamAndCalculateScore($examID, Request $request)
@@ -25,13 +35,13 @@ class ExamController extends Controller
         $answers = Questions::getAnswersByExamID($examID);
         $score = 0;
         foreach ($answers as $asw) {
-            if ($request->has($asw->QuestionID)) {
+            if ($request->has('question'.$asw->QuestionID)) {
                 if (strlen($asw->CorrectAnswers) == 1) {
-                    if ($asw->CorrectAnswers == $request->input($asw->QuestionID))
+                    if ($asw->CorrectAnswers == $request->input('question'.$asw->QuestionID))
                         $score++;
                 } else {
                     $correctAnswersArray = explode(",", $asw->CorrectAnswers);
-                    $examAnswersArray = $request->input($asw->QuestionID);
+                    $examAnswersArray = $request->input('question'.$asw->QuestionID);
                     $compareResult = array_diff($correctAnswersArray, $examAnswersArray);
                     if (empty($compareResult))
                         $score++;
@@ -39,6 +49,6 @@ class ExamController extends Controller
             }
         }
         $request->session()->put('score', $score);
-        return back()->withInput();
+        return back()->withInput()->with($score);
     }
 }
