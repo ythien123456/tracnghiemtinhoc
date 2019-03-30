@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
             'LastName' => 'max:30',
             'FirstName' => 'required|max:30',
             'WorkPlace' => 'max:50',
-            'PhoneNumber' => 'min:9|max:13|regex:/[0-9]{9,13}/',
+            'PhoneNumber' => 'regex:/^0[0-9\s.-]{9,13}$/',
             'Address' => 'max:255'
         ];
     }
@@ -41,7 +41,8 @@ class RegisterRequest extends FormRequest
             'required' => ':attribute bắt buộc nhập',
             'max' => ':attribute không được vượt quá :max ký tự',
             'min' => ':attribute không được ít hơn :min ký tự',
-            'same' => 'Mật khẩu xác nhận không trùng khớp!'
+            'same' => 'Mật khẩu xác nhận không trùng khớp!',
+            'regex' => ':attribute không đúng định dạng'
         ];
     }
 

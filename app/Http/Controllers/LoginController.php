@@ -11,7 +11,8 @@ class LoginController extends Controller
 {
     public function showLogin()
     {
-        return view('login');
+        return view('login')
+            ->with('pageName','ĐĂNG NHẬP');
     }
 
     public function postLogin(LoginRequest $request)

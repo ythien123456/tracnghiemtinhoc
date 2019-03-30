@@ -10,7 +10,8 @@ class RegisterController extends Controller
 {
     public function showRegister()
     {
-        return view('register');
+        return view('register')
+            ->with('pageName','ĐĂNG KÝ');
     }
 
     public function postRegister(RegisterRequest $request)
@@ -26,9 +27,9 @@ class RegisterController extends Controller
         $address = $request->input('Address');
         $registerResult = Accounts::store($email, md5($password), $firstName, $lastName, $gender, $workPlace, $phoneNumber, $address);
         if ($registerResult == true)
-            return redirect('login')
+            return redirect(route('login'))
                 ->with('registerSubmitMessage', 'Bạn đã đăng ký tài khoản thành công, hãy đăng nhập vào trang web!');
-        return redirect('register')
+        return redirect(route('register'))
             ->with('registerSubmitMessage', 'Có thể email hoặc số điện thoại đã tồn tại trong hệ thống, vui lòng đăng ký với email hoặc số điện thoại khác!')->withInput();
     }
 

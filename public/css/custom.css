@@ -1,12 +1,17 @@
 /* START Login Page */
-
 .loginWrapper {
-    width: 30%;
+    width: 40%;
     margin: 20px auto;
 }
 
 .loginWrapper input {
     margin: 10px;
 }
-
 /* END Login Page */
+
+/* START Register Page */
+.registerWrapper {
+    width: 60%;
+    margin: 20px auto;
+}
+/* END Register Page */

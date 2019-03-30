@@ -6,6 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Accounts extends Model
 {
+
+    public function scores() {
+        return $this->hasMany('App\Http\Models\Scores');
+    }
+
+    public function roles() {
+        return $this->hasOne('App\Http\Models\Roles');
+    }
+
+    public function posts() {
+        return $this->hasMany('App\Http\Models\Posts');
+    }
+
     public $timestamps = false; //để không bị dính hai cột updated_at và created_at trong Laravel Eloquent
     public static function getSingleAccount($email,$password)
     {

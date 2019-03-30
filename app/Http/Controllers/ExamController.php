@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Models\Questions;
-use Illuminate\Support\Facades\DB;
+use App\Http\Models\Exams;
 use Illuminate\Support\Facades\Session;
 
 class ExamController extends Controller
@@ -17,10 +17,12 @@ class ExamController extends Controller
     public function showQuestionsByExamID($examID)
     {
         $questions = Questions::getQuestionsByExamID($examID);
+        $examInfo = Exams::getExamInfo($examID);
         if(Session::has('AccountID')) {
             if(count($questions)>0)
                 return view('examDetails')
-                    ->with('questions', $questions);
+                    ->with('questions', $questions)
+                    ->with('examInfo',$examInfo);
             else
                 return view('errors.404');
         }
@@ -34,12 +36,16 @@ class ExamController extends Controller
     {
         $answers = Questions::getAnswersByExamID($examID);
         $score = 0;
+        $answersArray = array();
         foreach ($answers as $asw) {
+            $answersArray[$asw->QuestionID] = $asw->CorrectAnswers;
+            $answersArray['ex'.$asw->QuestionID] = $asw->AnswerExplain;
             if ($request->has('question'.$asw->QuestionID)) {
                 if (strlen($asw->CorrectAnswers) == 1) {
                     if ($asw->CorrectAnswers == $request->input('question'.$asw->QuestionID))
                         $score++;
-                } else {
+                }
+                else {
                     $correctAnswersArray = explode(",", $asw->CorrectAnswers);
                     $examAnswersArray = $request->input('question'.$asw->QuestionID);
                     $compareResult = array_diff($correctAnswersArray, $examAnswersArray);
@@ -48,7 +54,9 @@ class ExamController extends Controller
                 }
             }
         }
-        $request->session()->put('score', $score);
-        return back()->withInput()->with($score);
+        return back()
+            ->withInput()
+            ->with('score',$score)
+            ->with('answersArray',$answersArray);
     }
 }

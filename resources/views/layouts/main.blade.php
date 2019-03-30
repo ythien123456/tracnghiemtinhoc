@@ -10,8 +10,6 @@
         @show
     </title>
 
-    @section('additionalResources')
-    @show
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset('public/img/favicon.ico')}}" type="image/x-icon">
     <!-- Font awesome -->
@@ -32,6 +30,8 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,300,300italic,500,700' rel='stylesheet'
           type='text/css'>
+    @section('additionalResources')
+    @show
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -57,6 +57,7 @@
 {{--End Footer--}}
 
 </body>
+
 <!-- jQuery library -->
 <script src="{{asset('public/js/jquery.min.js')}}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->

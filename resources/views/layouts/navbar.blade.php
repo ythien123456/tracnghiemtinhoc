@@ -38,10 +38,9 @@
                     </li>
                     <li><a href="about.html">Giới Thiệu</a></li>
                     <li><a href="contact.html">Liên Hệ</a></li>
-                    <li><a href="404.html">404 Page</a></li>
 
                     @if(Session::has('AccountID'))
-                        <li><a href="#"><b>{{session('FirstName').' '.session('LastName')}}</b></a></li>
+                        <li><a href="{{route('profile')}}"><b>{{session('FirstName').' '.session('LastName')}}</b></a></li>
                         <li><a href="{{route('logout')}}">Đăng xuất</a></li>
                     @else
                         <li style="background: rgba(48,201,222,0.3);"><a href="login.html">Đăng Nhập</a></li>

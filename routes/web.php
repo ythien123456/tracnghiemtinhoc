@@ -20,13 +20,13 @@ Route::get('/home', function () {
 
 Route::get('/login.html', 'LoginController@showLogin')->name('login');
 Route::get('logout.html', 'LoginController@logout')->name('logout');
-Route::post('login', 'LoginController@postLogin')->name('postLogin');
-Route::get('/register.html', 'RegisterController@showRegister');
-Route::post('register', 'RegisterController@postRegister');
+Route::post('login.html', 'LoginController@postLogin')->name('postLogin');
+Route::get('register.html', 'RegisterController@showRegister')->name('register');
+Route::post('register.html', 'RegisterController@postRegister')->name('postRegister');
 Route::group(array('prefix' => 'check'), function () {
     Route::post('check-email', 'RegisterController@checkEmail');
 });
-
+Route::get('profile.html','AccountController@profile')->name('profile');
 
 Route::group(array('prefix' => 'de-tong-hop'), function () {
     Route::get('/', function () {
@@ -43,6 +43,7 @@ Route::group(array('prefix' => 'de-chuan'), function () {
             ->with(['examType' => 'Đề chuẩn','examTypeID' => 1]);
     });
     Route::get('/c-{examID}.html', 'ExamController@showQuestionsByExamID');
+    Route::post('c-{examID}.html/submit', 'ExamController@submitExamAndCalculateScore');
 });
 
 Route::group(array('prefix' => 'de-theo-module'), function () {
@@ -85,3 +86,6 @@ Route::get('/contact', function () {
 });
 
 Route::get('/paginateTest','TestController@index');
+Route::get('/404.html',function () {
+   return view('errors.404');
+})->name('404');

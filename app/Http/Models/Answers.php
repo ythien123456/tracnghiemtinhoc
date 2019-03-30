@@ -8,6 +8,6 @@ class Answers extends Model
 {
     public function questions()
     {
-        return $this->belongsTo('App\Http\Models\Questions','QuestionID','QuestionID');
+        return $this->belongsTo('App\Http\Models\Questions');
     }
 }

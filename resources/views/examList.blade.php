@@ -1,5 +1,8 @@
 @extends('layouts.main')
 
+@section('title')
+    {{$examType}}
+@endsection
 @section('content')
     <div class="container">
         <div class="examTypeDescription">
