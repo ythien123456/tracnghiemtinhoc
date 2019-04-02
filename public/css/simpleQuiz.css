@@ -33,6 +33,10 @@
     font-weight: bold;
 }
 
+.quizWrapper .content h3.titleButtons {
+    float:right;
+}
+
 .quizWrapper .content ul li:hover {
     background: lightgray;
 }
@@ -43,16 +47,36 @@
     width: 100%;
 }
 
-.quizWrapper .content .contentDisabled {
+.quizWrapper .actionDisabled {
     pointer-events: none;
+}
+
+.quizWrapper .disappear {
+    display:none;
+}
+
+.quizWrapper .rightAnswer {
+    background:lightgray;
+    color: green;
+}
+
+.quizWrapper .rightAnswer:after {
+    content: '✔️';
+    font-weight: bold;
+}
+
+.quizWrapper .wrongAnswer {
+    background:lightgray;
+    color: red;
+}
+
+.quizWrapper .wrongAnswer:after {
+    content: '❌';
+    font-weight: bold;
 }
 
 .quizWrapper .content .showCorrectAnswer {
     font-weight: bold;
-}
-
-.quizWrapper .content .questionTitle .flagBtn {
-    float:right;
 }
 
 .quizWrapper .content .questionContent {
@@ -79,46 +103,52 @@
 .quizWrapper .numbers {
     width: 100%;
     margin: 0 auto;
+    background: rgba(224, 224, 224, 0.5);
+    border-radius: 10px;
 }
 
 .quizWrapper .numbers .questionsNum {
     padding: 10px;
-    clear: both;
+    margin-bottom: 10px;
 }
 
-.quizWrapper .questionsNum ul li {
+.quizWrapper .numbers .questionsNum ul li {
     background: lightblue;
     margin: 2px;
-    width: 86px;
+    width: 65px;
     height: 33px;
     text-align: center;
     font-size: 13px;
 }
 
-.quizWrapper .questionsNum .answered {
+.quizWrapper .rightContent .numbers .questionsNum .wrongAnsweredQuestion {
+    background: lightpink;
+}
+
+.quizWrapper .numbers .questionsNum .answered {
     background: lightgreen;
 }
 
-.quizWrapper .numbers .navigateBtn {
-    margin: 10px auto;
-    padding:10px;
+.quizWrapper .numbers .questionsNum .flagging:after {
+    content: ' 🚩';
 }
 
-.quizWrapper .numbers .navigateBtn .toPrevious {
-    float:left;
-}
-
-.quizWrapper .numbers .navigateBtn .toNext {
-    float:right;
+.quizWrapper .quiz-bottom-buttons {
+    width: 200px;
+    max-width: 250px;
+    margin: 0 auto;
 }
 
 .quizWrapper .examSubmit {
-    padding: 10px;
+    padding: 5px;
+    display: inline-block;
+    margin: 0 auto;
 }
 
 .quizWrapper .examSubmitBtn {
+    width: 100%;
     font-weight: bold;
-    font-size: 35px;
+    font-size: 20px;
     text-transform: uppercase;
 }
 
@@ -198,4 +228,28 @@ svg {
 }
 #ticker {
     transition: all 1s linear;
+}
+
+#countdown {
+    font-size: 18px;
+    font-weight : bold;
+    background-color : #205081;
+    color : #FFF;
+    padding : 5px;
+    width: 70px;
+    text-align : center;
+    border : 2px solid #002663;
+    border-radius : 5px;
+    display:none;
+}
+
+@media only screen and (max-width: 900px) {
+    .quizWrapper .rightContent .countdownTimer {
+        display:none;
+    }
+
+    #countdown {
+        display: inline-block;
+        cursor: default;
+    }
 }

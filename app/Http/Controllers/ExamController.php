@@ -39,7 +39,7 @@ class ExamController extends Controller
         $answersArray = array();
         foreach ($answers as $asw) {
             $answersArray[$asw->QuestionID] = $asw->CorrectAnswers;
-            $answersArray['ex'.$asw->QuestionID] = $asw->AnswerExplain;
+            $answersArray['explain'.$asw->QuestionID] = $asw->AnswerExplain;
             if ($request->has('question'.$asw->QuestionID)) {
                 if (strlen($asw->CorrectAnswers) == 1) {
                     if ($asw->CorrectAnswers == $request->input('question'.$asw->QuestionID))

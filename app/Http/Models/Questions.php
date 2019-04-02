@@ -7,15 +7,18 @@ use Illuminate\Support\Facades\DB;
 
 class Questions extends Model
 {
-    public function exams() {
+    public function exams()
+    {
         return $this->belongsToMany('App\Http\Models\Exams');
     }
 
-    public function answers() {
+    public function answers()
+    {
         return $this->hasOne('App\Http\Models\Answers');
     }
 
-    public function modules() {
+    public function modules()
+    {
         return $this->belongsTo('App\Http\Models\Modules');
     }
 

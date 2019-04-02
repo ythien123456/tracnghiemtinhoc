@@ -1,5 +1,5 @@
 // Active question #1 when load the test
-document.querySelector('#questionBtn1').className = 'active';
+document.querySelector('#questionBtn1').classList.add('active');
 document.querySelector('#question1').classList.add('in');
 document.querySelector('#question1').classList.add('active');
 const totalQuestions = document.querySelectorAll('.answerList').length;
@@ -10,7 +10,7 @@ let allowKeyboard = true;
 const submitBtn = document.getElementById('mainSubmit');
 
 function getCurrentActiveButton() {
-    return document.querySelector('.quizWrapper ul .active');
+    return document.querySelector('.quizWrapper .numbers .active');
 }
 
 function getCurrentActiveTabContent() {
@@ -50,20 +50,20 @@ function activateQuestion(currentActiveBtnID, currentActiveBtn, currentActiveCon
 }
 
 //Check the Radio by pressing on list items, then remove the items background color and go to next question
-function radioChecked(questionID, index) {
+function radioChecked(questionNum,questionID, index) {
     const contentStatus = document.querySelector('.content');
     if (contentStatus.classList.contains('contentDisabled'))
         return false;
     else {
         const radioCheckbox = document.getElementsByName('question' + questionID)[index];
         radioCheckbox.checked = true;
-        let listItems = document.getElementsByClassName('question' + questionID);
+        let listItems = document.getElementsByClassName('question' + questionNum);
         for (let item of listItems) {
             item.style.background = '';
         }
-        const selectedItem = document.getElementsByClassName('question' + questionID)[index];
+        const selectedItem = document.getElementsByClassName('question' + questionNum)[index];
         selectedItem.style.backgroundColor = 'lightgray';
-        const checkedQuestion = document.querySelector('#questionBtn' + questionID);
+        const checkedQuestion = document.querySelector('#questionBtn' + questionNum);
         checkedQuestion.classList.add('answered');
         if (autoSwitch === true) {
             setTimeout(function () {
@@ -75,7 +75,7 @@ function radioChecked(questionID, index) {
 }
 
 // Check the Checkbox by pressing on list items, then remove the items background color, go to next question when user choose >=2 checkboxes
-function checkboxChecked(questionID, index) {
+function checkboxChecked(questionNum, questionID, index) {
     const contentStatus = document.querySelector('.content');
     if (contentStatus.classList.contains('contentDisabled'))
         return false;
@@ -83,7 +83,7 @@ function checkboxChecked(questionID, index) {
         let checkboxCheckCounts = 0;
         const checkboxSquare = document.getElementsByName('question' + questionID + '[]')[index];
         checkboxSquare.checked === false ? checkboxSquare.checked = true : checkboxSquare.checked = false;
-        let listItems = document.getElementsByClassName('question' + questionID);
+        let listItems = document.getElementsByClassName('question' + questionNum);
         for (let item of listItems) {
             item.style.background = '';
         }
@@ -93,16 +93,15 @@ function checkboxChecked(questionID, index) {
                 checkboxCheckCounts++;
             }
         }
-        const selectedItem = document.getElementsByClassName('question' + questionID)[index];
+        const selectedItem = document.getElementsByClassName('question' + questionNum)[index];
         selectedItem.style.backgroundColor = 'lightgray';
-        if (checkboxCheckCounts >= 2) {
-            const checkedQuestion = document.querySelector('#questionBtn' + questionID);
+        if (checkboxCheckCounts > 0) {
+            const checkedQuestion = document.querySelector('#questionBtn' + questionNum);
             checkedQuestion.classList.add('answered');
-            if (autoSwitch === true) {
-                setTimeout(function () {
-                    nextQuestion();
-                }, 100);
-            }
+        }
+        else {
+            const checkedQuestion = document.querySelector('#questionBtn' + questionNum);
+            checkedQuestion.classList.remove('answered');
         }
     }
 }
@@ -133,17 +132,20 @@ function autoSwitchQuestion() {
 //Flag question
 function flagQuestion(orderNum) {
     const currentActiveButton = getCurrentActiveButton();
+    const currentActiveButtonContent = document.querySelector('.quizWrapper .numbers .active a span');
     const currentFlagButton = document.getElementById('questionFlag' + orderNum);
     if (currentActiveButton.classList.contains('flagged')) {
+        currentActiveButtonContent.classList.remove('flagging');
         currentActiveButton.classList.remove('flagged');
         currentFlagButton.classList.remove('btn-danger');
         currentFlagButton.classList.add('btn-success');
-        currentFlagButton.value = "Gắn cờ 🏳️"
+        currentFlagButton.value = "Gắn cờ 🚩"
     } else {
+        currentActiveButtonContent.classList.add('flagging');
         currentActiveButton.classList.add('flagged');
         currentFlagButton.classList.remove('btn-success');
         currentFlagButton.classList.add('btn-danger');
-        currentFlagButton.value = "Bỏ gắn cờ 🏳️";
+        currentFlagButton.value = "Hủy cờ 🚩";
     }
 }
 
@@ -163,7 +165,6 @@ function showFlaggedQuestionOnly() {
     const flaggedItems = document.querySelectorAll('.flagged');
     const flaggedShowBtn = document.getElementById('showFlaggedQuestionStatus');
     const flaggedShowStatus = document.getElementById('showFlaggedStatus');
-    const navigateButtons = document.querySelector('.navigateBtn');
     if (flaggedShowBtn.classList.contains('btn-danger')) {
         if (flaggedItems.length > 0) {
             const firstFlaggedItemNum = flaggedItems[0].id.match(/\d/g).join("");
@@ -174,7 +175,6 @@ function showFlaggedQuestionOnly() {
             flaggedShowBtn.classList.remove('btn-danger');
             flaggedShowBtn.classList.add('btn-success');
             flaggedShowStatus.innerText = 'BẬT (✔)';
-            navigateButtons.style.display = 'none';
             for (let i = 0; i < questionNumList.length; i++) {
                 if (!questionNumList[i].classList.contains('flagged'))
                     questionNumList[i].style.display = 'none';
@@ -187,7 +187,6 @@ function showFlaggedQuestionOnly() {
         flaggedShowBtn.classList.remove('btn-success');
         flaggedShowBtn.classList.add('btn-danger');
         flaggedShowStatus.innerText = 'TẮT (✘)';
-        navigateButtons.style.display = '';
         toggleButton.style.display = '';
         enableAutoSwitch();
         allowKeyboard = true;
@@ -196,7 +195,6 @@ function showFlaggedQuestionOnly() {
                 questionNumList[i].style.display = '';
         }
     }
-
 }
 
 //keyboard button interaction
@@ -219,94 +217,56 @@ document.onkeydown = function (e) {
             case 80:
                 autoSwitchQuestion();
                 break;
-            //goto previous question (First Arrow)
+            //goto previous question (Left Arrow)
             case 37:
                 previousQuestion();
                 break;
-            case 8:
-                previousQuestion();
-                break;
             //    goto next question (Right Arrow)
-            case 13:
-                nextQuestion();
-                break;
             case 39:
                 nextQuestion();
                 break;
             //    choose A (1)
             case 49:
                 if (getActiveQuestionInputType() === 'radio')
-                    radioChecked(getActiveQuestionInputNameID(), 0);
+                    radioChecked(getActiveQuestionNumber(),getActiveQuestionInputNameID(), 0);
                 else
-                    checkboxChecked(getActiveQuestionInputNameID(), 0);
+                    checkboxChecked(getActiveQuestionNumber(),getActiveQuestionInputNameID(), 0);
                 break;
             //    Choose B (2)
             case 50:
                 if (getActiveQuestionInputType() === 'radio')
-                    radioChecked(getActiveQuestionInputNameID(), 1);
+                    radioChecked(getActiveQuestionNumber(),getActiveQuestionInputNameID(), 1);
                 else
-                    checkboxChecked(getActiveQuestionInputNameID(), 1);
+                    checkboxChecked(getActiveQuestionNumber(),getActiveQuestionInputNameID(), 1);
                 break;
             //    Choose C (3)
             case 51:
                 if (getActiveQuestionInputType() === 'radio')
-                    radioChecked(getActiveQuestionInputNameID(), 2);
+                    radioChecked(getActiveQuestionNumber(),getActiveQuestionInputNameID(), 2);
                 else
-                    checkboxChecked(getActiveQuestionInputNameID(), 2);
+                    checkboxChecked(getActiveQuestionNumber(),getActiveQuestionInputNameID(), 2);
                 break;
             //    Choose D (4)
             case 52:
                 if (getActiveQuestionInputType() === 'radio')
-                    radioChecked(getActiveQuestionInputNameID(), 3);
+                    radioChecked(getActiveQuestionNumber(),getActiveQuestionInputNameID(), 3);
                 else
-                    checkboxChecked(getActiveQuestionInputNameID(), 3);
+                    checkboxChecked(getActiveQuestionNumber(),getActiveQuestionInputNameID(), 3);
                 break;
             //        Flag question
             case 70:
                 flagQuestion(getActiveQuestionNumber());
-                break;
-            //        Show flagged only
-            case 71:
-                showFlaggedQuestionOnly();
                 break;
         }
     } else {
         switch (e.keyCode) {
-            //    choose A (1)
-            case 49:
-                if (getActiveQuestionInputType() === 'radio')
-                    radioChecked(getActiveQuestionInputNameID(), 0);
-                else
-                    checkboxChecked(getActiveQuestionInputNameID(), 0);
+            //goto previous question (Left Arrow)
+            case 37:
+                previousQuestion();
                 break;
-            //    Choose B (2)
-            case 50:
-                if (getActiveQuestionInputType() === 'radio')
-                    radioChecked(getActiveQuestionInputNameID(), 1);
-                else
-                    checkboxChecked(getActiveQuestionInputNameID(), 1);
-                break;
-            //    Choose C (3)
-            case 51:
-                if (getActiveQuestionInputType() === 'radio')
-                    radioChecked(getActiveQuestionInputNameID(), 2);
-                else
-                    checkboxChecked(getActiveQuestionInputNameID(), 2);
-                break;
-            //    Choose D (4)
-            case 52:
-                if (getActiveQuestionInputType() === 'radio')
-                    radioChecked(getActiveQuestionInputNameID(), 3);
-                else
-                    checkboxChecked(getActiveQuestionInputNameID(), 3);
-                break;
-            //        Flag question
-            case 70:
-                flagQuestion(getActiveQuestionNumber());
-                break;
-            //        Show flagged only
-            case 71:
-                showFlaggedQuestionOnly();
+            //    goto next question (Right Arrow)
+            case 39:
+                nextQuestion();
                 break;
         }
     }
@@ -314,14 +274,14 @@ document.onkeydown = function (e) {
 
 function checkAnsweredAllQuestions() {
     const questionAnswered = document.querySelectorAll('.questionsNum li.answered').length;
-    if(questionAnswered<totalQuestions)
-        return false;
-    return true;
+    return questionAnswered<totalQuestions;
 }
 
 function submitExam() {
-    if(checkAnsweredAllQuestions())
+    if(!checkAnsweredAllQuestions())
     {
+        const remainTime = document.getElementById('remaining').innerText;
+        localStorage.setItem('remainingTime',remainTime);
         if (confirm("Bạn có chắc là muốn nộp bài?")) {
             submitBtn.click();
         } else {

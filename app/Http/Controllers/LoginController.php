@@ -11,8 +11,8 @@ class LoginController extends Controller
 {
     public function showLogin()
     {
-        return view('login')
-            ->with('pageName','ĐĂNG NHẬP');
+        session(['link' => url()->previous()]);
+        return view('login');
     }
 
     public function postLogin(LoginRequest $request)
@@ -27,7 +27,7 @@ class LoginController extends Controller
             $request->session()->put('Role', $user->Role);
             $request->session()->put('FirstName', $user->FirstName);
             $request->session()->put('LastName', $user->LastName);
-            return redirect(route('home'));
+            return redirect(session('link'));
         } else {
             return view('login')
                 ->with('queryError','Sai tên đăng nhập hoặc mật khẩu!');
