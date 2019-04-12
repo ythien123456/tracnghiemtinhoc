@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Http\Models\ExamTypes;
+use App\Http\Models\Modules;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +16,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $examTypeList = ExamTypes::select('TypeTitle','TypeSlug')->orderBy('TypeID')->get();
+        $moduleList = Modules::select('ModuleID','ModuleName')->get();
+        View::share(['examTypeList' => $examTypeList, 'moduleList' => $moduleList]);
     }
 
     /**

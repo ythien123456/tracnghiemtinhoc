@@ -24,23 +24,27 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Đề thi <span
                                     class="fa fa-angle-down"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="course.html">Course Archive</a></li>
-                            <li><a href="course-detail.html">Course Detail</a></li>
+                            @foreach($examTypeList as $examType)
+                                <li><a href="{{url('/e/'.$examType->TypeSlug.'')}}">{{$examType->TypeTitle}}</a></li>
+                            @endforeach
+                            {{--                            <li><a href="course-detail.html">Course Detail</a></li>--}}
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <span
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bài viết <span
                                     class="fa fa-angle-down"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="blog-archive.html">Blog Archive</a></li>
-                            <li><a href="blog-single.html">Blog Single</a></li>
+                            @foreach($moduleList as $module)
+                                <li><a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a></li>
+                            @endforeach
                         </ul>
                     </li>
                     <li><a href="about.html">Giới Thiệu</a></li>
                     <li><a href="contact.html">Liên Hệ</a></li>
 
                     @if(Session::has('AccountID'))
-                        <li><a href="{{route('profile')}}"><b>{{session('FirstName').' '.session('LastName')}}</b></a></li>
+                        <li><a href="{{route('profile')}}"><b>{{session('FirstName').' '.session('LastName')}}</b></a>
+                        </li>
                         <li><a href="{{route('logout')}}">Đăng xuất</a></li>
                     @else
                         <li style="background: rgba(48,201,222,0.3);"><a href="login.html">Đăng Nhập</a></li>

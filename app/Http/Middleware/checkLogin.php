@@ -3,10 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 
-class checkUserLogin
+class checkLogin
 {
     /**
      * Handle an incoming request.
@@ -17,9 +15,6 @@ class checkUserLogin
      */
     public function handle($request, Closure $next)
     {
-        if(!Auth::check())
-        {
-            return Redirect::action('LoginController@showLogin');
-        }
+        return $next($request);
     }
 }

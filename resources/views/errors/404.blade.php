@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
-@section('title')
+@push('title')
     Lỗi 404
-@endsection
+@endpush
 @section('content')
     <!-- Page breadcrumb -->
     <section id="mu-page-breadcrumb">

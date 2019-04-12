@@ -1046,6 +1046,8 @@ img {
 }
 .mu-blog-single-item .mu-blog-single-img a {
   display: block;
+  max-height: 350px;
+  overflow: hidden;
 }
 .mu-blog-single-item .mu-blog-single-img a img {
   width: 100%;
@@ -1099,12 +1101,12 @@ img {
 }
 .mu-blog-single-item .mu-blog-description a {
   border-color: #555;
-  color: #555;
+  color: #1067ff;
   font-size: 14px;
   margin-top: 15px;
 }
 .mu-blog-single-item .mu-blog-description a:hover, .mu-blog-single-item .mu-blog-description a:focus {
-  color: #fff;
+  color: #ffbd30;
 }
 
 /*==================
@@ -1332,6 +1334,10 @@ img {
 .mu-related-item .mu-related-item-area .mu-blog-single-item {
   background-color: #FFF;
 }
+.mu-related-item .mu-related-item-area .mu-blog-single-item .mu-blog-single-img a {
+  max-height: 250px;
+  overflow: hidden;
+}
 .mu-related-item .mu-related-item-area .mu-blog-single-item .mu-blog-caption {
   padding: 0 15px;
 }
@@ -1352,6 +1358,21 @@ img {
 ====================*/
 .mu-blog-archive .mu-blog-single-item {
   margin-bottom: 35px;
+}
+.mu-blog-archive .mu-blog-single-item .mu-blog-single-img img {
+  max-height: 220px;
+  overflow:hidden;
+}
+.mu-blog-archive .row div {
+  height:510px;
+  max-height: 510px;
+  overflow:hidden;
+}
+
+.mu-blog-archive .mu-blog-single-item .mu-blog-caption {
+  height:75px;
+  max-height: 100px;
+  overflow: hidden;
 }
 
 .mu-blog-single .mu-blog-single-item {

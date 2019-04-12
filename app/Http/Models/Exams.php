@@ -3,6 +3,7 @@
 namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Exams extends Model
 {
@@ -18,5 +19,15 @@ class Exams extends Model
     {
         $info = Exams::where('ExamID','=',$examID)->first();
         return $info;
+    }
+
+    public static function getExamListByType($examTypeSlug)
+    {
+        $examList = DB::table('exams as e')
+            ->join('examtypes as et','e.ExamType','=','et.TypeID')
+            ->select('e.ExamID','e.ExamTitle','e.ExamSlug','e.ExamDescription','e.TotalQuestions','e.TimeLimit')
+            ->where('et.TypeSlug','=',$examTypeSlug)
+            ->where('e.Status','=',1);
+        return $examList;
     }
 }

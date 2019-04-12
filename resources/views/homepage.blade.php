@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
-@section('title')
+@push('title')
     TRANG CHỦ
-@endsection
+@endpush
 @section('content')
     <!-- Start Slider -->
     <section id="mu-slider">

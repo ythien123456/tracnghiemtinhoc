@@ -18,27 +18,27 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <div class="mu-footer-widget">
-                            <h4>Student Help</h4>
+                            <h4>Hướng dẫn</h4>
                             <ul>
-                                <li><a href="">Get Started</a></li>
-                                <li><a href="#">My Questions</a></li>
-                                <li><a href="">Download Files</a></li>
-                                <li><a href="">Latest Course</a></li>
+                                <li><a href="">Hướng dẫn làm bài thi</a></li>
+                                <li><a href="#">Hướng dẫn xem thông tin cá nhân</a></li>
+                                <li><a href="">Các phần mềm cần thiết</a></li>
+                                <li><a href="">Tổng hợp lỗi  phần mềm thường gặp</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <div class="mu-footer-widget">
-                            <h4>News letter</h4>
-                            <p>Get latest update, news & academic offers</p>
+                            <h4>Mục tiêu</h4>
+                            <p>Chúng tôi mong muốn cung cấp được cho người dùng những trải nghiệm hữu ích nhất trong việc thi chứng chỉ CNTT cơ bản, nâng cao.</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <div class="mu-footer-widget">
-                            <h4>Contact</h4>
+                            <h4>LIÊN HỆ</h4>
                             <address>
-                                <p>P.O. Box 320, Ross, California 9495, USA</p>
-                                <p>Phone: (415) 453-1568 </p>
+                                <p>Trường Đại học Công nghiệp TP.HCM</p>
+                                <p>Số diện thoại: 0935029097 </p>
                             </address>
                         </div>
                     </div>

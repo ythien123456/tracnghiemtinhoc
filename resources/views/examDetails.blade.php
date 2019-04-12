@@ -1,12 +1,20 @@
 @extends('layouts.main')
 
-@section('additionalResources')
+@push('additionalResources')
     <link rel="stylesheet" type="text/css" href="{{asset('public/css/simpleQuiz.css')}}">
-@endsection
-@section('title')
+@endpush
+@push('title')
     Làm Bài Thi
-@endsection
+@endpush
 @section('content')
+    @if(!session('Email'))
+        <script>
+            window.addEventListener('load', function() {
+                alert('Bạn cần phải đăng nhập để làm bài');
+                document.location.href = '{{url('/login.html')}}';
+            })
+        </script>
+    @endif
     <section id="mu-page-breadcrumb">
         <div class="container">
             <div class="row">
@@ -238,7 +246,6 @@
                                         let isWrong = false;
                                         let answerCheckList = document.querySelectorAll('.content .answerList li.question' + (i + 1));
                                         for (let j = 0; j <= 3; j++) {
-                                            console.log(answerCheckList[j].classList);
                                             if (answerCheckList[j].classList.contains('wrongAnswer')) {
                                                 questionNumList[i].classList.add('wrongAnsweredQuestion');
                                                 isWrong = true;
@@ -285,52 +292,7 @@
                             TỰ CHUYỂN CÂU: <span
                                     id="navigationStatus">BẬT (✔)</span></button>
                         <br><br>
-                        {{--                    <button type="button" class="btn btn-danger" id="showFlaggedQuestionStatus"--}}
-                        {{--                            onclick="showFlaggedQuestionOnly()">--}}
-                        {{--                        HIỆN CÂU GẮN CỜ: <span--}}
-                        {{--                                id="showFlaggedStatus">TẮT (✘)</span></button>--}}
                     </div>
-                    {{--                    <div class="keyInstruction">--}}
-                    {{--                        <h4 class="text-info text-uppercase text-center">Hướng dẫn phím tắt</h4>--}}
-                    {{--                        <table class="table-striped table-hover">--}}
-                    {{--                            <tr>--}}
-                    {{--                                <td>Chọn (A):</td>--}}
-                    {{--                                <td><img src="{{asset('public/img/keyboardbuttons/1.png')}}"></td>--}}
-                    {{--                            </tr>--}}
-                    {{--                            <tr>--}}
-                    {{--                                <td>Chọn (B):</td>--}}
-                    {{--                                <td><img src="{{asset('public/img/keyboardbuttons/2.png')}}"></td>--}}
-                    {{--                            </tr>--}}
-                    {{--                            <tr>--}}
-                    {{--                                <td>Chọn (C):</td>--}}
-                    {{--                                <td><img src="{{asset('public/img/keyboardbuttons/3.png')}}"></td>--}}
-                    {{--                            </tr>--}}
-                    {{--                            <tr>--}}
-                    {{--                                <td>Chọn (D):</td>--}}
-                    {{--                                <td><img src="{{asset('public/img/keyboardbuttons/4.png')}}"></td>--}}
-                    {{--                            </tr>--}}
-                    {{--                            <tr>--}}
-                    {{--                                <td>Câu hỏi tiếp theo:</td>--}}
-                    {{--                                <td><img src="{{asset('public/img/keyboardbuttons/right.png')}}"></td>--}}
-                    {{--                            </tr>--}}
-                    {{--                            <tr>--}}
-                    {{--                                <td> Câu hỏi trước đó:</td>--}}
-                    {{--                                <td><img src="{{asset('public/img/keyboardbuttons/left.png')}}"></td>--}}
-                    {{--                            </tr>--}}
-                    {{--                            <tr>--}}
-                    {{--                                <td>Bật/tắt tự chuyển câu:</td>--}}
-                    {{--                                <td><img src="{{asset('public/img/keyboardbuttons/P.png')}}"></td>--}}
-                    {{--                            </tr>--}}
-                    {{--                            <tr>--}}
-                    {{--                                <td>Gắn cờ/Bỏ gắn cờ câu hỏi:</td>--}}
-                    {{--                                <td><img src="{{asset('public/img/keyboardbuttons/F.png')}}"></td>--}}
-                    {{--                            </tr>--}}
-                    {{--                            <tr>--}}
-                    {{--                                <td>Bật/tắt hiển thị câu hỏi gắn cờ:</td>--}}
-                    {{--                                <td><img src="{{asset('public/img/keyboardbuttons/G.png')}}"></td>--}}
-                    {{--                            </tr>--}}
-                    {{--                        </table>--}}
-                    {{--                    </div>--}}
                 </div>
             </div>
         @endif

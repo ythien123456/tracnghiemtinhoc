@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
-@section('title')
+@push('title')
     ĐĂNG NHẬP
-@endsection
+@endpush
 
 @section('content')
     <!-- Page breadcrumb -->

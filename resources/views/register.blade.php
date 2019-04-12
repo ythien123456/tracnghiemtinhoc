@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
-@section('title')
+@push('title')
     ĐĂNG KÝ
-@endsection
+@endpush
 
 @section('additionalResources')
     <script src="{{asset('public/js/jquery-validate/jquery.validate.js')}}"></script>
