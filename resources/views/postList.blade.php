@@ -66,7 +66,7 @@
                                     <div class="mu-pagination">
                                         {{$posts->links()}}
                                     </div>
-                                @endif
+                            @endif
                             <!-- end course pagination -->
                             </div>
                             <div class="col-md-3">
@@ -74,10 +74,28 @@
                                 <aside class="mu-sidebar">
                                     <!-- start single sidebar -->
                                     <div class="mu-single-sidebar">
-                                        <h3>Danh mục</h3>
+                                        <h3>Danh mục bài học</h3>
                                         <ul class="mu-sidebar-catg">
                                             @foreach($moduleList as $module)
-                                                <li><a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a></li>
+                                                @if($module->ModuleType!=2)
+                                                    <li>
+                                                        <a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    <!-- end single sidebar -->
+                                    <!-- start single sidebar -->
+                                    <div class="mu-single-sidebar">
+                                        <h3>Danh mục bài viết</h3>
+                                        <ul class="mu-sidebar-catg">
+                                            @foreach($moduleList as $module)
+                                                @if($module->ModuleType!=1)
+                                                <li>
+                                                    <a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a>
+                                                </li>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     </div>
@@ -89,7 +107,8 @@
                                             <div class="media">
                                                 <div class="media-left">
                                                     <a href="#">
-                                                        <img class="media-object" src="{{url('public/img/word750x500.jpg')}}"
+                                                        <img class="media-object"
+                                                             src="{{url('public/img/word750x500.jpg')}}"
                                                              alt="img">
                                                     </a>
                                                 </div>
@@ -101,7 +120,8 @@
                                             <div class="media">
                                                 <div class="media-left">
                                                     <a href="#">
-                                                        <img class="media-object" src="{{url('public/img/word750x500.jpg')}}"
+                                                        <img class="media-object"
+                                                             src="{{url('public/img/word750x500.jpg')}}"
                                                              alt="img">
                                                     </a>
                                                 </div>
@@ -113,7 +133,8 @@
                                             <div class="media">
                                                 <div class="media-left">
                                                     <a href="#">
-                                                        <img class="media-object" src="{{url('public/img/word750x500.jpg')}}"
+                                                        <img class="media-object"
+                                                             src="{{url('public/img/word750x500.jpg')}}"
                                                              alt="img">
                                                     </a>
                                                 </div>

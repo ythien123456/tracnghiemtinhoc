@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $examTypeList = ExamTypes::select('TypeTitle','TypeSlug')->orderBy('TypeID')->get();
-        $moduleList = Modules::select('ModuleID','ModuleName')->get();
+        $moduleList = Modules::select('ModuleID','ModuleName','ModuleType')->get();
         View::share(['examTypeList' => $examTypeList, 'moduleList' => $moduleList]);
     }
 

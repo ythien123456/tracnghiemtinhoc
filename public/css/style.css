@@ -1073,9 +1073,6 @@ img {
 }
 .mu-blog-single-item .mu-blog-meta a {
   display: inline-block;
-  float: left;
-  letter-spacing: 0.5px;
-  margin-right: 10px;
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
   -ms-transition: all 0.5s;

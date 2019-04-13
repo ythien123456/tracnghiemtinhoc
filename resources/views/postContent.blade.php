@@ -45,9 +45,11 @@
                                                     </figcaption>
                                                 </figure>
                                                 <div class="mu-blog-meta">
-                                                    <a href="#">Đăng bởi {{$post->FirstName.' '.$post->LastName}}</a>
-                                                    <a href="#">{{$post->PostDate}}</a>
+                                                    Đăng bởi <a href="#">{{$post->FirstName.' '.$post->LastName}}</a>
+                                                    ― {{$post->PostDate}}
+                                                    ― <i class="fa fa-eye"></i> {{$post->Views}}
                                                 </div>
+                                                <hr style="border: 1.5px black solid; width: 70%; margin: 30px auto;opacity: 0.5;">
                                                 <div class="mu-blog-description">
                                                     @if(isset($post))
                                                         {!! $post->PostContent !!}
@@ -107,10 +109,28 @@
                                 <aside class="mu-sidebar">
                                     <!-- start single sidebar -->
                                     <div class="mu-single-sidebar">
-                                        <h3>Danh mục</h3>
+                                        <h3>Danh mục bài học</h3>
                                         <ul class="mu-sidebar-catg">
                                             @foreach($moduleList as $module)
-                                                <li><a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a></li>
+                                                @if($module->ModuleType!=2)
+                                                    <li>
+                                                        <a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    <!-- end single sidebar -->
+                                    <!-- start single sidebar -->
+                                    <div class="mu-single-sidebar">
+                                        <h3>Danh mục bài viết</h3>
+                                        <ul class="mu-sidebar-catg">
+                                            @foreach($moduleList as $module)
+                                                @if($module->ModuleType!=1)
+                                                    <li>
+                                                        <a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a>
+                                                    </li>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     </div>

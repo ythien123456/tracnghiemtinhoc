@@ -31,11 +31,26 @@
                         </ul>
                     </li>
                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bài học <span
+                                    class="fa fa-angle-down"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            @foreach($moduleList as $module)
+                                @if($module->ModuleType!=2)
+                                    <li><a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </li>
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bài viết <span
                                     class="fa fa-angle-down"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             @foreach($moduleList as $module)
-                                <li><a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a></li>
+                                @if($module->ModuleType!=1)
+                                    <li><a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a>
+                                    </li>
+                                @endif
                             @endforeach
                         </ul>
                     </li>
