@@ -17,7 +17,8 @@
                 <h4>Chào mừng đến với TracNghiemTinHoc</h4>
                 <span></span>
                 <h2>Giúp bạn có kiến thức hữu ích</h2>
-                <p>Chúng tôi mong muốn rằng sẽ mang lại giá trị kiến thức thật nhiều trong phạm vi cộng đồng người việt đối với lĩnh vực tin học nói chung và các phần mềm văn phòng nói riêng.</p>
+                <p>Chúng tôi mong muốn rằng sẽ mang lại giá trị kiến thức thật nhiều trong phạm vi cộng đồng người việt
+                    đối với lĩnh vực tin học nói chung và các phần mềm văn phòng nói riêng.</p>
                 <a href="#" class="mu-read-more-btn">Xem thêm</a>
             </div>
         </div>
@@ -33,7 +34,8 @@
                 <h4>Đơn giản và nhanh chóng</h4>
                 <span></span>
                 <h2>Đa dạng loại đề cho bạn lựa chọn</h2>
-                <p>Tùy vào nhu cầu ôn tập và kiểm tra kiến thức của bạn, có rất nhiều loại đề thi khác nhau do chính bạn lựa chọn để thực hiện. Còn chần chờ gì nữa nào?</p>
+                <p>Tùy vào nhu cầu ôn tập và kiểm tra kiến thức của bạn, có rất nhiều loại đề thi khác nhau do chính bạn
+                    lựa chọn để thực hiện. Còn chần chờ gì nữa nào?</p>
                 <a href="#" class="mu-read-more-btn">Trải nghiệm ngay!</a>
             </div>
         </div>
@@ -49,7 +51,8 @@
                 <h4>Chứng chỉ Công Nghệ Thông Tin có quan trọng?</h4>
                 <span></span>
                 <h2>Tại sao cần phải có kiến thức CNTT?</h2>
-                <p>Năm 2019 hiện tại chính là thời đại phát triển vượt bậc của công nghệ khi thế giới đã bước qua giai đoạn 4.0, khi bạn đi bất cứ đâu cũng sẽ bắt gặp được thiết bị điện tử kể cả ở vùng quê.</p>
+                <p>Năm 2019 hiện tại chính là thời đại phát triển vượt bậc của công nghệ khi thế giới đã bước qua giai
+                    đoạn 4.0, khi bạn đi bất cứ đâu cũng sẽ bắt gặp được thiết bị điện tử kể cả ở vùng quê.</p>
                 <a href="#" class="mu-read-more-btn">xem thêm</a>
             </div>
         </div>
@@ -66,21 +69,24 @@
                         <div class="mu-service-single">
                             <span class="fa fa-book"></span>
                             <h3>Thi trực tuyến</h3>
-                            <p>Có điểm và sửa lỗi sai ngay sau khi hoàn thành! Hệ thống giúp bạn theo dõi sự tiến bộ theo thời gian qua việc xem lịch sử điểm thi.</p>
+                            <p>Có điểm và sửa lỗi sai ngay sau khi hoàn thành! Hệ thống giúp bạn theo dõi sự tiến bộ
+                                theo thời gian qua việc xem lịch sử điểm thi.</p>
                         </div>
                         <!-- Start single service -->
                         <!-- Start single service -->
                         <div class="mu-service-single">
                             <span class="fa fa-users"></span>
                             <h3>Biên tập</h3>
-                            <p>Luôn biết cách soạn ra những mẫu đề thi chất lượng nhất cho người dùng! Bám sát với các đề thi trong thực tế</p>
+                            <p>Luôn biết cách soạn ra những mẫu đề thi chất lượng nhất cho người dùng! Bám sát với các
+                                đề thi trong thực tế</p>
                         </div>
                         <!-- Start single service -->
                         <!-- Start single service -->
                         <div class="mu-service-single">
                             <span class="fa fa-table"></span>
                             <h3>Bài viết</h3>
-                            <p>Luôn cập nhật các bài viết hướng dẫn thực hành song song với các tin tức mới nhất về chứng chỉ tin học!</p>
+                            <p>Luôn cập nhật các bài viết hướng dẫn thực hành song song với các tin tức mới nhất về
+                                chứng chỉ tin học!</p>
                         </div>
                         <!-- Start single service -->
                     </div>
@@ -101,7 +107,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="mu-abtus-counter-single">
                                     <span class="fa fa-book"></span>
-                                    <h4 class="counter">19999</h4>
+                                    <h4 class="counter">{{$totalExams}}</h4>
                                     <p>Đề Thi</p>
                                 </div>
                             </div>
@@ -110,7 +116,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="mu-abtus-counter-single">
                                     <span class="fa fa-users"></span>
-                                    <h4 class="counter">3500</h4>
+                                    <h4 class="counter">{{$totalAccounts}}</h4>
                                     <p>Thành viên</p>
                                 </div>
                             </div>
@@ -119,7 +125,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="mu-abtus-counter-single">
                                     <span class="fa fa-align-justify"></span>
-                                    <h4 class="counter">65</h4>
+                                    <h4 class="counter">{{$totalPosts}}</h4>
                                     <p>Bài viết</p>
                                 </div>
                             </div>
@@ -128,7 +134,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="mu-abtus-counter-single no-border">
                                     <span class="fa fa-user-secret"></span>
-                                    <h4 class="counter">250</h4>
+                                    <h4 class="counter">{{$totalEditors}}</h4>
                                     <p>Biên tập viên</p>
                                 </div>
                             </div>
@@ -150,126 +156,32 @@
                     <div class="mu-latest-courses-area">
                         <!-- Start Title -->
                         <div class="mu-title">
-                            <h2>Bài viết mới</h2>
-                            <p>Những bài viết mới được xuất bản trên website.</p>
+                            <h2>Đề thi mới</h2>
+                            <p>Những đề thi mới được xuất bản trên website.</p>
                         </div>
                         <!-- End Title -->
                         <!-- Start latest course content -->
                         <div id="mu-latest-course-slide" class="mu-latest-courses-content">
-                            <div class="col-lg-4 col-md-4 col-xs-12">
-                                <div class="mu-latest-course-single">
-                                    <figure class="mu-latest-course-img">
-                                        <a href="#"><img src="{{asset('public/img/courses/1.jpg')}}" alt="img"></a>
-                                        <figcaption class="mu-latest-course-imgcaption">
-                                            <a href="#">Drawing</a>
-                                            <span><i class="fa fa-clock-o"></i>90Days</span>
-                                        </figcaption>
-                                    </figure>
-                                    <div class="mu-latest-course-single-content">
-                                        <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
-                                        <div class="mu-latest-course-single-contbottom">
-                                            <a class="mu-course-details" href="#">Details</a>
-                                            <span class="mu-course-price" href="#">$165.00</span>
+                            @foreach($newExams as $exam)
+                                <div class="col-lg-4 col-md-4 col-xs-12">
+                                    <div class="mu-latest-course-single">
+                                        <figure class="mu-latest-course-img">
+                                            <a href="#"><img src="{{asset('public/img/courses/1.jpg')}}" alt="img"></a>
+                                            <figcaption class="mu-latest-course-imgcaption">
+                                                <a href="#">{{$exam->TotalQuestions}} Câu</a>
+                                                <span><i class="fa fa-clock-o"></i>{{$exam->TimeLimit}} Phút</span>
+                                            </figcaption>
+                                        </figure>
+                                        <div class="mu-latest-course-single-content">
+                                            <h4><a href="#">{{$exam->ExamTitle}}</a></h4>
+                                            <p>{{$exam->ExamDescription}}</p>
+                                            <div class="mu-latest-course-single-contbottom">
+                                                <a class="mu-course-details" href="#">Làm bài ngay!</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-12">
-                                <div class="mu-latest-course-single">
-                                    <figure class="mu-latest-course-img">
-                                        <a href="#"><img src="{{asset('public/img/courses/2.jpg')}}" alt="img"></a>
-                                        <figcaption class="mu-latest-course-imgcaption">
-                                            <a href="#">Engineering </a>
-                                            <span><i class="fa fa-clock-o"></i>75Days</span>
-                                        </figcaption>
-                                    </figure>
-                                    <div class="mu-latest-course-single-content">
-                                        <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
-                                        <div class="mu-latest-course-single-contbottom">
-                                            <a class="mu-course-details" href="#">Details</a>
-                                            <span class="mu-course-price" href="#">$165.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-12">
-                                <div class="mu-latest-course-single">
-                                    <figure class="mu-latest-course-img">
-                                        <a href="#"><img src="{{asset('public/img/courses/3.jpg')}}" alt="img"></a>
-                                        <figcaption class="mu-latest-course-imgcaption">
-                                            <a href="#">Academic</a>
-                                            <span><i class="fa fa-clock-o"></i>45Days</span>
-                                        </figcaption>
-                                    </figure>
-                                    <div class="mu-latest-course-single-content">
-                                        <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
-                                        <div class="mu-latest-course-single-contbottom">
-                                            <a class="mu-course-details" href="#">Details</a>
-                                            <span class="mu-course-price" href="#">$165.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-12">
-                                <div class="mu-latest-course-single">
-                                    <figure class="mu-latest-course-img">
-                                        <a href="#"><img src="{{asset('public/img/courses/1.jpg')}}" alt="img"></a>
-                                        <figcaption class="mu-latest-course-imgcaption">
-                                            <a href="#">Drawing</a>
-                                            <span><i class="fa fa-clock-o"></i>90Days</span>
-                                        </figcaption>
-                                    </figure>
-                                    <div class="mu-latest-course-single-content">
-                                        <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
-                                        <div class="mu-latest-course-single-contbottom">
-                                            <a class="mu-course-details" href="#">Details</a>
-                                            <span class="mu-course-price" href="#">$165.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-12">
-                                <div class="mu-latest-course-single">
-                                    <figure class="mu-latest-course-img">
-                                        <a href="#"><img src="{{asset('public/img/courses/2.jpg')}}" alt="img"></a>
-                                        <figcaption class="mu-latest-course-imgcaption">
-                                            <a href="#">Engineering </a>
-                                            <span><i class="fa fa-clock-o"></i>75Days</span>
-                                        </figcaption>
-                                    </figure>
-                                    <div class="mu-latest-course-single-content">
-                                        <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
-                                        <div class="mu-latest-course-single-contbottom">
-                                            <a class="mu-course-details" href="#">Details</a>
-                                            <span class="mu-course-price" href="#">$165.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-12">
-                                <div class="mu-latest-course-single">
-                                    <figure class="mu-latest-course-img">
-                                        <a href="#"><img src="{{asset('public/img/courses/3.jpg')}}" alt="img"></a>
-                                        <figcaption class="mu-latest-course-imgcaption">
-                                            <a href="#">Academic</a>
-                                            <span><i class="fa fa-clock-o"></i>45Days</span>
-                                        </figcaption>
-                                    </figure>
-                                    <div class="mu-latest-course-single-content">
-                                        <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
-                                        <div class="mu-latest-course-single-contbottom">
-                                            <a class="mu-course-details" href="#">Details</a>
-                                            <span class="mu-course-price" href="#">$165.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                         <!-- End latest course content -->
                     </div>
@@ -291,7 +203,8 @@
                             <div class="mu-testimonial-item">
                                 <div class="mu-testimonial-quote">
                                     <blockquote>
-                                        <p>Đây là một hệ thống hữu ích, giúp tôi vừa học vừa có thể thi thử để tổng hợp kiến thức.</p>
+                                        <p>Đây là một hệ thống hữu ích, giúp tôi vừa học vừa có thể thi thử để tổng hợp
+                                            kiến thức.</p>
                                     </blockquote>
                                 </div>
                                 <div class="mu-testimonial-img">
@@ -307,7 +220,8 @@
                             <div class="mu-testimonial-item">
                                 <div class="mu-testimonial-quote">
                                     <blockquote>
-                                        <p>Có chứng chỉ tin học sẽ khiến tôi tự tin hơn khi dấn thân vào bất cứ văn phòng phỏng vấn công sở nào. Đây là website giúp tôi thực hiện điều đó.</p>
+                                        <p>Có chứng chỉ tin học sẽ khiến tôi tự tin hơn khi dấn thân vào bất cứ văn
+                                            phòng phỏng vấn công sở nào. Đây là website giúp tôi thực hiện điều đó.</p>
                                     </blockquote>
                                 </div>
                                 <div class="mu-testimonial-img">

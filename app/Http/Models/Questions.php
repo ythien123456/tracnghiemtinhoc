@@ -32,9 +32,10 @@ class Questions extends Model
             ->join('questiondetails as qd','q.QuestionID','=','qd.QuestionID')
             ->join('answers as a','q.QuestionID','=','a.QuestionID')
             ->join('exams as e','qd.ExamID','=','e.ExamID')
-            ->select('q.QuestionID','q.QuestionContent','q.QuestionType','a.A','a.B','a.C','a.D','e.ExamSlug')
+            ->select('q.QuestionID','q.QuestionContent','q.QuestionType','a.A','a.B','a.C','a.D')
             ->where('qd.ExamID','=',$examID)
             ->where('e.ExamSlug','=',$examSlug)
+            ->orderBy(DB::raw('RAND()'))
         ->get();
         return $questions;
     }

@@ -9,7 +9,7 @@
 @section('content')
     @if(!session('Email'))
         <script>
-            window.addEventListener('load', function() {
+            window.addEventListener('load', function () {
                 alert('Bạn cần phải đăng nhập để làm bài');
                 document.location.href = '{{url('/login.html')}}';
             })
@@ -40,9 +40,10 @@
                 $answersArray = session()->get('answersArray');
             @endphp
         @endif
-        @if(isset($questions))
+        @if(session('qArr'))
             @php
                 $i=1;
+                $qArr = session('qArr');
             @endphp
             <div class="quizWrapper row">
                 <div class="col-md-8 leftContent">
@@ -50,11 +51,11 @@
                         {{csrf_field()}}
                         <div class="content">
                             <div class="tab-content">
-                                @foreach($questions as $singleQuestion)
-                                    <div id="question{{$i}}" class="tab-pane fade">
+                                @for($i=0;$i<sizeof($qArr)/7;$i++)
+                                    <div id="question{{$i+1}}" class="tab-pane fade">
                                         <div class="questionTitle row">
                                             <div class="col-md-6">
-                                                <h3>Câu hỏi #{{$i}}</h3>
+                                                <h3>Câu hỏi #{{$i+1}}</h3>
                                             </div>
                                             <div class="col-md-6">
                                                 <h3 class="titleButtons">
@@ -64,149 +65,146 @@
                                                     <input type="button" class="btn btn-success toNext"
                                                            style="margin:0 auto;"
                                                            onclick="nextQuestion()" value="→">
-                                                    <input type="button" id="questionFlag{{$i}}"
+                                                    <input type="button" id="questionFlag{{$i+1}}"
                                                            class="btn btn-success flagBtn @if(session()->has('score'))disappear @endif"
-                                                           value="Gắn cờ 🚩" onclick="flagQuestion({{$i}})">‍
+                                                           value="Gắn cờ 🚩" onclick="flagQuestion({{$i+1}})">‍
                                                 </h3>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="questionContent">
-                                            <p>{!! $singleQuestion->QuestionContent !!}</p>
+                                            <p>{!! $qArr['QuestionContent'.$i] !!}</p>
                                         </div>
                                         <hr>
                                         <ul class="answerList @if(session()->has('score'))actionDisabled @endif">
-                                            @if($singleQuestion->QuestionType==1)
-                                                <li class="question{{$i}}
+                                            @if($qArr['QuestionType'.$i]==1)
+                                                <li class="question{{$i+1}}
                                                 @if(session()->has('answersArray'))
-                                                {{$answersArray[$singleQuestion->QuestionID]=='A' ? 'rightAnswer' : ''}}
-                                                {{old('question'.$singleQuestion->QuestionID)!=null && old('question'.$singleQuestion->QuestionID)!=$answersArray[$singleQuestion->QuestionID] && old('question'.$singleQuestion->QuestionID)=='A' ? 'wrongAnswer' : ''}}
+                                                {{$answersArray[$qArr['QuestionID'.$i]]=='A' ? 'rightAnswer' : ''}}
+                                                {{old('question'.$qArr['QuestionID'.$i])!=null && old('question'.$qArr['QuestionID'.$i])!=$answersArray[$qArr['QuestionID'.$i]] && old('question'.$qArr['QuestionID'.$i])=='A' ? 'wrongAnswer' : ''}}
                                                 @endif"
-                                                    onclick="radioChecked({{$i}},{{$singleQuestion->QuestionID}},0)">
+                                                    onclick="radioChecked({{$i+1}},{{$qArr['QuestionID'.$i]}},0)">
                                                     <input
                                                             type="radio"
-                                                            name="question{{$singleQuestion->QuestionID}}"
+                                                            name="question{{$qArr['QuestionID'.$i]}}"
                                                             value="A"
-                                                            @if(old('question'.$singleQuestion->QuestionID)=='A') checked @endif>
+                                                            @if(old('question'.$qArr['QuestionID'.$i])=='A') checked @endif>
                                                     A.
-                                                    {{$singleQuestion->A}}
+                                                    {{$qArr['A'.$i]}}
                                                 </li>
-                                                <li class="question{{$i}}
+                                                <li class="question{{$i+1}}
                                                 @if(session()->has('answersArray'))
-                                                {{$answersArray[$singleQuestion->QuestionID]=='B' ? 'rightAnswer' : ''}}
-                                                {{old('question'.$singleQuestion->QuestionID)!=null && old('question'.$singleQuestion->QuestionID)!=$answersArray[$singleQuestion->QuestionID] && old('question'.$singleQuestion->QuestionID)=='B' ? 'wrongAnswer' : ''}}
+                                                {{$answersArray[$qArr['QuestionID'.$i]]=='B' ? 'rightAnswer' : ''}}
+                                                {{old('question'.$qArr['QuestionID'.$i])!=null && old('question'.$qArr['QuestionID'.$i])!=$answersArray[$qArr['QuestionID'.$i]] && old('question'.$qArr['QuestionID'.$i])=='B' ? 'wrongAnswer' : ''}}
                                                 @endif"
-                                                    onclick="radioChecked({{$i}},{{$singleQuestion->QuestionID}},1)">
+                                                    onclick="radioChecked({{$i+1}},{{$qArr['QuestionID'.$i]}},1)">
                                                     <input
                                                             type="radio"
-                                                            name="question{{$singleQuestion->QuestionID}}"
+                                                            name="question{{$qArr['QuestionID'.$i]}}"
                                                             value="B"
-                                                            @if(old('question'.$singleQuestion->QuestionID)=='B') checked @endif>
+                                                            @if(old('question'.$qArr['QuestionID'.$i])=='B') checked @endif>
                                                     B.
-                                                    {{$singleQuestion->B}}
+                                                    {{$qArr['B'.$i]}}
                                                 </li>
-                                                <li class="question{{$i}}
+                                                <li class="question{{$i+1}}
                                                 @if(session()->has('answersArray'))
-                                                {{$answersArray[$singleQuestion->QuestionID]=='C' ? 'rightAnswer' : ''}}
-                                                {{old('question'.$singleQuestion->QuestionID)!=null && old('question'.$singleQuestion->QuestionID)!=$answersArray[$singleQuestion->QuestionID] && old('question'.$singleQuestion->QuestionID)=='C' ? 'wrongAnswer' : ''}}
+                                                {{$answersArray[$qArr['QuestionID'.$i]]=='C' ? 'rightAnswer' : ''}}
+                                                {{old('question'.$qArr['QuestionID'.$i])!=null && old('question'.$qArr['QuestionID'.$i])!=$answersArray[$qArr['QuestionID'.$i]] && old('question'.$qArr['QuestionID'.$i])=='C' ? 'wrongAnswer' : ''}}
                                                 @endif"
-                                                    onclick="radioChecked({{$i}},{{$singleQuestion->QuestionID}},2)">
+                                                    onclick="radioChecked({{$i+1}},{{$qArr['QuestionID'.$i]}},2)">
                                                     <input
                                                             type="radio"
-                                                            name="question{{$singleQuestion->QuestionID}}"
+                                                            name="question{{$qArr['QuestionID'.$i]}}"
                                                             value="C"
-                                                            @if(old('question'.$singleQuestion->QuestionID)=='C') checked @endif>
-                                                    C. {{$singleQuestion->C}}
+                                                            @if(old('question'.$qArr['QuestionID'.$i])=='C') checked @endif>
+                                                    C. {{$qArr['C'.$i]}}
                                                 </li>
-                                                <li class="question{{$i}}
+                                                <li class="question{{$i+1}}
                                                 @if(session()->has('answersArray'))
-                                                {{$answersArray[$singleQuestion->QuestionID]=='D' ? 'rightAnswer' : ''}}
-                                                {{old('question'.$singleQuestion->QuestionID)!=null && old('question'.$singleQuestion->QuestionID)!=$answersArray[$singleQuestion->QuestionID] && old('question'.$singleQuestion->QuestionID)=='D' ? 'wrongAnswer' : ''}}
+                                                {{$answersArray[$qArr['QuestionID'.$i]]=='D' ? 'rightAnswer' : ''}}
+                                                {{old('question'.$qArr['QuestionID'.$i])!=null && old('question'.$qArr['QuestionID'.$i])!=$answersArray[$qArr['QuestionID'.$i]] && old('question'.$qArr['QuestionID'.$i])=='D' ? 'wrongAnswer' : ''}}
                                                 @endif"
-                                                    onclick="radioChecked({{$i}},{{$singleQuestion->QuestionID}},3)">
+                                                    onclick="radioChecked({{$i+1}},{{$qArr['QuestionID'.$i]}},3)">
                                                     <input
                                                             type="radio"
-                                                            name="question{{$singleQuestion->QuestionID}}"
+                                                            name="question{{$qArr['QuestionID'.$i]}}"
                                                             value="D"
-                                                            @if(old('question'.$singleQuestion->QuestionID)=='D') checked @endif>
+                                                            @if(old('question'.$qArr['QuestionID'.$i])=='D') checked @endif>
                                                     D.
-                                                    {{$singleQuestion->D}}
+                                                    {{$qArr['D'.$i]}}
                                                 </li>
                                             @else
                                                 @if(session()->has('answersArray'))
                                                     @php
-                                                        $checkBoxAnswers = explode(",",$answersArray[$singleQuestion->QuestionID]);
+                                                        $checkBoxAnswers = explode(",",$answersArray[$qArr['QuestionID'.$i]]);
                                                     @endphp
                                                 @endif
-                                                <li class="question{{$i}}
+                                                <li class="question{{$i+1}}
                                                 @if(session()->has('answersArray'))
                                                 {{ in_array('A', $checkBoxAnswers) ? 'rightAnswer' : '' }}
-                                                {{ !in_array('A', $checkBoxAnswers) && (is_array(old('question'.$singleQuestion->QuestionID)) and
-                                in_array('A', old('question'.$singleQuestion->QuestionID))) ? 'wrongAnswer' : '' }}
+                                                {{ !in_array('A', $checkBoxAnswers) && (is_array(old('question'.$qArr['QuestionID'.$i])) and
+                                in_array('A', old('question'.$qArr['QuestionID'.$i]))) ? 'wrongAnswer' : '' }}
                                                 @endif"
-                                                    onclick="checkboxChecked({{$i}},{{$singleQuestion->QuestionID}},0)">
+                                                    onclick="checkboxChecked({{$i+1}},{{$qArr['QuestionID'.$i]}},0)">
                                                     <input
                                                             type="checkbox"
-                                                            name="question{{$singleQuestion->QuestionID}}[]"
-                                                            value="A" {{ (is_array(old('question'.$singleQuestion->QuestionID)) and
-                                in_array('A', old('question'.$singleQuestion->QuestionID))) ? ' checked' : '' }}> A.
-                                                    {{$singleQuestion->A}}
+                                                            name="question{{$qArr['QuestionID'.$i]}}[]"
+                                                            value="A" {{ (is_array(old('question'.$qArr['QuestionID'.$i])) and
+                                in_array('A', old('question'.$qArr['QuestionID'.$i]))) ? ' checked' : '' }}> A.
+                                                    {{$qArr['A'.$i]}}
                                                 </li>
-                                                <li class="question{{$i}}
+                                                <li class="question{{$i+1}}
                                                 @if(session()->has('answersArray'))
                                                 {{ in_array('B', $checkBoxAnswers) ? 'rightAnswer' : '' }}
-                                                {{ !in_array('B', $checkBoxAnswers) && (is_array(old('question'.$singleQuestion->QuestionID)) and
-                                in_array('B', old('question'.$singleQuestion->QuestionID))) ? 'wrongAnswer' : '' }}
+                                                {{ !in_array('B', $checkBoxAnswers) && (is_array(old('question'.$qArr['QuestionID'.$i])) and
+                                in_array('B', old('question'.$qArr['QuestionID'.$i]))) ? 'wrongAnswer' : '' }}
                                                 @endif"
-                                                    onclick="checkboxChecked({{$i}},{{$singleQuestion->QuestionID}},1)">
+                                                    onclick="checkboxChecked({{$i+1}},{{$qArr['QuestionID'.$i]}},1)">
                                                     <input
                                                             type="checkbox"
-                                                            name="question{{$singleQuestion->QuestionID}}[]"
-                                                            value="B" {{(is_array(old('question'.$singleQuestion->QuestionID)) and
-                                in_array('B', old('question'.$singleQuestion->QuestionID))) ? ' checked' : '' }}> B.
-                                                    {{$singleQuestion->B}}
+                                                            name="question{{$qArr['QuestionID'.$i]}}[]"
+                                                            value="B" {{(is_array(old('question'.$qArr['QuestionID'.$i])) and
+                                in_array('B', old('question'.$qArr['QuestionID'.$i]))) ? ' checked' : '' }}> B.
+                                                    {{$qArr['B'.$i]}}
                                                 </li>
-                                                <li class="question{{$i}}
+                                                <li class="question{{$i+1}}
                                                 @if(session()->has('answersArray'))
                                                 {{ in_array('C', $checkBoxAnswers) ? 'rightAnswer' : '' }}
-                                                {{ !in_array('C', $checkBoxAnswers) && (is_array(old('question'.$singleQuestion->QuestionID)) and
-                        in_array('C', old('question'.$singleQuestion->QuestionID))) ? 'wrongAnswer' : '' }}
+                                                {{ !in_array('C', $checkBoxAnswers) && (is_array(old('question'.$qArr['QuestionID'.$i])) and
+                        in_array('C', old('question'.$qArr['QuestionID'.$i]))) ? 'wrongAnswer' : '' }}
                                                 @endif"
-                                                    onclick="checkboxChecked({{$i}},{{$singleQuestion->QuestionID}},2)">
+                                                    onclick="checkboxChecked({{$i+1}},{{$qArr['QuestionID'.$i]}},2)">
                                                     <input
                                                             type="checkbox"
-                                                            name="question{{$singleQuestion->QuestionID}}[]"
-                                                            value="C" {{(is_array(old('question'.$singleQuestion->QuestionID)) and
-                                in_array('C', old('question'.$singleQuestion->QuestionID))) ? ' checked' : '' }}> C.
-                                                    {{$singleQuestion->C}}
+                                                            name="question{{$qArr['QuestionID'.$i]}}[]"
+                                                            value="C" {{(is_array(old('question'.$qArr['QuestionID'.$i])) and
+                                in_array('C', old('question'.$qArr['QuestionID'.$i]))) ? ' checked' : '' }}> C.
+                                                    {{$qArr['C'.$i]}}
                                                 </li>
-                                                <li class="question{{$i}}
+                                                <li class="question{{$i+1}}
                                                 @if(session()->has('answersArray'))
                                                 {{ in_array('D', $checkBoxAnswers) ? 'rightAnswer' : '' }}
-                                                {{ !in_array('D', $checkBoxAnswers) && (is_array(old('question'.$singleQuestion->QuestionID)) and
-                        in_array('D', old('question'.$singleQuestion->QuestionID))) ? 'wrongAnswer' : '' }}
+                                                {{ !in_array('D', $checkBoxAnswers) && (is_array(old('question'.$qArr['QuestionID'.$i])) and
+                        in_array('D', old('question'.$qArr['QuestionID'.$i]))) ? 'wrongAnswer' : '' }}
                                                 @endif"
-                                                    onclick="checkboxChecked({{$i}},{{$singleQuestion->QuestionID}},3)">
+                                                    onclick="checkboxChecked({{$i+1}},{{$qArr['QuestionID'.$i]}},3)">
                                                     <input
                                                             type="checkbox"
-                                                            name="question{{$singleQuestion->QuestionID}}[]"
-                                                            value="D" {{(is_array(old('question'.$singleQuestion->QuestionID)) and
-                                in_array('D', old('question'.$singleQuestion->QuestionID))) ? ' checked' : '' }}> D.
-                                                    {{$singleQuestion->C}}
+                                                            name="question{{$qArr['QuestionID'.$i]}}[]"
+                                                            value="D" {{(is_array(old('question'.$qArr['QuestionID'.$i])) and
+                                in_array('D', old('question'.$qArr['QuestionID'.$i]))) ? ' checked' : '' }}> D.
+                                                    {{$qArr['D'.$i]}}
                                                 </li>
                                             @endif
                                         </ul>
                                         @if(session()->has('answersArray'))
                                             <hr>
                                             <div class="showCorrectAnswer">
-                                                Lời giải: {{$answersArray['explain'.$singleQuestion->QuestionID]}}
+                                                Lời giải: {{$answersArray['explain'.$qArr['QuestionID'.$i]]}}
                                             </div>
                                         @endif
                                     </div>
-                                    @php
-                                        $i++;
-                                    @endphp
-                                @endforeach
+                                @endfor
                             </div>
                         </div>
                         <hr>
@@ -229,15 +227,12 @@
                                 @php
                                     $j=1;
                                 @endphp
-                                @foreach($questions as $singleQuestions)
-                                    <li id="questionBtn{{$j}}">
+                                @for($i=1;$i<=sizeof($qArr)/7;$i++)
+                                    <li id="questionBtn{{$i}}">
                                         <a data-toggle="pill"
-                                           href="#question{{$j}}"><span class="pillNums">{{$j<10 ? '0'.$j : $j}}</span></a>
+                                           href="#question{{$i}}"><span class="pillNums">{{$i<10 ? '0'.$i : $i}}</span></a>
                                     </li>
-                                    @php
-                                        $j++;
-                                    @endphp
-                                @endforeach
+                                @endfor
                             </ul>
                             @if(session()->has('score'))
                                 <script>
@@ -301,15 +296,17 @@
     @if(session()->has('score'))
         <script>
             allowKeyboard = false;
-            window.onbeforeunload = function () {
-                return "Bài làm hiện tại của bạn sẽ bị mất nếu tải lại trang!";
-            };
             const remainTime = document.getElementById('remaining');
             const remainTimeSmall = document.getElementById('countdown');
             remainTime.innerText = localStorage.getItem('remainingTime');
             remainTimeSmall.innerText = localStorage.getItem('remainingTime');
         </script>
     @else
+        <script>
+            window.onbeforeunload = function () {
+                return "Bài làm hiện tại của bạn sẽ bị mất nếu tải lại trang!";
+            };
+        </script>
         <script>
             var seconds = {{$examInfo['TimeLimit']*60}},
                 countdiv = document.getElementById('countdown'),

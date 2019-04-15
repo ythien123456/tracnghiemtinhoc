@@ -33,9 +33,30 @@ class ExamController extends Controller
         $examInfo = Exams::getExamInfo($examID);
 //        if (Session::has('AccountID')) {
             if (count($questions) > 0)
+            {
+                if(!session('score'))
+                    session()->forget('qArr');
+                if(!session('qArr'))
+                {
+                    $i=0;
+                    $qArr = array();
+                    foreach($questions as $q)
+                    {
+                        $qArr['QuestionID'.$i] = $q->QuestionID;
+                        $qArr['QuestionContent'.$i] = $q->QuestionContent;
+                        $qArr['QuestionType'.$i] = $q->QuestionType;
+                        $qArr['A'.$i] = $q->A;
+                        $qArr['B'.$i] = $q->B;
+                        $qArr['C'.$i] = $q->C;
+                        $qArr['D'.$i] = $q->D;
+                        ++$i;
+                    }
+                    session()->put('qArr',$qArr);
+                }
                 return view('examDetails')
                     ->with('questions', $questions)
                     ->with('examInfo', $examInfo);
+            }
             else
                 return view('errors.404');
 //        } else {
