@@ -140,7 +140,6 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Cviebrock\EloquentSluggable\Services\SlugService::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
