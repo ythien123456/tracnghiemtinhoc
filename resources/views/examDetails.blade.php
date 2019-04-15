@@ -211,11 +211,13 @@
                         <div class="quiz-bottom">
                             <div class="quiz-bottom-buttons">
                                 <div id="countdown">{{$examInfo['TimeLimit']}}:00</div>
-                                <div class="examSubmit">
-                                    <input type="submit" id="mainSubmit" style="display:none;">
-                                    <input type="button" id="submitSupport" class="btn btn-primary examSubmitBtn"
-                                           value="Nộp Bài!" onclick="submitExam();">
-                                </div>
+                                @if(!session()->has('score'))
+                                    <div class="examSubmit">
+                                        <input type="submit" id="mainSubmit" style="display:none;">
+                                        <input type="button" id="submitSupport" class="btn btn-primary examSubmitBtn"
+                                               value="Nộp Bài!" onclick="submitExam();">
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </form>
