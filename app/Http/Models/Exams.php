@@ -30,4 +30,15 @@ class Exams extends Model
             ->where('e.Status','=',1);
         return $examList;
     }
+
+    public static function getNewExams()
+    {
+        $examList = DB::table('exams as e')
+            ->join('examtypes as et','e.ExamType','=','et.TypeID')
+            ->select('e.ExamID', 'e.ExamType', 'e.ExamSlug','e.TotalQuestions','e.TimeLimit','e.ExamTitle','e.ExamDescription','et.TypeSlug')
+            ->where('e.Status','=',1)
+            ->orderByDesc('e.DateCreated')
+            ->limit(6);
+        return $examList;
+    }
 }

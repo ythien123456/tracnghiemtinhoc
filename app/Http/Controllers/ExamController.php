@@ -16,7 +16,7 @@ class ExamController extends Controller
     {
 
         $examList = Exams::getExamListByType($examTypeSlug);
-        $examType = ExamTypes::select('TypeTitle')->where('TypeSlug',$examTypeSlug)->first();
+        $examType = ExamTypes::select('TypeTitle','TypeID')->where('TypeSlug',$examTypeSlug)->first();
         if (count($examList->get()) > 0) {
             $examList = $examList->paginate(6);
             return view('examList')

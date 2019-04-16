@@ -166,17 +166,17 @@
                                 <div class="col-lg-4 col-md-4 col-xs-12">
                                     <div class="mu-latest-course-single">
                                         <figure class="mu-latest-course-img">
-                                            <a href="#"><img src="{{asset('public/images/examtypes/'.$exam->ExamType.'.jpg')}}" alt="img"></a>
+                                            <a href="{{url('/e/'.$exam->TypeSlug.'/'.$exam->ExamID.'-'.$exam->ExamSlug.'.html')}}"><img src="{{asset('public/images/examtypes/'.$exam->ExamType.'.jpg')}}" alt="img"></a>
                                             <figcaption class="mu-latest-course-imgcaption">
-                                                <a href="#">Câu hỏi: {{$exam->TotalQuestions}}</a>
+                                                Câu hỏi: {{$exam->TotalQuestions}}
                                                 <span><i class="fa fa-clock-o"></i>{{$exam->TimeLimit}} Phút</span>
                                             </figcaption>
                                         </figure>
                                         <div class="mu-latest-course-single-content">
-                                            <h4><a href="#">{{$exam->ExamTitle}}</a></h4>
+                                            <h4><a href="{{url('/e/'.$exam->TypeSlug.'/'.$exam->ExamID.'-'.$exam->ExamSlug.'.html')}}">{{$exam->ExamTitle}}</a></h4>
                                             <p>{{$exam->ExamDescription}}</p>
                                             <div class="mu-latest-course-single-contbottom">
-                                                <a class="mu-course-details" href="#">Làm bài ngay!</a>
+                                                <a class="mu-course-details" href="{{url('/e/'.$exam->TypeSlug.'/'.$exam->ExamID.'-'.$exam->ExamSlug.'.html')}}">Làm bài ngay!</a>
                                             </div>
                                         </div>
                                     </div>

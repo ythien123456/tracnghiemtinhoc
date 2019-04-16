@@ -26,20 +26,14 @@ class Accounts extends Model
         return $user;
     }
 
-    public static function store($email, $password, $firstName, $lastName, $gender, $workPlace, $phoneNumber, $address)
+    public static function store($email, $password, $firstName)
     {
         $account = new Accounts;
         $account->Email = $email;
         $account->Password = $password;
         $account->FirstName = $firstName;
-        $account->LastName = $lastName;
-        $account->Gender = $gender;
-        $account->WorkPlace = $workPlace;
-        $account->PhoneNumber = $phoneNumber;
-        $account->Address = $address;
         $checkEmail = Accounts::where("Email","=",$email);
-        $checkPhoneNumber = Accounts::where("PhoneNumber","=",$phoneNumber);
-        if($checkEmail->count()>0 || $checkPhoneNumber->count()>0)
+        if($checkEmail->count()>0)
             return false;
         $account->save();
         return true;

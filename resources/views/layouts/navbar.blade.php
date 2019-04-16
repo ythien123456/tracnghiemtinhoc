@@ -54,8 +54,8 @@
                             @endforeach
                         </ul>
                     </li>
-                    <li><a href="about.html">Giới Thiệu</a></li>
-                    <li><a href="contact.html">Liên Hệ</a></li>
+                    <li><a href="{{url('/about.html')}}">Giới Thiệu</a></li>
+                    <li><a href="{{url('/contact.html')}}">Liên Hệ</a></li>
 
                     @if(Session::has('AccountID'))
                         <li><a href="{{route('profile')}}"><b>{{session('FirstName').' '.session('LastName')}}</b></a>
@@ -65,26 +65,26 @@
                         <li style="background: rgba(48,201,222,0.3);"><a href="login.html">Đăng Nhập</a></li>
                         <li style="background: rgba(99,255,125,0.3);"><a href="register.html">Đăng Ký</a></li>
                     @endif
-                    <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
+{{--                    <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>--}}
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
     </nav>
 </section>
 <!-- End menu -->
-<!-- Start search box -->
-<div id="mu-search">
-    <div class="mu-search-area">
-        <button class="mu-search-close"><span class="fa fa-close"></span></button>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <form class="mu-search-form">
-                        <input type="search" placeholder="Type Your Keyword(s) & Hit Enter">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End search box -->
+{{--<!-- Start search box -->--}}
+{{--<div id="mu-search">--}}
+{{--    <div class="mu-search-area">--}}
+{{--        <button class="mu-search-close"><span class="fa fa-close"></span></button>--}}
+{{--        <div class="container">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-12">--}}
+{{--                    <form class="mu-search-form">--}}
+{{--                        <input type="search" placeholder="Type Your Keyword(s) & Hit Enter">--}}
+{{--                    </form>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
+{{--<!-- End search box -->--}}

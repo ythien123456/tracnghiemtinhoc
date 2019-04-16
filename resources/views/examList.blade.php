@@ -37,7 +37,7 @@
                                                     <div class="mu-latest-course-single">
                                                         <figure class="mu-latest-course-img">
                                                             <a href="{{url()->current().'/'.$exam->ExamID.'-'.$exam->ExamSlug.'.html'}}"><img
-                                                                        src="{{asset('public/img/word750x500.jpg')}}"
+                                                                        src="{{asset('public/images/examtypes/'.$examType->TypeID.'.jpg')}}"
                                                                         alt="img"></a>
                                                             <figcaption class="mu-latest-course-imgcaption">
                                                                 Câu hỏi: {{$exam->TotalQuestions}}

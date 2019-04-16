@@ -15,8 +15,12 @@ class HomeController extends Controller
         $totalAccounts = count(Accounts::all());
         $totalExams = count(Exams::where('Status','1')->get());
         $totalEditors = count(Accounts::where('Role','2')->get());
-        $newExams = Exams::where('Status','1')->get();
+        $newExams = Exams::getNewExams()->get();
         return view('homepage')
-            ->with(['totalPosts' => $totalPosts, 'totalAccounts' => $totalAccounts, 'totalExams' => $totalExams, 'totalEditors' => $totalEditors, 'newExams' => $newExams]);
+            ->with(['totalPosts' => $totalPosts,
+                'totalAccounts' => $totalAccounts,
+                'totalExams' => $totalExams,
+                'totalEditors' => $totalEditors,
+                'newExams' => $newExams]);
     }
 }

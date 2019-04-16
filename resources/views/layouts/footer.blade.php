@@ -21,9 +21,8 @@
                             <h4>Hướng dẫn</h4>
                             <ul>
                                 <li><a href="">Hướng dẫn làm bài thi</a></li>
-                                <li><a href="#">Hướng dẫn xem thông tin cá nhân</a></li>
                                 <li><a href="">Các phần mềm cần thiết</a></li>
-                                <li><a href="">Tổng hợp lỗi  phần mềm thường gặp</a></li>
+                                <li><a href="">Tổng hợp các vấn đề thường gặp</a></li>
                             </ul>
                         </div>
                     </div>

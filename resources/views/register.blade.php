@@ -17,7 +17,7 @@
                     <div class="mu-page-breadcrumb-area">
                         <h2>ĐĂNG KÝ</h2>
                         <ol class="breadcrumb">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Trang Chủ</a></li>
                             <li class="active">ĐĂNG KÝ</li>
                         </ol>
                     </div>
@@ -45,6 +45,7 @@
                 <div class="panel panel-success">
                     <div class="panel-heading"><h2 class="text-center">Đăng ký thành viên</h2></div>
                     <div class="panel-body">
+                        <h4 class="text-center">(*) Tất cả các trường đều bắt buộc nhập.</h4>
                         {!! Form::open(['url' => 'register.html', 'id' => 'registerForm']) !!}
                         <div class="form-group row">
                             {!! Form::label('Email','Địa chỉ Email:',['class' => 'col-sm-4 control-label']) !!}
@@ -65,39 +66,9 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {!! Form::label('LastName','Họ:',['class' => 'col-sm-4 control-label']) !!}
-                            <div class="col-sm-8">
-                                {!! Form::text('LastName','',['class' => 'form-control']) !!}
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             {!! Form::label('FirstName','Tên:',['class' => 'col-sm-4 control-label']) !!}
                             <div class="col-sm-8">
                                 {!! Form::text('FirstName','',['class' => 'form-control', 'required' => 'true']) !!}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {!! Form::label('Gender','Giới tính:',['class' => 'col-sm-4 control-label']) !!}
-                            <div class="col-sm-8">
-                                {!! Form::select('Gender', ['1' => 'Nam', '2' => 'Nữ', '3' => 'Không xác định'],'3',['class' => 'form-control']) !!}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {!! Form::label('WorkPlace','Nơi làm việc/học tập:',['class' => 'col-sm-4 control-label']) !!}
-                            <div class="col-sm-8">
-                                {!! Form::text('WorkPlace','',['class' => 'form-control']) !!}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {!! Form::label('PhoneNumber','Số điện thoại:',['class' => 'col-sm-4 control-label']) !!}
-                            <div class="col-sm-8">
-                                {!! Form::text('PhoneNumber','',['class' => 'form-control']) !!}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {!! Form::label('Address','Địa chỉ:',['class' => 'col-sm-4 control-label']) !!}
-                            <div class="col-sm-8">
-                                {!! Form::text('Address','',['class' => 'form-control']) !!}
                             </div>
                         </div>
                     </div>

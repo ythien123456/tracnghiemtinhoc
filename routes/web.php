@@ -44,14 +44,14 @@ Route::get('/contact.html', function () {
     if (View::exists('contact')) {
         return view('contact');
     } else {
-        return 'Trang liên hệ đang bị lỗi, bạn vui lòng quay lại sau';
+        return view('errors.404');
     }
 });
 Route::get('/about.html', function () {
     if (View::exists('about')) {
         return view('about');
     } else {
-        return 'Trang giới thiệu đang bị lỗi, bạn vui lòng quay lại sau';
+        return view('errors.404');
     }
 });
 
