@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('public/css/simpleQuiz.css')}}">
 @endpush
 @push('title')
-    Làm Bài Thi
+    {{session('score') ? 'Chấm điểm bài làm' : 'Làm bài thi'}}
 @endpush
 @section('content')
     @if(!session('Email'))
@@ -304,11 +304,6 @@
             remainTimeSmall.innerText = localStorage.getItem('remainingTime');
         </script>
     @else
-        <script>
-            window.onbeforeunload = function () {
-                return "Bài làm hiện tại của bạn sẽ bị mất nếu tải lại trang!";
-            };
-        </script>
         <script>
             var seconds = {{$examInfo['TimeLimit']*60}},
                 countdiv = document.getElementById('countdown'),

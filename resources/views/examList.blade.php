@@ -51,7 +51,7 @@
                                                             <p>{{$exam->ExamDescription}}</p>
                                                             <div class="mu-latest-course-single-contbottom">
                                                                 <a class="mu-course-details"
-                                                                   href="{{url()->current().'/test-'.$exam->ExamID.'.html'}}">Vào
+                                                                   href="{{url()->current().'/'.$exam->ExamID.'-'.$exam->ExamSlug.'.html'}}">Vào
                                                                     Thi Ngay</a>
 {{--                                                                <span class="mu-course-price" href="#">$165.00</span>--}}
                                                             </div>

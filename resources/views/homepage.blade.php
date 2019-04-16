@@ -166,9 +166,9 @@
                                 <div class="col-lg-4 col-md-4 col-xs-12">
                                     <div class="mu-latest-course-single">
                                         <figure class="mu-latest-course-img">
-                                            <a href="#"><img src="{{asset('public/img/courses/1.jpg')}}" alt="img"></a>
+                                            <a href="#"><img src="{{asset('public/images/examtypes/'.$exam->ExamType.'.jpg')}}" alt="img"></a>
                                             <figcaption class="mu-latest-course-imgcaption">
-                                                <a href="#">{{$exam->TotalQuestions}} Câu</a>
+                                                <a href="#">Câu hỏi: {{$exam->TotalQuestions}}</a>
                                                 <span><i class="fa fa-clock-o"></i>{{$exam->TimeLimit}} Phút</span>
                                             </figcaption>
                                         </figure>
