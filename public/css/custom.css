@@ -37,6 +37,7 @@
 
 .profile-form .profile-left ul li.item {
     background: rgba(77,255,247,0.2);
+    transition: 1s all;
 }
 
 .profile-form .profile-left ul li.item:hover {
@@ -45,7 +46,7 @@
 }
 
 .profile-form .profile-right {
-    background: lightpink;
+    background: lightgray;
     padding:10px;
 }
 /* END Profile */

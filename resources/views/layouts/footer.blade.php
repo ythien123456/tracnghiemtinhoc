@@ -9,10 +9,8 @@
                         <div class="mu-footer-widget">
                             <h4>Thông Tin</h4>
                             <ul>
-                                <li><a href="#">Giới thiệu</a></li>
-                                <li><a href="">Liên hệ</a></li>
-                                <li><a href="">Bài Viết</a></li>
-                                <li><a href="">Điều Khoản</a></li>
+                                <li><a href="{{route('about')}}">Giới thiệu</a></li>
+                                <li><a href="{{url('/p')}}">Bài Viết</a></li>
                             </ul>
                         </div>
                     </div>

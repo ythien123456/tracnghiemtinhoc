@@ -13,8 +13,8 @@ class HomeController extends Controller
     {
         $totalPosts = count(Posts::all());
         $totalAccounts = count(Accounts::all());
-        $totalExams = count(Exams::where('Status','1')->get());
-        $totalEditors = count(Accounts::where('Role','2')->get());
+        $totalExams = count(Exams::where('Status', '1')->get());
+        $totalEditors = count(Accounts::where('Role', '2')->get());
         $newExams = Exams::getNewExams()->get();
         return view('homepage')
             ->with(['totalPosts' => $totalPosts,
@@ -22,5 +22,15 @@ class HomeController extends Controller
                 'totalExams' => $totalExams,
                 'totalEditors' => $totalEditors,
                 'newExams' => $newExams]);
+    }
+
+    public function showContact()
+    {
+        return view('contact');
+    }
+
+    public function showAbout()
+    {
+        return view('about');
     }
 }

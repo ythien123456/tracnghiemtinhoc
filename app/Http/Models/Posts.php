@@ -58,4 +58,13 @@ class Posts extends Model
             ->where('ModuleID','=',$ModuleID);
         return $posts;
     }
+
+    public static function getMostViewed($totalPosts)
+    {
+        $posts = DB::table('posts')
+            ->orderByDesc('Views')
+            ->limit($totalPosts)
+            ->get();
+        return $posts;
+    }
 }

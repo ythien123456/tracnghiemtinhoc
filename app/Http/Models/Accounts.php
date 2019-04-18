@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Accounts extends Model
 {
-
+    protected $primaryKey = 'AccountID';
     public function scores() {
         return $this->hasMany('App\Http\Models\Scores');
     }
@@ -45,5 +45,11 @@ class Accounts extends Model
         if($checkResult>0)
             return false;
         return true;
+    }
+
+    public static function getAccountInfo($AccountID)
+    {
+        $infos = Accounts::where('AccountID',$AccountID)->first();
+        return $infos;
     }
 }

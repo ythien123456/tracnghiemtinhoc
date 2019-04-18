@@ -90,52 +90,6 @@
                                         </ul>
                                     </div>
                                     <!-- end single sidebar -->
-                                    <!-- start single sidebar -->
-                                    <div class="mu-single-sidebar">
-                                        <h3>Đề phổ biến</h3>
-                                        <div class="mu-sidebar-popular-courses">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <a href="#">
-                                                        <img class="media-object"
-                                                             src="{{asset('public/img/word750x500.jpg')}}"
-                                                             alt="img">
-                                                    </a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading"><a href="#">Medical Science</a></h4>
-                                                    <span class="popular-course-price">$200.00</span>
-                                                </div>
-                                            </div>
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <a href="#">
-                                                        <img class="media-object"
-                                                             src="{{asset('public/img/word750x500.jpg')}}"
-                                                             alt="img">
-                                                    </a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading"><a href="#">Web Design</a></h4>
-                                                    <span class="popular-course-price">$250.00</span>
-                                                </div>
-                                            </div>
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <a href="#">
-                                                        <img class="media-object"
-                                                             src="{{asset('public/img/word750x500.jpg')}}"
-                                                             alt="img">
-                                                    </a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading"><a href="#">Health & Sports</a></h4>
-                                                    <span class="popular-course-price">$90.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end single sidebar -->
                                 </aside>
                                 <!-- / end sidebar -->
                             </div>

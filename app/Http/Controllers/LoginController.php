@@ -12,7 +12,7 @@ class LoginController extends Controller
     public function showLogin()
     {
         session(['link' => url()->previous()]);
-        return view('login');
+        return session('Email') ? redirect(route('home')) : view('login');
     }
 
     public function postLogin(LoginRequest $request)

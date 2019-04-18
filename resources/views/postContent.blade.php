@@ -137,47 +137,25 @@
                                     <!-- end single sidebar -->
                                     <!-- start single sidebar -->
                                     <div class="mu-single-sidebar">
-                                        <h3>Popular News</h3>
+                                        <h3>Được xem nhiều</h3>
                                         <div class="mu-sidebar-popular-courses">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <a href="#">
-                                                        <img class="media-object"
-                                                             src="{{url('public/img/word750x500.jpg')}}"
-                                                             alt="img">
-                                                    </a>
+                                            @foreach($mostViewed as $mvPost)
+                                                <div class="mu-sidebar-popular-courses">
+                                                    <div class="media">
+                                                        <div class="media-left">
+                                                            <a href="{{url('/p/'.$mvPost->PostSlug).'.html'}}">
+                                                                <img class="media-object"
+                                                                     src="{{url('public/images/modules/'.$mvPost->ModuleID.'.jpg')}}"
+                                                                     alt="img">
+                                                            </a>
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <h4 class="media-heading" style="font-size: 13px;"><a href="{{url('/p/'.$mvPost->PostSlug).'.html'}}">{{$mvPost->PostTitle}}</a></h4>
+                                                            <span class="popular-course-price"><i class="fa fa-eye"></i> {{$mvPost->Views}}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading"><a href="#">Medical Science</a></h4>
-                                                    <span class="popular-course-price">$200.00</span>
-                                                </div>
-                                            </div>
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <a href="#">
-                                                        <img class="media-object"
-                                                             src="{{url('public/img/word750x500.jpg')}}"
-                                                             alt="img">
-                                                    </a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading"><a href="#">Web Design</a></h4>
-                                                    <span class="popular-course-price">$250.00</span>
-                                                </div>
-                                            </div>
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <a href="#">
-                                                        <img class="media-object"
-                                                             src="{{url('public/img/word750x500.jpg')}}"
-                                                             alt="img">
-                                                    </a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading"><a href="#">Health & Sports</a></h4>
-                                                    <span class="popular-course-price">$90.00</span>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                     <!-- end single sidebar -->
