@@ -43,7 +43,7 @@
                     </div>
                 @endif
                 <div class="panel panel-success">
-                    <div class="panel-heading"><h2 class="text-center">Đăng ký thành viên</h2></div>
+                    <div class="panel-heading"><h1 class="text-center">REGISTER</h1></div>
                     <div class="panel-body">
                         <h4 class="text-center">(*) Tất cả các trường đều bắt buộc nhập.</h4>
                         {!! Form::open(['url' => 'register.html', 'id' => 'registerForm']) !!}

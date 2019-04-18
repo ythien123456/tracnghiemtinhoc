@@ -19,7 +19,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
-                    <li class="{{Route::currentRouteName()=='home' ? 'active' : ''}}"><a href="{{route('home')}}">Trang Chủ</a></li>
+                    <li class="{{Request::is('/') || Route::currentRouteName()=='home' ? 'active' : ''}}"><a href="{{route('home')}}">Trang Chủ</a></li>
                     <li class="dropdown {{Request::is('e/*') ? 'active' : ''}}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Đề thi <span
                                     class="fa fa-angle-down"></span></a>
