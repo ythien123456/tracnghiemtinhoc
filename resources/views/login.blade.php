@@ -50,7 +50,7 @@
                     <div class="panel-heading"><h1 class="text-center">LOGIN</h1></div>
                     <form method="POST" class="loginForm" action="{{route('postLogin')}}">
                         <div class="panel-body">
-                            {{csrf_field()}}
+                            @csrf
                             <input type="email" name="Email" class="form-control" placeholder="Email..">
                             <input type="password" name="Password" class="form-control" placeholder="Password..">
                         </div>
