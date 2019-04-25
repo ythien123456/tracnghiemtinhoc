@@ -21,27 +21,27 @@ Route::post('register.html', 'RegisterController@postRegister')->name('postRegis
 Route::group(array('prefix' => 'check'), function () {
     Route::post('check-email', 'RegisterController@checkEmail');
 });
-Route::get('profile.html','AccountController@profile')->name('profile');
-Route::get('info.html','AccountController@profile')->name('info');
-Route::get('score.html','AccountController@getScoreHistory')->name('score');
-Route::get('change-password.html','AccountController@profile')->name('change-password');
+Route::get('profile.html', 'AccountController@profile')->name('profile');
+Route::get('info.html', 'AccountController@profile')->name('info');
+Route::get('score.html', 'AccountController@getScoreHistory')->name('score');
+Route::get('change-password.html', 'AccountController@profile')->name('change-password');
 Route::post('submitChangeInfo', 'AccountController@changeInfo');
 Route::post('submitChangePassword', 'AccountController@changePassword');
 
-Route::group(['prefix' => 'e', 'as' => 'exams'], function() {
+Route::group(['prefix' => 'e', 'as' => 'exams'], function () {
     Route::get('/', function () {
         return view('errors.404');
     });
     Route::get('/{examTypeSlug}', ['as' => 'examList', 'uses' => 'ExamController@show']);
-    Route::get('/{examTypeSlug}/{examID}-{examSlug}.html',['as' => 'examDisplay', 'uses' => 'ExamController@showQuestionsByExamID']);
-    Route::post('/{examTypeSlug}/{examID}-{examSlug}.html/submit',['as' => 'examTake', 'uses' => 'ExamController@submitExamAndCalculateScore']);
+    Route::get('/{examTypeSlug}/{examID}-{examSlug}.html', ['as' => 'examDisplay', 'uses' => 'ExamController@showQuestionsByExamID']);
+    Route::post('/{examTypeSlug}/{examID}-{examSlug}.html/submit', ['as' => 'examTake', 'uses' => 'ExamController@submitExamAndCalculateScore']);
 });
 
 Route::group(['prefix' => 'p', 'as' => 'posts'], function () {
     Route::get('/', 'PostController@index');
-    Route::get('/{postSlug}.html','PostController@show');
-    Route::group(['prefix' => 'modules'], function() {
-        Route::get('/{moduleID}','PostController@getPostsByModuleID');
+    Route::get('/{postSlug}.html', 'PostController@show');
+    Route::group(['prefix' => 'modules'], function () {
+        Route::get('/{moduleID}', 'PostController@getPostsByModuleID');
     });
 });
 
@@ -50,20 +50,47 @@ Route::get('/about.html', 'HomeController@showAbout')->name('about');
 
 Route::group(['prefix' => 'th-editor'], function () {
     Route::get('/', function () {
-       return 'Giao diện biên tập viên';
+        return 'Giao diện biên tập viên';
     });
 });
-Route::group(['prefix' => 'tn-admin-th'], function () {
-    Route::get('/', function () {
-       return 'Giao diện admin';
+Route::get('adminLogin', 'Admin\AdminLoginController@showLogin')->name('adminLogin');
+Route::post('postAdminLogin','Admin\AdminLoginController@postLogin')->name('postAdLogin');
+Route::get('getAdminLogout','Admin\AdminLoginController@getLogout')->name('getAdLogout');
+
+Route::group(['prefix' => 'tn-admin-th', 'middleware' => 'checkAdminLogin'], function () {
+    Route::get('/', 'Admin\DashboardController@show');
+    Route::get('/dashboard', 'Admin\DashboardController@show')->name('adminDashboard');
+    Route::get('/questions', 'Admin\AdminQuestionController@index');
+    Route::get('/exams', 'Admin\AdminExamController@index');
+    Route::get('exams/{ExamID}', 'Admin\AdminExamController@showSingleExam')->name('viewExam');
+
+    Route::get('/accounts', 'Admin\AdminAccountController@index');
+    Route::get('/posts', 'Admin\AdminPostController@index');
+    /* AJAX Requests */
+    Route::get('getQuestions', 'Admin\AdminQuestionController@getQuestions')->name('questionsTable');
+
+    Route::get('getExams', 'Admin\AdminExamController@getExams')->name('examsTable');
+    Route::get('getSingleExam/{ExamID}','Admin\AdminExamController@getSingleExam')->name('singleExamTable');
+    Route::get('exams/delete/{ExamID}','Admin\AdminExamController@destroy')->name('deleteExam');
+    Route::get('exams/edit/{ExamID}','Admin\AdminExamController@edit')->name('editExam');
+    Route::post('exams/store','Admin\AdminExamController@store')->name('storeExam');
+
+    Route::get('getAccounts', 'Admin\AdminAccountController@getAccounts')->name('accountsTable');
+    Route::get('getPosts', 'Admin\AdminPostController@getPosts')->name('postsTable');
+    /* END AJAX Requests */
+    Route::get('/forms', function () {
+        return view('admin.forms');
     });
+
 });
-Route::get('/404.html',function () {
+Route::get('/404.html', function () {
     return view('errors.404');
 })->name('404');
-Route::get('/errors.html',function () {
+Route::get('/errors.html', function () {
     return view('errors.errors');
 })->name('errors');
 
-Route::get('/test/{id}', 'TestController@show');
+Route::get('/test', function () {
+    return view('test');
+});
 Route::get('/paginateTest', 'TestController@index');

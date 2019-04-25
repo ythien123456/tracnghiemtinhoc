@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class Exams extends Model
 {
+    public $timestamps = false;
+    public $primaryKey = 'ExamID';
+    protected $fillable = ['ExamTitle','ExamDescription','ExamSlug','TotalQuestions','TimeLimit','ExamType','Status'];
     public function questions() {
         return $this->belongsToMany('App\Http\Models\Questions');
     }
