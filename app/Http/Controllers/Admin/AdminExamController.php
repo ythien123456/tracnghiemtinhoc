@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Models\Exams;
 use App\Http\Models\QuestionDetails;
+use App\Http\Models\Questions;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -70,8 +71,8 @@ class AdminExamController extends Controller
         if (request()->ajax()) {
             return datatables()->of($questions)
                 ->addColumn('action', function ($questions) {
-                    $test = '<button class="btn btn-xs btn-warning btn-edit" name="edit-' . $questions->QuestionID . '"><i class="glyphicon glyphicon-edit"></i> Sửa</button>
-                        <button class="btn btn-xs btn-danger btn-delete" name="delete-' . $questions->QuestionID . '"><i class="glyphicon glyphicon-trash"></i> Xóa</button>';
+                    $test = '<a href="javascript:void(0)" data-toggle="tooltip" id="edit" data-id="' . $questions->QuestionID . '" data-original-title="Edit" class="btn btn-xs btn-warning btn-edit"><i class="glyphicon glyphicon-edit"></i> Sửa</a>
+                        <a href="javascript:void(0)" data-toggle="tooltip" id="delete"  data-id="' . $questions->QuestionID . '" data-original-title="Delete" class="btn btn-xs btn-danger btn-delete"><i class="glyphicon glyphicon-trash"></i> Xóa</a>';
                     return $test;
                 })
                 ->rawColumns(['action', 'QuestionContent'])
@@ -118,5 +119,22 @@ class AdminExamController extends Controller
             return response()->json($examDelete);
         }
         return view('errors.ad404');
+    }
+
+    public function removeExamQuestion($ExamID,$QuestionID)
+    {
+        if(request()->ajax()) {
+            $question = QuestionDetails::where('QuestionID',$QuestionID)
+                ->where('ExamID',$ExamID)->delete();
+            return response()->json($question);
+        }
+        return view('errors.ad404');
+    }
+
+    public function sumQuestions($ExamID)
+    {
+        $questions = QuestionDetails::where('ExamID',$ExamID)->get();
+        $sum = count($questions);
+        return response()->json($sum);
     }
 }

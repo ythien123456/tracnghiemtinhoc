@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Models\Posts;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 class AdminPostController extends Controller
 {
@@ -31,13 +32,81 @@ class AdminPostController extends Controller
         if (request()->ajax()) {
             return datatables()->of($posts)
                 ->addColumn('action', function ($posts) {
-                    $test = '<button class="btn btn-xs btn-warning btn-edit" name="edit-' . $posts->PostID . '"><i class="glyphicon glyphicon-edit"></i> Sửa</button>
-                        <button class="btn btn-xs btn-danger btn-delete" name="delete-' . $posts->PostID . '"><i class="glyphicon glyphicon-trash"></i> Xóa</button>';
-                    return $test;
+                    $buttons = '
+                        <a href="javascript:void(0)" data-toggle="tooltip" id="delete"  
+                        data-id="' . $posts->PostID . '" 
+                        data-original-title="Delete" class="btn btn-xs btn-danger btn-delete">
+                        <i class="glyphicon glyphicon-trash"></i> Xóa
+                        </a>';
+                    return $buttons;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('title', function ($posts) {
+                    $title = '<a href="' . route('viewPost', ['PostID' => $posts->PostID]) . '">
+                    ' . $posts->PostTitle . '</a>';
+                    return $title;
+                })
+                ->addColumn('status', function ($posts) {
+                    $status = ''.$posts->Status;
+                    return $status;
+                })
+                ->rawColumns(['action', 'title','status'])
                 ->make(true);
         }
         return view('errors.404');
+    }
+
+    public function showSinglePost($PostID)
+    {
+        $post = Posts::find($PostID);
+        if ($post)
+            return view('admin.singlePost')
+                ->with([
+                    'post' => $post
+                ]);
+        return view('errors.ad404');
+    }
+
+    public function edit()
+    {
+        $PostID = request()->input('post-id');
+        $post = Posts::find($PostID);
+        $post->AccountID = request()->input('post-author');
+        $post->PostTitle = request()->input('post-title');
+        $post->PostSlug = Str::slug($post->PostTitle);
+        $post->PostContent = request()->input('post-content');
+        $post->ModuleID = request()->input('post-module');
+        $post->Status = request()->input('post-status');
+        $result = $post->save();
+        return response()->json(['result' => $result, 'message' => 'Lưu thành công']);
+    }
+
+    public function write()
+    {
+        return view('admin.writePost');
+    }
+
+    public function create(Request $request)
+    {
+        $PostTitle = $request->input('post-title');
+        if (count(Posts::where('PostSlug', Str::slug($PostTitle))->get()) > 0)
+            return response()->json(['message' => 'Tên bài viết bị trùng']);
+        $post = new Posts;
+        $post->PostTitle = $request->input('post-title');
+        $post->AccountID = session('AdminID');
+        $post->PostSlug = Str::slug($PostTitle);
+        $post->PostContent = $request->input('post-content');
+        $post->ModuleID = $request->input('post-module');
+        $post->Status = $request->input('post-status');
+        if ($post->save())
+            return response()->json(['message' => 'Thêm bài viết thành công!']);
+    }
+
+    public function destroy($PostID)
+    {
+        if (request()->ajax()) {
+            $post = Posts::find($PostID)->delete();
+            return response()->json($post);
+        }
+        return view('errors.ad404');
     }
 }

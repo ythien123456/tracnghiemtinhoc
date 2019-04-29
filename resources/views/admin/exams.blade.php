@@ -1,12 +1,5 @@
 @extends('admin.adminLayout')
 
-@push('additionalCSS')
-    <!-- DataTables CSS -->
-    <link href="{{asset('public/admin-assets')}}/css/dataTables/dataTables.bootstrap.css" rel="stylesheet">
-    <!-- DataTables Responsive CSS -->
-    <link href="{{asset('public/admin-assets')}}/css/dataTables/dataTables.responsive.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-@endpush
 @push('active-quan-ly')
     active
 @endpush
@@ -23,16 +16,6 @@
             <a href="javascript:void(0)" id="create-new-exam" type="button" class="btn btn-success"><i
                         class="fa fa-plus"></i> Thêm đề thi</a>
             <br><br>
-            @if(session('errMessage'))
-                <div class="alert alert-danger">
-                    {{session('errMessage')}}
-                </div>
-            @endif
-            @if(session('sucMessage'))
-                <div class="alert alert-success">
-                    {{session('sucMessage')}}
-                </div>
-            @endif
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Danh sách đề thi
@@ -165,9 +148,6 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                @if(session('sucMessage'))
-                "oSearch": {"sSearch": "{{session('newExamTitle')}}"},
-                @endif
                 ajax: {
                     url: '{!! route('examsTable') !!}',
                     type: 'GET',
@@ -186,8 +166,6 @@
 
         // Create new exam button
         $('#create-new-exam').click(function () {
-            $('#btn-save').attr("id", "btn-create");
-            $('#btn-create').attr("name", "btn-create");
             $('#exam_id').val('');
             $('#examForm').trigger("reset");
             $('#exam-modal-title').html("Thêm đề thi mới");
@@ -198,8 +176,6 @@
         $('body').on('click', '#edit', function () {
             let examID = $(this).data("id");
             $('#exam-modal').modal('show');
-            $('#btn-create').attr("id", "btn-save");
-            $('#btn-save').attr("name", "btn-save");
             $('#examForm').attr({
                 action: '{!! url('tn-admin-th/exams/edit') !!}' + '/' + examID,
                 method: "POST"
@@ -264,7 +240,4 @@
             }
         });
     </script>
-    <!-- DataTables JavaScript -->
-    <script src="{{asset('public/admin-assets')}}/js/dataTables/jquery.dataTables.min.js"></script>
-    <script src="{{asset('public/admin-assets')}}/js/dataTables/dataTables.bootstrap.min.js"></script>
 @endpush

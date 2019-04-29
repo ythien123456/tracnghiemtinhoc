@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class Posts extends Model
 {
+    protected $primaryKey = 'PostID';
+    public $timestamps = false;
     public function modules()
     {
         return $this->belongsTo('App\Http\Models\Modules');
@@ -21,22 +23,27 @@ class Posts extends Model
     {
         $posts = DB::table('posts')
             ->select('PostTitle',DB::raw('SUBSTRING(PostContent,1,150) as PostContent'),'PostSlug','ModuleID')
+            ->where('Status','=',1)
             ->orderBy('PostDate','desc');
         return $posts;
     }
 
     public static function getPostByPostSlug($postSlug)
     {
-        $post = DB::table('posts as p')
-            ->join('accounts as a', 'p.AccountID', '=', 'a.AccountID')
-            ->select('a.FirstName', 'a.LastName', 'p.PostID', 'p.ModuleID', 'p.PostTitle', 'p.PostContent', 'p.PostSlug',
-                DB::raw('DATE(p.PostDate) as PostDate'), 'p.ModuleID','p.Views')
-            ->where('p.PostSlug', '=', $postSlug)
-            ->first();
-        DB::table('posts')
-            ->where('PostSlug','=',$postSlug)
-            ->update(['Views' => ++$post->Views]);
-        return $post;
+        if(count(Posts::where('PostSlug',$postSlug)->where('Status',1)->get())>0) {
+            $post = DB::table('posts as p')
+                ->join('accounts as a', 'p.AccountID', '=', 'a.AccountID')
+                ->select('a.FirstName', 'a.LastName', 'p.PostID', 'p.ModuleID', 'p.PostTitle', 'p.PostContent', 'p.PostSlug',
+                    DB::raw('DATE(p.PostDate) as PostDate'), 'p.ModuleID','p.Views')
+                ->where('p.PostSlug', '=', $postSlug)
+                ->where('Status','=',1)
+                ->first();
+            DB::table('posts')
+                ->where('PostSlug','=',$postSlug)
+                ->update(['Views' => ++$post->Views]);
+            return $post;
+        }
+        return null;
     }
 
     public static function getRelatedPosts($PostID,$ModuleID)
@@ -45,6 +52,7 @@ class Posts extends Model
             ->select('PostTitle',DB::raw('SUBSTRING(PostContent,1,150) as PostContent'), 'PostContent as PostFullContent','PostSlug','ModuleID')
             ->where('ModuleID','=',$ModuleID)
             ->where('PostID','<>',$PostID)
+            ->where('Status','=',1)
             ->inRandomOrder()
             ->limit(5)
             ->get();
@@ -55,13 +63,15 @@ class Posts extends Model
     {
         $posts = DB::table('posts')
             ->select('PostTitle',DB::raw('SUBSTRING(PostContent,1,150) as PostContent'), 'PostContent as PostFullContent','PostSlug','ModuleID')
-            ->where('ModuleID','=',$ModuleID);
+            ->where('ModuleID','=',$ModuleID)
+            ->where('Status','=',1);
         return $posts;
     }
 
     public static function getMostViewed($totalPosts)
     {
         $posts = DB::table('posts')
+            ->where('Status','=',1)
             ->orderByDesc('Views')
             ->limit($totalPosts)
             ->get();

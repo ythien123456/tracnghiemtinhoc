@@ -23,9 +23,13 @@
     <script src="{{asset('public/admin-assets/js')}}/metisMenu.min.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{asset('public/admin-assets/js')}}/startmin.js"></script>
-
-    @stack('additionalCSS')
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- DataTables CSS -->
+    <link href="{{asset('public/admin-assets')}}/css/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <!-- DataTables Responsive CSS -->
+    <link href="{{asset('public/admin-assets')}}/css/dataTables/dataTables.responsive.css" rel="stylesheet">
+    <script src="{{asset('public/admin-assets')}}/js/jquery.validate.js"></script>
+@stack('additionalCSS')
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -49,7 +53,7 @@
         </button>
 
         <ul class="nav navbar-nav navbar-left navbar-top-links">
-            <li><a href="{{route('home')}}"><i class="fa fa-home fa-fw"></i> Website</a></li>
+            <li><a href="{{route('home')}}" target="_blank"><i class="fa fa-home fa-fw"></i> Website</a></li>
         </ul>
 
         <ul class="nav navbar-right navbar-top-links">
@@ -169,40 +173,12 @@
                             </li>
                             <li>
                                 <a href="{{url('/tn-admin-th/posts')}}"
-                                   class="{{Request::is('tn-admin-th/posts') ? 'active' : ''}}"><i
+                                   class="{{Request::is('tn-admin-th/posts')||
+                                   Request::is('tn-admin-th/posts/*') ? 'active' : ''}}"><i
                                             class="fa fa-paragraph"></i> Bài viết</a>
                             </li>
 
                         </ul>
-                    </li>
-                    <li>
-                        <a href="{{url('/tn-admin-th/forms')}}"
-                           class="{{Request::is('tn-admin-th/forms') ? 'active' : ''}}"><i class="fa fa-edit fa-fw"></i>
-                            Forms</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="panels-wells.html">Panels and Wells</a>
-                            </li>
-                            <li>
-                                <a href="buttons.html">Buttons</a>
-                            </li>
-                            <li>
-                                <a href="notifications.html">Notifications</a>
-                            </li>
-                            <li>
-                                <a href="typography.html">Typography</a>
-                            </li>
-                            <li>
-                                <a href="icons.html"> Icons</a>
-                            </li>
-                            <li>
-                                <a href="grid.html">Grid</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span
@@ -264,6 +240,9 @@
 </div>
 <!-- /#wrapper -->
 
+<!-- DataTables JavaScript -->
+<script src="{{asset('public/admin-assets')}}/js/dataTables/jquery.dataTables.min.js"></script>
+<script src="{{asset('public/admin-assets')}}/js/dataTables/dataTables.bootstrap.min.js"></script>
 @stack('additionalJS')
 
 </body>

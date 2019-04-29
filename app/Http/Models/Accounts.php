@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Accounts extends Model
 {
     protected $primaryKey = 'AccountID';
+    public $fillable = ['Email','FirstName','LastName','WorkPlace','PhoneNumber','Address','Gender','Role'];
     public function scores() {
         return $this->hasMany('App\Http\Models\Scores');
     }

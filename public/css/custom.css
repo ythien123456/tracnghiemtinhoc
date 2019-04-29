@@ -50,3 +50,7 @@
     padding:10px;
 }
 /* END Profile */
+
+#mu-course-content .mu-blog-description img {
+    max-width: 85%;
+}

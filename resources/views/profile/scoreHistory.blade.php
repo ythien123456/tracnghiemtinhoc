@@ -1,3 +1,8 @@
+@if(count($stats)<1)
+    <div class="alert alert-info">
+        Bạn chưa làm bài thi nào cả!
+    </div>
+@endif
 <div class="panel-group" id="accordion">
     @foreach($stats as $stat)
         <div class="panel panel-default">

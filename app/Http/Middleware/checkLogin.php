@@ -15,6 +15,9 @@ class checkLogin
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if(session('Email'))
+            return $next($request);
+        else
+            return redirect()->route('login');
     }
 }
