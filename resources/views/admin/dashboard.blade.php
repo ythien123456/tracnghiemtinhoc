@@ -1,5 +1,9 @@
 @extends('admin.adminLayout')
 
+@push('title')
+    Trang chính
+@endpush
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">

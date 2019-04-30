@@ -1,7 +1,7 @@
 @extends('admin.adminLayout')
 
 @push('title')
-    Quản lý câu hỏi
+    {{$exam->ExamTitle}} - Soạn đề thủ công
 @endpush
 
 @push('active-quan-ly')
@@ -11,19 +11,82 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Câu hỏi</h1>
+            <h1 class="page-header">Thêm câu hỏi cho
+                <a href="{{route('viewExam',['ExamID' => $exam->ExamID])}}">"{{$exam->ExamTitle}}"</a>
+            </h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
-            <a href="javascript:void(0)" id="create-new-question" type="button" class="btn btn-success"><i
-                        class="fa fa-plus"></i> Thêm câu hỏi</a>
-            <br><br>
+            <h3 class="text-center">Số lượng câu hỏi mỗi module</h3>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            CNTT
+                        </div>
+                        <div class="panel-body">
+                            <span id="cntt-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            HĐH
+                        </div>
+                        <div class="panel-body">
+                            <span id="hdh-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            Internet
+                        </div>
+                        <div class="panel-body">
+                            <span id="internet-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            Word
+                        </div>
+                        <div class="panel-body">
+                            <span id="word-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            Excel
+                        </div>
+                        <div class="panel-body">
+                            <span id="excel-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            Powerpoint
+                        </div>
+                        <div class="panel-body">
+                            <span id="powerpoint-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Danh sách câu hỏi
+                    <h4>Số câu: {{$exam->TotalQuestions}} - Thời gian: {{$exam->TimeLimit}}m</h4>
+                    <h4>Số câu đang có: <span id="sum-qcount">0</span></h4>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -131,15 +194,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <div class="text-center">
-                            <button type="submit" id="btn-save" name="btn-save" class="btn btn-success">Lưu
-                            </button>
-                            <button type="button" id="btn-switch-mass-create" name="btn-switch-mass-create"
-                                    class="btn btn-danger">Thêm liên tục: Đang <span class="mass-create-status">TẮT</span>
-                            </button>
-                        </div>
-                    </div>
+                    {{--                <div class="modal-footer">--}}
+                    {{--                    <div class="text-center">--}}
+                    {{--                        <button type="submit" id="btn-save" name="btn-save" class="btn btn-success">Lưu--}}
+                    {{--                        </button>--}}
+                    {{--                        <button type="button" id="btn-switch-mass-create" name="btn-switch-mass-create"--}}
+                    {{--                                class="btn btn-danger">Thêm liên tục: Đang <span class="mass-create-status">TẮT</span>--}}
+                    {{--                        </button>--}}
+                    {{--                    </div>--}}
+                    {{--                </div>--}}
                 </div>
             </form>
         </div>
@@ -148,8 +211,30 @@
 
 @push('additionalJS')
     <script>
-        let mass_create_status = false;
+        function moduleQuestionsCount() {
+            $.ajax({
+                url: '{!! route('countQuestionsInModule',['ExamID' => $exam->ExamID]) !!}',
+                type: 'get',
+                success: function (data) {
+                    $('#cntt-qcount').html(data.module1);
+                    $('#hdh-qcount').html(data.module2);
+                    $('#internet-qcount').html(data.module3);
+                    $('#word-qcount').html(data.module4);
+                    $('#excel-qcount').html(data.module5);
+                    $('#powerpoint-qcount').html(data.module6);
+                    let sum = data.module1 + data.module2 + data.module3 + data.module4 + data.module5 + data.module6;
+                    $('#sum-qcount').html(sum);
+                },
+                error: function (data) {
+                    console.log('Error', data);
+                }
+            });
+        }
+
         $(document).ready(function () {
+
+            moduleQuestionsCount();
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -160,7 +245,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '{!! route('questionsTable') !!}',
+                    url: '{!! route('manualComposeQuestions',['ExamID',$exam->ExamID]) !!}',
                     type: 'GET',
                 },
                 columns: [
@@ -174,56 +259,7 @@
             });
         });
 
-        // mass status switch
-        $('#btn-switch-mass-create').click(function () {
-            mass_create_status = mass_create_status === true ? false : true;
-            btn = $('#btn-switch-mass-create');
-            if (mass_create_status === true) {
-                btn.removeClass('btn-danger');
-                btn.addClass('btn-info');
-                $('.mass-create-status').html('BẬT');
-            } else {
-                btn.removeClass('btn-info');
-                btn.addClass('btn-danger');
-                $('.mass-create-status').html('TẮT');
-            }
-        });
-
-        //On change question type
-        $('#question-type').change(function () {
-            if ($('#question-type').val() === '2')
-                $('input:radio').prop('type', 'checkbox');
-            else
-                $('input:checkbox').prop('type', 'radio');
-        });
-
-        //Delete button
-        $('body').on('click', '#delete', function () {
-            let questionID = $(this).data("id");
-            if (confirm('Bạn muốn xóa câu hỏi ' + questionID + ' ?') === true)
-                $.ajax({
-                    url: '{!! url('tn-admin-th/questions/delete') !!}' + '/' + questionID,
-                    type: "GET",
-                    success: function (data) {
-                        let oTable = $('#questions-table').dataTable();
-                        oTable.fnDraw(false);
-                    },
-                    error: function (data) {
-                        console.log('Error: ', data);
-                    }
-                });
-        });
-
-        // Create new question button
-        $('#create-new-question').click(function () {
-            $('#btn-switch-mass-create').show();
-            $('#question_id').val('');
-            $('#questionForm').trigger("reset");
-            $('#question-modal-title').html("Thêm câu hỏi mới");
-            $('#question-modal').modal('show');
-        });
-
-        // Edit button
+        //edit question button
         $('body').on('click', '#edit', function () {
             let questionID = $(this).data("id");
             $('#btn-switch-mass-create').hide();
@@ -282,49 +318,31 @@
             });
         });
 
-        // Save button
-        $('#questionForm').validate({
-            submitHandler: function (form) {
-                $('#btn-save').html('Loading..');
-                let answerArr = [];
-                let checks = document.getElementsByName('correct-answer');
-                for (let i = 0; i < checks.length; i++) {
-                    if (checks[i].checked === true) {
-                        answerArr.push(checks[i].value);
-                    }
-                }
-                let answerStr = answerArr.join();
-                let formData = {
-                    'question_id': $('#question_id').val(),
-                    'question-content': $('#question-content').val(),
-                    'question-module': $('#question-module').val(),
-                    'question-type': $('#question-type').val(),
-                    'answer-A': $('#answer-A').val(),
-                    'answer-B': $('#answer-B').val(),
-                    'answer-C': $('#answer-C').val(),
-                    'answer-D': $('#answer-D').val(),
-                    'correct-answer': answerStr,
-                    'question-explain': $('#question-explain').val()
-                };
+        //add question button
+        $('body').on('click', '#add', function () {
+            let cnttCount = parseInt($('#cntt-qcount').html());
+            let hdhCount = parseInt($('#hdh-qcount').html());
+            let internetCount = parseInt($('#internet-qcount').html());
+            let wordCount = parseInt($('#word-qcount').html());
+            let excelCount = parseInt($('#excel-qcount').html());
+            let powerPointCount = parseInt($('#powerpoint-qcount').html());
+            let sumCount = cnttCount+hdhCount+internetCount+wordCount+excelCount+powerPointCount;
+            if(sumCount >= {!! $exam->TotalQuestions !!}) {
+                alert('Đã đủ số lượng {!! $exam->TotalQuestions !!} câu hỏi!');
+                return false;
+            } else {
+                let questionID = $(this).data('id');
                 $.ajax({
-                    data: formData,
-                    type: "post",
-                    url: '{!! route('storeQuestion') !!}',
-                    dataType: 'json',
+                    url: '{!! url('tn-admin-th') !!}' + '/exams/' + {!! $exam->ExamID !!} +
+                        '/compose/addQuestion/' + questionID,
+                    type: 'get',
                     success: function (data) {
-                        $('#questionForm').trigger('reset');
-                        if(mass_create_status===false)
-                            $('#question-modal').modal('hide');
-                        $('#btn-save').html('Lưu');
-                        let oTable = $('#questions-table').dataTable();
-                        oTable.fnDraw(false);
+                        moduleQuestionsCount();
                     },
                     error: function (data) {
-                        alert('Lỗi: ' +
-                            'Hãy kiểm tra tất cả các trường');
+                        alert('Câu này đã có trong đề thi!');
                         console.log('Error: ', data);
-                        $('#btn-save').html('Lưu');
-                    }
+                    },
                 });
             }
         });

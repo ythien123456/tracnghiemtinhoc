@@ -1,5 +1,9 @@
 @extends('admin.adminLayout')
 
+@push('title')
+    {{$post->PostTitle}}
+@endpush
+
 @push('active-quan-ly')
     active
 @endpush

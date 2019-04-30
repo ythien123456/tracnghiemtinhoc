@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>TNTH - Quản trị website</title>
+    <title>TNTH - @stack('title')</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('public/admin-assets/css')}}/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->

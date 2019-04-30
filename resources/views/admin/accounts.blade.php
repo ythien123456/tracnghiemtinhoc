@@ -6,6 +6,11 @@
     <!-- DataTables Responsive CSS -->
     <link href="{{asset('public/admin-assets')}}/css/dataTables/dataTables.responsive.css" rel="stylesheet">
 @endpush
+
+@push('title')
+    Quản lý tài khoản
+@endpush
+
 @push('active-quan-ly')
     active
 @endpush

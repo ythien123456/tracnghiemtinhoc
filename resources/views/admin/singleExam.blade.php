@@ -6,6 +6,11 @@
     <!-- DataTables Responsive CSS -->
     <link href="{{asset('public/admin-assets')}}/css/dataTables/dataTables.responsive.css" rel="stylesheet">
 @endpush
+
+@push('title')
+    {{$examInfo->ExamTitle}}
+@endpush
+
 @push('active-quan-ly')
     active
 @endpush
@@ -19,10 +24,28 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
-            <a href="javascript:void(0)" type="button" id="btn-add-question" class="btn btn-success" data-id="{{$examInfo->ExamType}}"><i
-                        class="fa fa-plus"></i> Nhập thêm câu hỏi</a>
-            <a href="javascript:void(0)" type="button" id="btn-edit-exam" class="btn btn-primary"><i
-                        class="fa fa-edit"></i> Sửa thông tin đề</a>
+            <div class="row">
+                <div class="col-md-8">
+                    <a href="javascript:void(0)" type="button" id="btn-edit-exam" class="btn btn-primary"><i
+                                class="fa fa-edit"></i> Sửa thông tin đề</a> |
+                    <a href="javascript:void(0)" type="button" id="btn-add-question" class="btn btn-success"
+                       data-id="{{$examInfo->ExamType}}"><i
+                                class="fa fa-plus"></i> Nhập thêm câu hỏi</a> |
+                    <a href="{{route('examManualCompose',['ExamID' => $examInfo->ExamID])}}" class="btn btn-info">
+                        <i class="fa fa-plus"></i> Soạn đề (thủ công)</a>
+                    <a href="javascript:void(0)" class="btn btn-info" id="btn-compose-auto"
+                       data-id="{{$examInfo->ExamType}}"><i class="fa fa-plus"></i>
+                        Soạn đề (tự động)
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="javascript:void(0)" class="btn btn-danger" style="float:right;"
+                       id="btn-delete-all-quesions"
+                       title="Xóa tất cả câu hỏi trong đề này">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                </div>
+            </div>
             <br><br>
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -137,7 +160,8 @@
                             <button type="submit" id="btn-save" name="btn-save" class="btn btn-success">Lưu
                             </button>
                             <button type="button" id="btn-switch-mass-create" name="btn-switch-mass-create"
-                                    class="btn btn-danger">Thêm liên tục: Đang <span class="mass-create-status">TẮT</span>
+                                    class="btn btn-danger">Thêm liên tục: Đang <span
+                                        class="mass-create-status">TẮT</span>
                             </button>
                         </div>
                     </div>
@@ -359,7 +383,7 @@
                 url: '{!! route('sumQuestions',['ExamID' => $examInfo->ExamID]) !!}',
                 type: 'get',
                 success: function (data) {
-                    if(data >= total_questions) {
+                    if (data >= total_questions) {
                         alert('Đề thi này đã đủ số lượng ' + total_questions + ' câu!');
                         return false;
                     } else {
@@ -468,6 +492,56 @@
                         $('#btn-save').html('Lưu');
                     }
                 });
+            }
+        });
+
+        //delete all questions
+        $('#btn-delete-all-quesions').click(function () {
+            if (confirm("Bạn có chắc chắn muốn xóa tất cả câu hỏi khỏi đề thi này?") === true) {
+                if (confirm("Chắc chắn chứ?") === true) {
+                    $.ajax({
+                        url: '{!! url('tn-admin-th/exams') !!}' + '/' + '{!! $examInfo->ExamID !!}' + '/removeAll',
+                        type: 'get',
+                        success: function (data) {
+                            alert('Xóa thành công!');
+                            let oTable = $('#questions-table').dataTable();
+                            oTable.fnDraw(false);
+                        },
+                        error: function (data) {
+                            console.log('Errors: ', data)
+                        }
+                    });
+                }
+            }
+        });
+
+        //auto compose exam
+        $('#btn-compose-auto').click(function () {
+            let countRow = $('#questions-table').dataTable().fnGetData().length;
+            if (countRow !== 0) {
+                alert('Soạn đề tự động yêu cầu đề thi hiện tại không có câu hỏi nào!');
+                return false;
+            } else {
+                if(confirm('Bạn có chắc muốn soạn đề tự động?')===true) {
+                    $('#btn-compose-auto').html('Đang soạn...');
+                    $.ajax({
+                        url: '{!! route('examAutoCompose',['ExamID' => $examInfo->ExamID]) !!}',
+                        type: 'post',
+                        success: function (data) {
+                            if(data.status===0)
+                                alert(data.message);
+                            else {
+                                alert('Soạn đề thành công!');
+                                $('#btn-compose-auto').html('Soạn đề (tự động)');
+                                let oTable = $('#questions-table').dataTable();
+                                oTable.fnDraw(false);
+                            }
+                        },
+                        error: function (data) {
+                            console.log('Errors: ',data);
+                        }
+                    });
+                }
             }
         });
     </script>

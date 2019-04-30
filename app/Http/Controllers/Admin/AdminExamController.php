@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use phpDocumentor\Reflection\Types\Object_;
+use Symfony\Component\Console\Question\Question;
 
 class AdminExamController extends Controller
 {
@@ -45,7 +47,11 @@ class AdminExamController extends Controller
                         <a href="javascript:void(0)" data-toggle="tooltip" id="delete"  data-id="' . $exams->ExamID . '" data-original-title="Delete" class="btn btn-xs btn-danger btn-delete"><i class="glyphicon glyphicon-trash"></i> Xóa</a>';
                     return $test;
                 })
-                ->rawColumns(['action', 'title'])
+                ->addColumn('currentQuestions', function ($exams) {
+                    $qcount = QuestionDetails::where('ExamID', $exams->ExamID)->get();
+                    return count($qcount);
+                })
+                ->rawColumns(['action', 'title', 'currentQuestions'])
                 ->make(true);
         }
         return view('errors.404');
@@ -53,10 +59,10 @@ class AdminExamController extends Controller
 
     public function getSingleExam($examID)
     {
-        $questions = DB::table('questions as q')
-            ->join('questiondetails as qd', 'q.QuestionID', '=', 'qd.QuestionID')
-            ->join('answers as a', 'q.QuestionID', '=', 'a.QuestionID')
-            ->join('exams as e', 'qd.ExamID', '=', 'e.ExamID')
+        $questions = DB::table('questions AS q')
+            ->JOIN('questiondetails AS qd', 'q.QuestionID', '=', 'qd.QuestionID')
+            ->JOIN('answers as a', 'q.QuestionID', '=', 'a.QuestionID')
+            ->JOIN('exams as e', 'qd.ExamID', '=', 'e.ExamID')
             ->select('q.QuestionID', 'q.QuestionContent', 'q.ModuleID')
             ->where('e.ExamID', '=', $examID)
             ->get();
@@ -94,8 +100,13 @@ class AdminExamController extends Controller
         $ExamSlug = Str::slug($ExamTitle);
         $ExamDescription = $request->input('exam-description');
         $ExamType = $request->input('exam-type');
-        $TotalQuestions = $request->input('exam-total-questions');
-        $TimeLimit = $request->input('exam-time-limit');
+        if($ExamType!=1) {
+            $TotalQuestions = $request->input('exam-total-questions');
+            $TimeLimit = $request->input('exam-time-limit');
+        } else {
+            $TotalQuestions = 30;
+            $TimeLimit = 30;
+        }
         $Status = $request->input('exam-status');
         $exam = Exams::updateOrCreate(
             ['ExamID' => $ExamID],
@@ -121,11 +132,20 @@ class AdminExamController extends Controller
         return view('errors.ad404');
     }
 
-    public function removeExamQuestion($ExamID,$QuestionID)
+    public function removeExamQuestion($ExamID, $QuestionID)
     {
-        if(request()->ajax()) {
-            $question = QuestionDetails::where('QuestionID',$QuestionID)
-                ->where('ExamID',$ExamID)->delete();
+        if (request()->ajax()) {
+            $question = QuestionDetails::where('QuestionID', $QuestionID)
+                ->where('ExamID', $ExamID)->delete();
+            return response()->json($question);
+        }
+        return view('errors.ad404');
+    }
+
+    public function removeAllQuestions($ExamID)
+    {
+        if (request()->ajax()) {
+            $question = QuestionDetails::where('ExamID', $ExamID)->delete();
             return response()->json($question);
         }
         return view('errors.ad404');
@@ -133,8 +153,177 @@ class AdminExamController extends Controller
 
     public function sumQuestions($ExamID)
     {
-        $questions = QuestionDetails::where('ExamID',$ExamID)->get();
-        $sum = count($questions);
-        return response()->json($sum);
+        if(request()->ajax()) {
+            $questions = QuestionDetails::where('ExamID', $ExamID)->get();
+            $sum = count($questions);
+            return response()->json($sum);
+        }
+        return view('errors.ad404');
+    }
+
+    public function getManualComposeQuestions()
+    {
+        $questions = Questions::all();
+        foreach ($questions as $q) {
+            $q->ModuleID == 1 ? $q->ModuleID = '1 - CNTT' : '';
+            $q->ModuleID == 2 ? $q->ModuleID = '2 - HĐH' : '';
+            $q->ModuleID == 3 ? $q->ModuleID = '3 - Internet' : '';
+            $q->ModuleID == 4 ? $q->ModuleID = '4 - Word' : '';
+            $q->ModuleID == 5 ? $q->ModuleID = '5 - Excel' : '';
+            $q->ModuleID == 6 ? $q->ModuleID = '6 - Powerpoint' : '';
+            $q->DateCreated = date('d-m-Y', strtotime($q->DateCreated));
+        }
+        if (request()->ajax()) {
+            return datatables()->of($questions)
+                ->addColumn('action', function ($questions) {
+                    $buttons = '<a href="javascript:void(0)" data-toggle="tooltip" id="edit" data-id="' . $questions->QuestionID . '" data-original-title="Edit" class="btn btn-xs btn-warning btn-edit"><i class="glyphicon glyphicon-edit"></i> Xem</a>
+                        <a href="javascript:void(0)" data-toggle="tooltip" id="add"  data-id="' . $questions->QuestionID . '" data-original-title="Add" class="btn btn-xs btn-success btn-add"><i class="glyphicon glyphicon-plus"></i> Thêm</a>
+                        ';
+                    return $buttons;
+                })
+                ->rawColumns(['action', 'QuestionContent'])
+                ->make(true);
+        }
+        return view('errors.404');
+    }
+
+    public function manualCompose($ExamID)
+    {
+        //return $ExamID;
+        $exam = Exams::where('ExamID', $ExamID)->first();
+        if ($exam)
+            return view('admin.examManualCompose')
+                ->with(['exam' => $exam]);
+        return view('errors.ad404');
+    }
+
+    public function addQuestionToExam($ExamID, $QuestionID)
+    {
+        if(request()->ajax()) {
+            $qd = new QuestionDetails;
+            $qd->ExamID = $ExamID;
+            $qd->QuestionID = $QuestionID;
+            $result = $qd->save();
+            return response()->json(['result' => $result, 'message' => 'Thêm thành công!']);
+        }
+        return view('errors.ad404');
+    }
+
+    public function countQuestionsInModuleByExam($ExamID)
+    {
+        $Module1 = DB::table('questiondetails as qd')
+            ->join('questions as q', 'qd.QuestionID', '=', 'q.QuestionID')
+            ->select('q.QuestionID')
+            ->where('qd.ExamID', '=', $ExamID)
+            ->where('q.ModuleID', '=', 1)
+            ->get();
+        $Module2 = DB::table('questiondetails as qd')
+            ->join('questions as q', 'qd.QuestionID', '=', 'q.QuestionID')
+            ->select('q.QuestionID')
+            ->where('qd.ExamID', '=', $ExamID)
+            ->where('q.ModuleID', '=', 2)
+            ->get();
+        $Module3 = DB::table('questiondetails as qd')
+            ->join('questions as q', 'qd.QuestionID', '=', 'q.QuestionID')
+            ->select('q.QuestionID')
+            ->where('qd.ExamID', '=', $ExamID)
+            ->where('q.ModuleID', '=', 3)
+            ->get();
+        $Module4 = DB::table('questiondetails as qd')
+            ->join('questions as q', 'qd.QuestionID', '=', 'q.QuestionID')
+            ->select('q.QuestionID')
+            ->where('qd.ExamID', '=', $ExamID)
+            ->where('q.ModuleID', '=', 4)
+            ->get();
+        $Module5 = DB::table('questiondetails as qd')
+            ->join('questions as q', 'qd.QuestionID', '=', 'q.QuestionID')
+            ->select('q.QuestionID')
+            ->where('qd.ExamID', '=', $ExamID)
+            ->where('q.ModuleID', '=', 5)
+            ->get();
+        $Module6 = DB::table('questiondetails as qd')
+            ->join('questions as q', 'qd.QuestionID', '=', 'q.QuestionID')
+            ->select('q.QuestionID')
+            ->where('qd.ExamID', '=', $ExamID)
+            ->where('q.ModuleID', '=', 6)
+            ->get();
+        return response()->json([
+            'module1' => count($Module1),
+            'module2' => count($Module2),
+            'module3' => count($Module3),
+            'module4' => count($Module4),
+            'module5' => count($Module5),
+            'module6' => count($Module6),
+        ]);
+    }
+
+    public function autoCompose($ExamID)
+    {
+        $examInfo = Exams::where('ExamID', $ExamID)->first();
+        if ($examInfo->ExamType == 1) {
+            for ($i = 1; $i <= 6; $i++) {
+                $questions = Questions::where('ModuleID', $i)
+                    ->inRandomOrder()
+                    ->limit(5)
+                    ->get();
+                foreach ($questions as $q) {
+                    $qd = new QuestionDetails;
+                    $qd->ExamID = $ExamID;
+                    $qd->QuestionID = $q->QuestionID;
+                    if (!$qd->save())
+                        return response()->json(['status' => 0, 'message' => 'Lỗi']);
+                }
+            }
+            return response()->json(['status' => 1, 'message' => 'Thành công!']);
+        } elseif ($examInfo->ExamType == 2) {
+            $idArr = array();
+            $i = 1;
+            while(1)
+            {
+                if($i>$examInfo->TotalQuestions)
+                    break;
+                $question = Questions::select('QuestionID')
+                    ->inRandomOrder()
+                    ->first();
+                if(in_array($question->QuestionID,$idArr))
+                    continue;
+                array_push($idArr, $question->QuestionID);
+                $qd = new QuestionDetails;
+                $qd->ExamID = $ExamID;
+                $qd->QuestionID = $question->QuestionID;
+                if (!$qd->save())
+                    return response()->json(['status' => 0, 'message' => 'Lỗi']);
+                $i++;
+            }
+            return response()->json(['status' => 1, 'message' => 'Thành công!']);
+        } else {
+            $ModuleID = $examInfo->ExamType==3 ? 3 : '';
+            $ModuleID = $examInfo->ExamType==4 ? 2 : '';
+            $ModuleID = $examInfo->ExamType==5 ? 1 : '';
+            $ModuleID = $examInfo->ExamType==6 ? 4 : '';
+            $ModuleID = $examInfo->ExamType==7 ? 5 : '';
+            $ModuleID = $examInfo->ExamType==8 ? 6 : '';
+            $idArr = array();
+            $i = 1;
+            while(1)
+            {
+                if($i>$examInfo->TotalQuestions)
+                    break;
+                $question = Questions::select('QuestionID')
+                    ->where('ModuleID',$ModuleID)
+                    ->inRandomOrder()
+                    ->first();
+                if(in_array($question->QuestionID,$idArr))
+                    continue;
+                array_push($idArr, $question->QuestionID);
+                $qd = new QuestionDetails;
+                $qd->ExamID = $ExamID;
+                $qd->QuestionID = $question->QuestionID;
+                if (!$qd->save())
+                    return response()->json(['status' => 0, 'message' => 'Lỗi']);
+                $i++;
+            }
+            return response()->json(['status' => 1, 'message' => 'Thành công!']);
+        }
     }
 }

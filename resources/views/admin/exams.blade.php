@@ -1,5 +1,9 @@
 @extends('admin.adminLayout')
 
+@push('title')
+    Quản lý đề thi
+@endpush
+
 @push('active-quan-ly')
     active
 @endpush
@@ -28,7 +32,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Tiêu đề</th>
-                                <th>Câu hỏi</th>
+                                <th>Câu hỏi cần có</th>
+                                <th>Câu hỏi hiện có</th>
                                 <th>Thời gian</th>
                                 <th>Trạng thái</th>
                                 <th>Ngày tạo</th>
@@ -60,21 +65,21 @@
                     <div class="modal-body">
                         <input type="hidden" name="exam_id" id="exam_id">
                         <div class="form-group">
-                            <label for="exam-title" class="col-sm-2 control-label">Tên đề thi</label>
+                            <label for="exam-title" class="col-sm-12">Tên đề thi</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="exam-title" name="exam-title" value=""
                                        maxlength="50" required="">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="exam-description" class="col-sm-2 control-label">Mô tả</label>
+                            <label for="exam-description" class="col-sm-12">Mô tả</label>
                             <div class="col-sm-12">
                                 <textarea class="form-control" id="exam-description" name="exam-description"
                                           value=""></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="exam-type">Loại đề thi</label>
+                            <label class="col-sm-12" for="exam-type">Loại đề thi</label>
                             <div class="col-sm-12">
                                 <select class="form-control" id="exam-type" name="exam-type">
                                     <option value="1">1 - Chuẩn</option>
@@ -89,7 +94,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="exam-total-questions">Số câu</label>
+                            <label class="col-sm-12" for="exam-total-questions">Số câu</label>
                             <div class="col-sm-12">
                                 <select class="form-control" id="exam-total-questions" name="exam-total-questions">
                                     <option value="20">20</option>
@@ -102,7 +107,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="exam-time-limit">Thời gian</label>
+                            <label class="col-sm-12" for="exam-time-limit">Thời gian</label>
                             <div class="col-sm-12">
                                 <select class="form-control" id="exam-time-limit" name="exam-time-limit">
                                     <option value="10">10</option>
@@ -116,7 +121,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Trạng thái</label>
+                            <label class="col-sm-12">Trạng thái</label>
                             <div class="col-sm-12">
                                 <select class="form-control" id="exam-status" name="exam-status">
                                     <option value="0">Đóng</option>
@@ -156,6 +161,7 @@
                     {data: 'ExamID'},
                     {data: 'title'},
                     {data: 'TotalQuestions'},
+                    {data: 'currentQuestions'},
                     {data: 'TimeLimit'},
                     {data: 'Status'},
                     {data: 'DateCreated'},

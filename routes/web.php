@@ -61,8 +61,13 @@ Route::group(['prefix' => 'tn-admin-th', 'middleware' => 'checkAdminLogin'], fun
     Route::get('/', 'Admin\DashboardController@show');
     Route::get('/dashboard', 'Admin\DashboardController@show')->name('adminDashboard');
     Route::get('/questions', 'Admin\AdminQuestionController@index');
+
     Route::get('/exams', 'Admin\AdminExamController@index');
     Route::get('exams/{ExamID}', 'Admin\AdminExamController@showSingleExam')->name('viewExam');
+    Route::get('/exams/{ExamID}/compose/manual','Admin\AdminExamController@manualCompose')
+        ->name('examManualCompose');
+
+
     Route::get('/accounts', 'Admin\AdminAccountController@index');
     Route::get('/posts', 'Admin\AdminPostController@index');
     Route::get('/posts/view/{PostID}', 'Admin\AdminPostController@showSinglePost')->name('viewPost');
@@ -81,7 +86,17 @@ Route::group(['prefix' => 'tn-admin-th', 'middleware' => 'checkAdminLogin'], fun
     Route::post('exams/store', 'Admin\AdminExamController@store')->name('storeExam');
     Route::get('exams/{ExamID}/remove/{QuestionID}', 'Admin\AdminExamController@removeExamQuestion')
         ->name('removeExamQuestion');
-    Route::get('exam/sumQuestions/{ExamID}','Admin\AdminExamController@sumQuestions')->name('sumQuestions');
+    Route::get('exams/{ExamID}/removeAll', 'Admin\AdminExamController@removeAllQuestions')
+        ->name('removeAllQuestions');
+    Route::get('exams/sumQuestions/{ExamID}','Admin\AdminExamController@sumQuestions')->name('sumQuestions');
+    Route::get('exams/{ExamID}/manualComposeQuestions','Admin\AdminExamController@getManualComposeQuestions')
+        ->name('manualComposeQuestions');
+    Route::get('exams/{ExamID}/compose/addQuestion/{QuestionID}','Admin\AdminExamController@addQuestionToExam')
+        ->name('addQuestionToExam');
+    Route::get('exams/{ExamID}/countQuestionInModule','Admin\AdminExamController@countQuestionsInModuleByExam')
+        ->name('countQuestionsInModule');
+    Route::post('/exams/{ExamID}/compose/auto','Admin\AdminExamController@autoCompose')
+        ->name('examAutoCompose');
 
     Route::get('getAccounts', 'Admin\AdminAccountController@getAccounts')->name('accountsTable');
     Route::get('accounts/edit/{AccountID}', 'Admin\AdminAccountController@edit')->name('editAccount');
