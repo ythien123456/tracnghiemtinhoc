@@ -8,6 +8,7 @@ use App\Http\Models\Questions;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Component\Console\Question\Question;
@@ -43,8 +44,8 @@ class AdminExamController extends Controller
                     return $title;
                 })
                 ->addColumn('action', function ($exams) {
-                    $test = '<a href="javascript:void(0)" data-toggle="tooltip" id="edit" data-id="' . $exams->ExamID . '" data-original-title="Edit" class="btn btn-xs btn-warning btn-edit"><i class="glyphicon glyphicon-edit"></i> Sửa</a>
-                        <a href="javascript:void(0)" data-toggle="tooltip" id="delete"  data-id="' . $exams->ExamID . '" data-original-title="Delete" class="btn btn-xs btn-danger btn-delete"><i class="glyphicon glyphicon-trash"></i> Xóa</a>';
+                    $test = '<a href="javascript:void(0)" id="edit" data-id="' . $exams->ExamID . '" data-original-title="Edit" class="btn btn-xs btn-warning btn-edit"><i class="glyphicon glyphicon-edit"></i> Sửa</a>
+                        <a href="javascript:void(0)" id="delete"  data-id="' . $exams->ExamID . '" data-original-title="Delete" class="btn btn-xs btn-danger btn-delete"><i class="glyphicon glyphicon-trash"></i> Xóa</a>';
                     return $test;
                 })
                 ->addColumn('currentQuestions', function ($exams) {
@@ -77,8 +78,8 @@ class AdminExamController extends Controller
         if (request()->ajax()) {
             return datatables()->of($questions)
                 ->addColumn('action', function ($questions) {
-                    $test = '<a href="javascript:void(0)" data-toggle="tooltip" id="edit" data-id="' . $questions->QuestionID . '" data-original-title="Edit" class="btn btn-xs btn-warning btn-edit"><i class="glyphicon glyphicon-edit"></i> Sửa</a>
-                        <a href="javascript:void(0)" data-toggle="tooltip" id="delete"  data-id="' . $questions->QuestionID . '" data-original-title="Delete" class="btn btn-xs btn-danger btn-delete"><i class="glyphicon glyphicon-trash"></i> Xóa</a>';
+                    $test = '<a href="javascript:void(0)" id="edit" data-id="' . $questions->QuestionID . '" data-original-title="Edit" class="btn btn-xs btn-warning btn-edit"><i class="glyphicon glyphicon-edit"></i> Sửa</a>
+                        <a href="javascript:void(0)" id="delete"  data-id="' . $questions->QuestionID . '" data-original-title="Delete" class="btn btn-xs btn-danger btn-delete"><i class="glyphicon glyphicon-trash"></i> Xóa</a>';
                     return $test;
                 })
                 ->rawColumns(['action', 'QuestionContent'])
@@ -161,9 +162,20 @@ class AdminExamController extends Controller
         return view('errors.ad404');
     }
 
-    public function getManualComposeQuestions()
+    public function getManualComposeQuestions($ExamID)
     {
-        $questions = Questions::all();
+        $examInfo = Exams::where('ExamID',$ExamID)->first();
+        if($examInfo->ExamType<3)
+            $questions = Questions::all();
+        else {
+            $examInfo->ExamType==3 ? $ModuleID = 3 : '';
+            $examInfo->ExamType==4 ? $ModuleID = 2 : '';
+            $examInfo->ExamType==5 ? $ModuleID = 1 : '';
+            $examInfo->ExamType==6 ? $ModuleID = 4 : '';
+            $examInfo->ExamType==7 ? $ModuleID = 5 : '';
+            $examInfo->ExamType==8 ? $ModuleID = 6 : '';
+            $questions = Questions::where('ModuleID',$ModuleID)->get();
+        }
         foreach ($questions as $q) {
             $q->ModuleID == 1 ? $q->ModuleID = '1 - CNTT' : '';
             $q->ModuleID == 2 ? $q->ModuleID = '2 - HĐH' : '';
@@ -176,9 +188,15 @@ class AdminExamController extends Controller
         if (request()->ajax()) {
             return datatables()->of($questions)
                 ->addColumn('action', function ($questions) {
-                    $buttons = '<a href="javascript:void(0)" data-toggle="tooltip" id="edit" data-id="' . $questions->QuestionID . '" data-original-title="Edit" class="btn btn-xs btn-warning btn-edit"><i class="glyphicon glyphicon-edit"></i> Xem</a>
-                        <a href="javascript:void(0)" data-toggle="tooltip" id="add"  data-id="' . $questions->QuestionID . '" data-original-title="Add" class="btn btn-xs btn-success btn-add"><i class="glyphicon glyphicon-plus"></i> Thêm</a>
+                    $ExamID = request()->ExamID;
+                    $checkExist = QuestionDetails::where('QuestionID',$questions->QuestionID)
+                        ->where('ExamID',$ExamID);
+                    $buttons = '<a href="javascript:void(0)" id="edit" data-id="' . $questions->QuestionID . '" data-original-title="Edit" class="btn btn-sm btn-warning btn-edit"><i class="glyphicon glyphicon-eye-open"></i></a>
                         ';
+                    if(count($checkExist->get())!=0)
+                        $buttons .= '<a href="javascript:void(0)" id="delete"  data-id="' . $questions->QuestionID . '" data-original-title="Delete" class="btn btn-sm btn-danger btn-delete"><i class="glyphicon glyphicon-minus"></i></a>';
+                    else
+                        $buttons .= '<a href="javascript:void(0)" id="add"  data-id="' . $questions->QuestionID . '" data-original-title="Add" class="btn btn-sm btn-success btn-add"><i class="glyphicon glyphicon-plus"></i></a>';
                     return $buttons;
                 })
                 ->rawColumns(['action', 'QuestionContent'])
@@ -297,12 +315,12 @@ class AdminExamController extends Controller
             }
             return response()->json(['status' => 1, 'message' => 'Thành công!']);
         } else {
-            $ModuleID = $examInfo->ExamType==3 ? 3 : '';
-            $ModuleID = $examInfo->ExamType==4 ? 2 : '';
-            $ModuleID = $examInfo->ExamType==5 ? 1 : '';
-            $ModuleID = $examInfo->ExamType==6 ? 4 : '';
-            $ModuleID = $examInfo->ExamType==7 ? 5 : '';
-            $ModuleID = $examInfo->ExamType==8 ? 6 : '';
+            $examInfo->ExamType==3 ? $ModuleID = 3 : '';
+            $examInfo->ExamType==4 ? $ModuleID = 2 : '';
+            $examInfo->ExamType==5 ? $ModuleID = 1 : '';
+            $examInfo->ExamType==6 ? $ModuleID = 4 : '';
+            $examInfo->ExamType==7 ? $ModuleID = 5 : '';
+            $examInfo->ExamType==8 ? $ModuleID = 6 : '';
             $idArr = array();
             $i = 1;
             while(1)
@@ -313,8 +331,9 @@ class AdminExamController extends Controller
                     ->where('ModuleID',$ModuleID)
                     ->inRandomOrder()
                     ->first();
-                if(in_array($question->QuestionID,$idArr))
+                if(in_array($question->QuestionID,$idArr)) {
                     continue;
+                }
                 array_push($idArr, $question->QuestionID);
                 $qd = new QuestionDetails;
                 $qd->ExamID = $ExamID;

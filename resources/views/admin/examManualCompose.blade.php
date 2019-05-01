@@ -96,7 +96,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Nội dung</th>
-                                <th>Module</th>
+                                {!! $exam->ExamType<3 ? '<th>Module</th>' : '' !!}
                                 <th>Loại</th>
                                 <th>Ngày tạo</th>
                                 <th>Hành động</th>
@@ -232,9 +232,7 @@
         }
 
         $(document).ready(function () {
-
             moduleQuestionsCount();
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -245,13 +243,13 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '{!! route('manualComposeQuestions',['ExamID',$exam->ExamID]) !!}',
+                    url: '{!! route('manualComposeQuestions',['ExamID' => $exam->ExamID]) !!}',
                     type: 'GET',
                 },
                 columns: [
                     {data: 'QuestionID'},
                     {data: 'QuestionContent'},
-                    {data: 'ModuleID'},
+                    {!! $exam->ExamType<3 ? "{data: 'ModuleID'}," : "" !!}
                     {data: 'QuestionType'},
                     {data: 'DateCreated'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
@@ -326,8 +324,8 @@
             let wordCount = parseInt($('#word-qcount').html());
             let excelCount = parseInt($('#excel-qcount').html());
             let powerPointCount = parseInt($('#powerpoint-qcount').html());
-            let sumCount = cnttCount+hdhCount+internetCount+wordCount+excelCount+powerPointCount;
-            if(sumCount >= {!! $exam->TotalQuestions !!}) {
+            let sumCount = cnttCount + hdhCount + internetCount + wordCount + excelCount + powerPointCount;
+            if (sumCount >= {!! $exam->TotalQuestions !!}) {
                 alert('Đã đủ số lượng {!! $exam->TotalQuestions !!} câu hỏi!');
                 return false;
             } else {
@@ -338,6 +336,8 @@
                     type: 'get',
                     success: function (data) {
                         moduleQuestionsCount();
+                        let oTable = $('#questions-table').dataTable();
+                        oTable.fnDraw(false);
                     },
                     error: function (data) {
                         alert('Câu này đã có trong đề thi!');
@@ -345,6 +345,23 @@
                     },
                 });
             }
+        });
+
+        //remove question button
+        $('body').on('click', '#delete', function () {
+            let questionID = $(this).data('id');
+            $.ajax({
+                url: '{!! url('tn-admin-th/exams') !!}' + '/' + '{{$exam->ExamID}}' + '/remove/' + questionID,
+                type: 'get',
+                success: function (data) {
+                    moduleQuestionsCount();
+                    let oTable = $('#questions-table').dataTable();
+                    oTable.fnDraw(false);
+                },
+                error: function (data) {
+                    console.log('Error: ', data);
+                }
+            });
         });
     </script>
 @endpush

@@ -538,8 +538,12 @@
                             }
                         },
                         error: function (data) {
+                            $('#btn-compose-auto').html('Soạn đề (tự động)');
+                            let oTable = $('#questions-table').dataTable();
+                            oTable.fnDraw(false);
                             console.log('Errors: ',data);
-                        }
+                        },
+                        timeout: 2000
                     });
                 }
             }

@@ -71,7 +71,9 @@
                     <div class="modal-body">
                         <input type="hidden" name="account_id" id="account_id">
                         <div class="form-group">
-                            <label for="account-email" class="col-sm-12">Email (Mật khẩu mặc định: 123456)</label>
+                            <label for="account-email" class="col-sm-12">Email
+                                <span id="default-password">(Mật khẩu mặc định: 123456)</span>
+                            </label>
                             <div class="col-sm-12">
                                 <input type="email" class="form-control" id="account-email" name="account-email"
                                        value=""
@@ -189,6 +191,7 @@
 
         // Create new account button
         $('#create-new-account').click(function () {
+            $('#default-password').show();
             $('#account_id').val('');
             $('#accountForm').trigger("reset");
             $('#account-modal-title').html("Thêm tài khoản mới");
@@ -198,6 +201,7 @@
         // Edit button
         $('body').on('click', '#edit', function () {
             let accountID = $(this).data("id");
+            $('#default-password').hide();
             $('#account-modal').modal('show');
             $('#accountForm').attr({
                 action: '{!! url('tn-admin-th/accounts/edit') !!}' + '/' + accountID,
