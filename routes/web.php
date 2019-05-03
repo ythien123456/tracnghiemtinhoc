@@ -109,6 +109,32 @@ Route::group(['prefix' => 'tn-admin-th', 'middleware' => 'checkAdminLogin'], fun
     Route::get('/posts/delete/{PostID}', 'Admin\AdminPostController@destroy')->name('deletePost');
     /* END AJAX Requests */
 });
+
+Route::get('editorLogin','Editor\EditorLoginController@index')->name('editorLogin');
+Route::post('postEditorLogin','Editor\EditorLoginController@postLogin')->name('postEditorLogin');
+Route::get('getEditorLogout','Editor\EditorLoginController@getLogout')->name('getEditorLogout');
+
+Route::group(['prefix' => 'tn-editor-th', 'middleware' => 'checkEditorLogin'], function () {
+    Route::get('/','Editor\EditorDashboardController@index');
+    Route::get('/dashboard','Editor\EditorDashboardController@index')->name('editorDashboard');
+    Route::get('/accounts', function() {
+        return view('errors.ed404');
+    });
+    Route::get('/exams','Editor\EditorExamController@index')->name('editorExams');
+    Route::get('/exams/{ExamID}','Editor\EditorExamController@showSingleExam')->name('editorViewExams');
+    Route::get('/exams/{ExamID}/compose/manual','Editor\EditorExamController@manualCompose')
+        ->name('editorExamManualCompose');
+    Route::get('/questions','Editor\EditorQuestionController@index')->name('editorQuestions');
+    Route::get('/posts','Editor\EditorPostController@index')->name('editorPosts');
+    Route::get('/posts/view/{PostID}','Editor\EditorPostController@showSinglePost')->name('editorViewPost');
+    Route::get('/posts/write','Editor\EditorPostController@write')->name('editorWritePost');
+
+    /* AJAX Request */
+    Route::get('getExams', 'Editor\EditorExamController@getExams')->name('editorExamsTable');
+    Route::get('getPosts', 'Editor\EditorPostController@getPosts')->name('editorPostsTable');
+    /* END AJAX Request */
+});
+
 Route::get('/404.html', function () {
     return view('errors.404');
 })->name('404');

@@ -1,4 +1,4 @@
-@extends('admin.adminLayout')
+@extends('editor.editorLayout')
 
 @push('additionalCSS')
     <!-- DataTables CSS -->
@@ -31,7 +31,7 @@
                     <a href="javascript:void(0)" type="button" id="btn-add-question" class="btn btn-success"
                        data-id="{{$examInfo->ExamType}}"><i
                                 class="fa fa-plus"></i> Nhập thêm câu hỏi</a> |
-                    <a href="{{route('examManualCompose',['ExamID' => $examInfo->ExamID])}}" class="btn btn-info">
+                    <a href="{{route('editorExamManualCompose',['ExamID' => $examInfo->ExamID])}}" class="btn btn-info">
                         <i class="fa fa-plus"></i> Soạn đề (thủ công)</a>
                     <a href="javascript:void(0)" class="btn btn-info" id="btn-compose-auto"
                        data-id="{{$examInfo->ExamType}}"><i class="fa fa-plus"></i>

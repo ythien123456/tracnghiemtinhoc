@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Editor;
 
 use App\Http\Models\Exams;
 use App\Http\Models\QuestionDetails;
@@ -10,20 +10,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class AdminExamController extends Controller
+
+class EditorExamController extends Controller
 {
     public function index()
     {
-        return view('admin.exams');
+        return view('editor.exams');
     }
 
     public function showSingleExam($ExamID)
     {
         $exam = Exams::where('ExamID', $ExamID)->first();
         if ($exam)
-            return view('admin.singleExam')
+            return view('editor.singleExam')
                 ->with(['examInfo' => $exam]);
-        return view('errors.ad404');
+        return view('errors.ed404');
     }
 
     public function getExams()
@@ -36,7 +37,7 @@ class AdminExamController extends Controller
         if (request()->ajax()) {
             return datatables()->of($exams)
                 ->addColumn('title', function ($exams) {
-                    $title = '<a href="' . route('viewExam', ['ExamID' => $exams->ExamID]) . '">
+                    $title = '<a href="' . route('editorViewExams', ['ExamID' => $exams->ExamID]) . '">
                     ' . $exams->ExamTitle . '</a>';
                     return $title;
                 })
@@ -207,7 +208,7 @@ class AdminExamController extends Controller
         //return $ExamID;
         $exam = Exams::where('ExamID', $ExamID)->first();
         if ($exam)
-            return view('admin.examManualCompose')
+            return view('editor.examManualCompose')
                 ->with(['exam' => $exam]);
         return view('errors.ad404');
     }

@@ -29,21 +29,16 @@
                     <h3 class="panel-title text-center">TNTH | ADMIN LOGIN</h3>
                 </div>
                 <div class="panel-body">
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        Nhập sai quá 3 lần sẽ bị khóa đăng nhập 30 phút!
-                    </div>
                     @if(session('errMessage'))
                         <div class="alert alert-danger">
                             {{session('errMessage')}}
-                            <p>Lần đăng nhập: {{session('AdminLoginAttemps') ? session('AdminLoginAttemps') : ''}}</p>
                         </div>
                     @endif
                     <form method="POST" action="{{route('postAdLogin')}}">
                         @csrf
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="E-mail" name="username" type="email" autofocus>
+                                <input class="form-control" placeholder="Username" name="username" type="text" autofocus>
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Password" name="password" type="password">

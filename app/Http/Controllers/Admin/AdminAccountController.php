@@ -11,11 +11,15 @@ class AdminAccountController extends Controller
 {
     public function index()
     {
+        if(!session('AdminID'))
+            return view('errors.ed404');
         return view('admin.accounts');
     }
 
     public function getAccounts()
     {
+        if(!session('AdminID'))
+            return view('errors.ed404');
         $accounts = Accounts::all();
         foreach ($accounts as $a) {
             $a->Role == 1 ? $a->Role = '1 - TV' : '';
@@ -38,6 +42,8 @@ class AdminAccountController extends Controller
 
     public function store(Request $request)
     {
+        if(!session('AdminID'))
+            return view('errors.ed404');
         $AccountID = $request->input('account_id');
         $Email = $request->input('account-email');
         $LastName = $request->input('account-lname');
@@ -65,6 +71,8 @@ class AdminAccountController extends Controller
 
     public function edit($AccountID)
     {
+        if(!session('AdminID'))
+            return view('errors.ed404');
         if(request()->ajax()) {
             $accountInfo = Accounts::find($AccountID);
             return response()->json($accountInfo);
@@ -74,6 +82,8 @@ class AdminAccountController extends Controller
 
     public function destroy($AccountID)
     {
+        if(!session('AdminID'))
+            return view('errors.ed404');
         if(request()->ajax()) {
             Scores::where('AccountID',$AccountID)->delete();
             $deleteResult = Accounts::find($AccountID)->delete();

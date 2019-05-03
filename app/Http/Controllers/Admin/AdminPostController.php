@@ -92,13 +92,20 @@ class AdminPostController extends Controller
             return response()->json(['message' => 'Tên bài viết bị trùng']);
         $post = new Posts;
         $post->PostTitle = $request->input('post-title');
-        $post->AccountID = session('AdminID');
+        if(session('AdminID') || session('EditorID')) {
+            if(session('AdminID') && session('EditorID'))
+                $post->AccountID = session('AdminID');
+            else if(session('AdminID'))
+                $post->AccountID = session('AdminID');
+            else
+                $post->AccountID = session('EditorID');
+        }
         $post->PostSlug = Str::slug($PostTitle);
         $post->PostContent = $request->input('post-content');
         $post->ModuleID = $request->input('post-module');
         $post->Status = $request->input('post-status');
         if ($post->save())
-            return response()->json(['message' => 'Thêm bài viết thành công!']);
+            return response()->json(['message' => 'Thêm bài viết thành công!','PostID' => $post->PostID]);
     }
 
     public function destroy($PostID)

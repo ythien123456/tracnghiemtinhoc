@@ -1,4 +1,4 @@
-@extends('admin.adminLayout')
+@extends('editor.editorLayout')
 
 @push('active-quan-ly')
     active

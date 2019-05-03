@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class checkAdminLogin
+class checkEditorLogin
 {
     /**
      * Handle an incoming request.
@@ -14,10 +14,9 @@ class checkAdminLogin
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {
-        if(session('AdminID') || session('EditorID'))
-            return $next($request);
-        else
-            return redirect()->route('adminLogin');
+    {if(session('EditorID'))
+        return $next($request);
+    else
+        return redirect()->route('editorLogin');
     }
 }
