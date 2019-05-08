@@ -24,41 +24,46 @@
     <!-- End breadcrumb -->
     <div class="container">
         <section id="mu-course-content">
-            <div class="loginWrapper panel-group">
-                @if(session('registerSubmitMessage'))
-                    <div class="alert alert-success">
-                        {{session('registerSubmitMessage')}}
-                    </div>
-                @endif
-                @if(count($errors) > 0)
-                    <div class="alert alert-danger">
-                        Thông tin đăng nhập sai:
-                        <ul>
-                            @foreach($errors->all() as $error)
-                                <li>{{$error}}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                @if(isset($queryError))
-                    <div class="alert alert-danger">
-                        {{$queryError}}
-                    </div>
-                @endif
-                <div class="panel panel-info">
-
-                    <div class="panel-heading"><h1 class="text-center">LOGIN</h1></div>
-                    <form method="POST" class="loginForm" action="{{route('postLogin')}}">
-                        <div class="panel-body">
-                            @csrf
-                            <input type="email" name="Email" class="form-control" placeholder="Email..">
-                            <input type="password" name="Password" class="form-control" placeholder="Password..">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="loginWrapper panel-group">
+                        @if(session('registerSubmitMessage'))
+                            <div class="alert alert-success">
+                                {{session('registerSubmitMessage')}}
+                            </div>
+                        @endif
+                        @if(count($errors) > 0)
+                            <div class="alert alert-danger">
+                                Thông tin đăng nhập sai:
+                                <ul>
+                                    @foreach($errors->all() as $error)
+                                        <li>{{$error}}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if(isset($queryError))
+                            <div class="alert alert-danger">
+                                {{$queryError}}
+                            </div>
+                        @endif
+                        <div class="panel panel-info">
+                            <div class="panel-heading"><h1 class="text-center">LOGIN</h1></div>
+                            <form method="POST" class="loginForm" action="{{route('postLogin')}}">
+                                <div class="panel-body">
+                                    @csrf
+                                    <input type="email" name="Email" class="form-control" placeholder="Email..">
+                                    <input type="password" name="Password" class="form-control" placeholder="Password..">
+                                </div>
+                                <div class="panel-footer">
+                                    <input type="submit" class="btn btn-primary form-control" value="Đăng Nhập">
+                                </div>
+                            </form>
                         </div>
-                        <div class="panel-footer">
-                            <input type="submit" class="btn btn-primary form-control" value="Đăng Nhập">
-                        </div>
-                    </form>
+                    </div>
                 </div>
+                <div class="col-md-4"></div>
             </div>
         </section>
     </div>

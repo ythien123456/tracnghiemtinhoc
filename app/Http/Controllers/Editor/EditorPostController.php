@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Editor;
 
+use App\Http\Models\Accounts;
+use App\Http\Models\PostCategories;
 use App\Http\Models\Posts;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,14 +20,7 @@ class EditorPostController extends Controller
     {
         $posts = Posts::all();
         foreach ($posts as $p) {
-            $p->ModuleID == 1 ? $p->ModuleID = '1 - CNTT' : '';
-            $p->ModuleID == 2 ? $p->ModuleID = '2 - HĐH' : '';
-            $p->ModuleID == 3 ? $p->ModuleID = '3 - Internet' : '';
-            $p->ModuleID == 4 ? $p->ModuleID = '4 - Word' : '';
-            $p->ModuleID == 5 ? $p->ModuleID = '5 - Excel' : '';
-            $p->ModuleID == 6 ? $p->ModuleID = '6 - Powerpoint' : '';
-            $p->ModuleID == 7 ? $p->ModuleID = '7 - Hướng dẫn' : '';
-            $p->ModuleID == 8 ? $p->ModuleID = '8 - Tin tức' : '';
+            $p->CategoryID = Str::slug(PostCategories::select('CategoryName')->where('CategoryID',$p->CategoryID)->first()->CategoryName);
             $p->Status == 1 ? $p->Status = '✔️' : $p->Status = '❌';
             $p->PostDate = date('d-m-Y', strtotime($p->PostDate));
         }
@@ -41,18 +36,18 @@ class EditorPostController extends Controller
                     return $buttons;
                 })
                 ->addColumn('title', function ($posts) {
-                    $title = '<a href="' . route('editorViewPost', ['PostID' => $posts->PostID]) . '">
+                    $title = '<a href="' . route('viewPost', ['PostID' => $posts->PostID]) . '">
                     ' . $posts->PostTitle . '</a>';
                     return $title;
                 })
                 ->addColumn('status', function ($posts) {
-                    $status = ''.$posts->Status;
+                    $status = '' . $posts->Status;
                     return $status;
                 })
-                ->rawColumns(['action', 'title','status'])
+                ->rawColumns(['action', 'title', 'status'])
                 ->make(true);
         }
-        return view('errors.ed404');
+        return view('errors.404');
     }
 
     public function showSinglePost($PostID)

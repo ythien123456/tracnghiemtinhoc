@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Models\Modules;
+use App\Http\Models\PostCategories;
 use App\Http\Models\Posts;
 use Illuminate\Http\Request;
 
@@ -28,32 +29,28 @@ class PostController extends Controller
         $post = Posts::getPostByPostSlug($PostSlug);
         if (!$post)
             return view('errors.404');
-        $postContent = $post->PostContent;
-        $postModuleID = $post->ModuleID;
-        $relatedPosts = Posts::getRelatedPosts($post->PostID,$postModuleID);
-        preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $postContent, $firstImageUrlInPost);
-        $thumbnailUrl = isset($firstImageUrlInPost['src']) ? $firstImageUrlInPost['src'] : url('public/images/modules/'.$postModuleID.'.jpg');
+        $postCategoryID = $post->CategoryID;
+        $relatedPosts = Posts::getRelatedPosts($post->PostID,$postCategoryID);
         return view('postContent')
             ->with('mostViewed',$mostViewed)
             ->with('post', $post)
-            ->with('relatedPosts', $relatedPosts)
-            ->with('thumbnail', $thumbnailUrl);
+            ->with('relatedPosts', $relatedPosts);
     }
 
-    public function getPostsByModuleID($ModuleID)
+    public function getPostsByCategoryID($CategoryID)
     {
         $mostViewed = Posts::getMostViewed(5);
-        $posts = Posts::getPostsByModuleID($ModuleID);
-        $moduleInfo = Modules::getModuleInfo($ModuleID);
+        $posts = Posts::getPostsByCategoryID($CategoryID);
+        $categoryInfo = PostCategories::find($CategoryID);
         if(count($posts->get())<1)
             return view('postList')
                 ->with(['message' => 'Chưa có bài viết nào!',
-                    'title' => $moduleInfo->ModuleName,
+                    'title' => $categoryInfo->CategoryName,
                     'mostViewed' => $mostViewed]);
         $posts = $posts->paginate(6);
         return view('postList')
             ->with(['posts' => $posts,
-                'title' => $moduleInfo->ModuleName,
+                'title' => $categoryInfo->CategoryName,
                 'mostViewed' => $mostViewed]);
     }
 }

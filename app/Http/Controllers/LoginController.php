@@ -36,7 +36,11 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $request->session()->flush();
+        $request->session()->forget('AccountID');
+        $request->session()->forget('Email');
+        $request->session()->forget('Role');
+        $request->session()->forget('FirstName');
+        $request->session()->forget('LastName');
         return redirect(redirect()->getUrlGenerator()->previous());
     }
 }

@@ -61,11 +61,13 @@
 </body>
 
 <!-- jQuery library -->
-<script src="{{asset('public/js/jquery.min.js')}}"></script>
+<script src="{{asset('public/js/jquery-2.2.4.min.js')}}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{{asset('public/js/bootstrap.js')}}"></script>
 <!-- Slick slider -->
 <script type="text/javascript" src="{{asset('public/js/slick.js')}}"></script>
+<!-- Bootbox -->
+<script type="text/javascript" src="{{asset('public/js/bootbox.all.min.js')}}"></script>
 <!-- Counter -->
 <script type="text/javascript" src="{{asset('public/js/waypoints.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/js/jquery.counterup.js')}}"></script>
@@ -75,4 +77,5 @@
 <script type="text/javascript" src="{{asset('public/js/jquery.fancybox.pack.js')}}"></script>
 <!-- Custom js -->
 <script src="{{asset('public/js/custom.js')}}"></script>
+@stack('additionalJS')
 </html>

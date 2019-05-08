@@ -23,19 +23,19 @@
                                 </div>
                             </div>
                         </div>
-{{--                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">--}}
-{{--                            <div class="mu-header-top-right">--}}
-{{--                                <nav>--}}
-{{--                                    <ul class="mu-top-social-nav">--}}
-{{--                                        <li><a href="#"><span class="fa fa-facebook"></span></a></li>--}}
-{{--                                        <li><a href="#"><span class="fa fa-twitter"></span></a></li>--}}
-{{--                                        <li><a href="#"><span class="fa fa-google-plus"></span></a></li>--}}
-{{--                                        <li><a href="#"><span class="fa fa-linkedin"></span></a></li>--}}
-{{--                                        <li><a href="#"><span class="fa fa-youtube"></span></a></li>--}}
-{{--                                    </ul>--}}
-{{--                                </nav>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        @if(session('Role')>=2)
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="mu-header-top-right">
+                                    <nav>
+                                        <ul class="mu-top-social-nav">
+                                            {!! session('Role')==3 ?
+                                            '<li><a href="'.route('adminDashboard').'">Admin Panel</a></li>' :
+                                            '<li><a href="'.route('editorDashboard').'">Editor Panel</a></li>' !!}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

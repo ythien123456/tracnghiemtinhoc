@@ -340,7 +340,6 @@
                         oTable.fnDraw(false);
                     },
                     error: function (data) {
-                        alert('Câu này đã có trong đề thi!');
                         console.log('Error: ', data);
                     },
                 });

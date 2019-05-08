@@ -4,10 +4,6 @@
     {{$post->PostTitle}}
 @endpush
 
-@push('active-quan-ly')
-    active
-@endpush
-
 @push('additionalCSS')
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" type="text/css">
@@ -18,6 +14,7 @@
 
 @section('content')
     <form method="POST" id="postForm">
+        {{csrf_field()}}
         <div class="row">
             <div class="col-lg-12">
                 <input class="page-header form-control text-center" type="text" id="post-title" name="post-title"
@@ -41,21 +38,22 @@
                                 Thông tin
                             </div>
                             <div class="panel-body">
-                                <p><i class="fa fa-pencil"></i> Người đăng: {{$post->AccountID}}</p>
+                                <p><i class="fa fa-pencil"></i> ID Người đăng: {{$post->AccountID}}</p>
                                 <input type="hidden" id="post-author" name="post-author" value="{{$post->AccountID}}">
                                 <p class="form-inline"><i class="fa fa-question"></i> Module:
-                                    <select class="form-control" id="post-module" name="post-module">
-                                        <option value="1" {{$post->ModuleID==1 ? 'selected' : ''}}>1 - CNTT</option>
-                                        <option value="2" {{$post->ModuleID==2 ? 'selected' : ''}}>2 - Hệ điều hành
+                                    <select class="form-control" id="post-category" name="post-category">
+                                        <option value="1" {{$post->CategoryID==1 ? 'selected' : ''}}>1 - CNTT</option>
+                                        <option value="2" {{$post->CategoryID==2 ? 'selected' : ''}}>2 - Hệ điều hành
                                         </option>
-                                        <option value="3" {{$post->ModuleID==3 ? 'selected' : ''}}>3 - Internet</option>
-                                        <option value="4" {{$post->ModuleID==4 ? 'selected' : ''}}>4 - Word</option>
-                                        <option value="5" {{$post->ModuleID==5 ? 'selected' : ''}}>5 - Excel</option>
-                                        <option value="6" {{$post->ModuleID==6 ? 'selected' : ''}}>6 - Powerpoint
+                                        <option value="3" {{$post->CategoryID==3 ? 'selected' : ''}}>3 - Internet</option>
+                                        <option value="4" {{$post->CategoryID==4 ? 'selected' : ''}}>4 - Word</option>
+                                        <option value="5" {{$post->CategoryID==5 ? 'selected' : ''}}>5 - Excel</option>
+                                        <option value="6" {{$post->CategoryID==6 ? 'selected' : ''}}>6 - Powerpoint
                                         </option>
-                                        <option value="7" {{$post->ModuleID==7 ? 'selected' : ''}}>7 - Hướng dẫn
+                                        <option value="7" {{$post->CategoryID==7 ? 'selected' : ''}}>7 - Hướng dẫn
                                         </option>
-                                        <option value="8" {{$post->ModuleID==8 ? 'selected' : ''}}>8 - Tin tức</option>
+                                        <option value="8" {{$post->CategoryID==8 ? 'selected' : ''}}>8 - Tin tức</option>
+                                        <option value="8" {{$post->CategoryID==9 ? 'selected' : ''}}>9 - Kiến thức tổng hợp</option>
                                     </select>
                                 </p>
                                 <p><i class="fa fa-eye"></i> Lượt xem: {{$post->Views}}</p>
@@ -73,7 +71,13 @@
                                 Hành động
                             </div>
                             <div class="panel-body">
-                                <button type="button" class="btn btn-success" id="btn-save">Lưu bài viết</button>
+                                <button type="button" class="btn btn-success" id="btn-save">
+                                    <i class="fa fa-save"></i> Lưu
+                                </button>
+                                <a href="{{route('postsviewSinglePost',['postSlug' => $post->PostSlug])}}"
+                                   target="_blank" class="btn btn-info">
+                                    <i class="fa fa-eye"></i> Xem
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -98,7 +102,14 @@
                 type: 'post',
                 dataType: 'json',
                 success: function (data) {
-                    alert(data.message);
+                    var noti = bootbox.dialog({
+                        message: '<h3><i class="fa fa-spin fa-spinner"></i> ' + data.message + '</h3>'
+                    });
+                    noti.init(function () {
+                        setTimeout(function () {
+                            noti.fadeOut();
+                        }, 500);
+                    });
                 },
                 error: function (data) {
                     alert('Lỗi: ' +
@@ -117,6 +128,7 @@
     <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/resizimg/jquery-resizable.min.js"></script>
     <!-- Import Trumbowyg plugins... -->
     <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/upload/trumbowyg.upload.min.js"></script>
+    <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/base64/trumbowyg.base64.js"></script>
     <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/colors/trumbowyg.colors.js"></script>
     <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/resizimg/trumbowyg.resizimg.js"></script>
     <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/history/trumbowyg.history.js"></script>

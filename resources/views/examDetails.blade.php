@@ -7,14 +7,6 @@
     {{session('score') ? 'Chấm điểm bài làm' : 'Làm bài thi'}}
 @endpush
 @section('content')
-    @if(!session('Email'))
-        <script>
-            window.addEventListener('load', function () {
-                alert('Bạn cần phải đăng nhập để làm bài');
-                document.location.href = '{{url('/login.html')}}';
-            })
-        </script>
-    @endif
     <section id="mu-page-breadcrumb">
         <div class="container">
             <div class="row">
@@ -431,3 +423,21 @@
         </script>
     @endif
 @endsection
+
+@if(!session('Email'))
+    @push('additionalJS')
+        <script>
+            $(document).ready(function () {
+                var warning = bootbox.dialog({
+                    title: 'Bạn cần phải đăng nhập để làm bài',
+                    message: '<p><i class="fa fa-spin fa-spinner"></i> Đang bạn sang trang đăng nhập...</p>'
+                });
+                warning.init(function () {
+                    setTimeout(function(){
+                        document.location.href = '{!! route('login') !!}';
+                    }, 2000);
+                });
+            });
+        </script>
+    @endpush
+@endif

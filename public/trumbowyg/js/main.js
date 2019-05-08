@@ -4,7 +4,7 @@ $( document ).ready(function() {
             btnsDef: {
                 // Create a new dropdown
                 image: {
-                    dropdown: ['insertImage', 'upload'],
+                    dropdown: ['insertImage'],//, 'upload','base64'],
                     ico: 'insertImage'
                 },
                 align: {
@@ -33,7 +33,7 @@ $( document ).ready(function() {
                     serverPath: 'https://api.imgur.com/3/image',
                     fileFieldName: 'image',
                     headers: {
-                        'Authorization': 'Client-ID bcbc0f0360d32f5'
+                        'Authorization': 'Client-ID bcbc0f0360d32f5',
                     },
                     urlPropertyName: 'data.link'
                 }

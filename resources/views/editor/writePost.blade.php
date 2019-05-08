@@ -94,7 +94,7 @@
                 dataType: 'json',
                 success: function (data) {
                     alert(data.message);
-                    window.location.href = '{!! url('tn-editor-th/posts/view') !!}' + '/' + data.PostID;
+                    window.location.href = '{!! url('editor/posts/view') !!}' + '/' + data.PostID;
                 },
                 error: function (data) {
                     console.log('Error: ', data);

@@ -16,7 +16,7 @@
     <!-- Custom Fonts -->
     <link href="{{asset('public/admin-assets/css')}}/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- jQuery -->
-    <script src="{{asset('public/admin-assets/js')}}/jquery.min.js"></script>
+    <script src="{{asset('public/js/jquery-2.2.4.min.js')}}"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="{{asset('public/admin-assets/js')}}/bootstrap.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
@@ -42,7 +42,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="{{route('adminDashboard')}}">TNTH Editor Panel</a>
+            <a class="navbar-brand" href="{{route('editorDashboard')}}">TNTH Editor Panel</a>
         </div>
 
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -135,36 +135,36 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li class="sidebar-search">
-                        <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                </span>
-                        </div>
-                        <!-- /input-group -->
+{{--                        <div class="input-group custom-search-form">--}}
+{{--                            <input type="text" class="form-control" placeholder="Search...">--}}
+{{--                            <span class="input-group-btn">--}}
+{{--                                        <button class="btn btn-primary" type="button">--}}
+{{--                                            <i class="fa fa-search"></i>--}}
+{{--                                        </button>--}}
+{{--                                </span>--}}
+{{--                        </div>--}}
+{{--                        <!-- /input-group -->--}}
                     </li>
                     <li>
-                        <a href="{{url('/tn-editor-th/dashboard')}}"
-                           class="{{Request::is('tn-editor-th/dashboard') ? 'active' : ''}}"><i
+                        <a href="{{url('/editor/dashboard')}}"
+                           class="{{Request::is('editor/dashboard') ? 'active' : ''}}"><i
                                     class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="{{url('/tn-editor-th/exams')}}"
-                           class="{{Request::is('tn-editor-th/exams') ||
-                                   Request::is('tn-editor-th/exams/*') ? 'active' : ''}}"><i
+                        <a href="{{url('/editor/exams')}}"
+                           class="{{Request::is('editor/exams') ||
+                                   Request::is('editor/exams/*') ? 'active' : ''}}"><i
                                     class="fa fa-newspaper-o"></i> Đề thi</a>
                     </li>
                     <li>
-                        <a href="{{url('/tn-editor-th/questions')}}"
-                           class="{{Request::is('tn-editor-th/questions') ? 'active' : ''}}"><i
+                        <a href="{{url('/editor/questions')}}"
+                           class="{{Request::is('editor/questions') ? 'active' : ''}}"><i
                                     class="fa fa-question"></i> Câu hỏi</a>
                     </li>
                     <li>
-                        <a href="{{url('/tn-editor-th/posts')}}"
-                           class="{{Request::is('tn-editor-th/posts')||
-                                   Request::is('tn-editor-th/posts/*') ? 'active' : ''}}"><i
+                        <a href="{{url('/editor/posts')}}"
+                           class="{{Request::is('editor/posts')||
+                                   Request::is('editor/posts/*') ? 'active' : ''}}"><i
                                     class="fa fa-paragraph"></i> Bài viết</a>
                     </li>
                 </ul>
@@ -184,6 +184,7 @@
 </div>
 <!-- /#wrapper -->
 
+<script src="{{asset('public')}}/js/bootbox.all.min.js"></script>
 <!-- DataTables JavaScript -->
 <script src="{{asset('public/admin-assets')}}/js/dataTables/jquery.dataTables.min.js"></script>
 <script src="{{asset('public/admin-assets')}}/js/dataTables/dataTables.bootstrap.min.js"></script>

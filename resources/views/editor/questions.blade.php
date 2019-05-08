@@ -285,7 +285,7 @@
         // Save button
         $('#questionForm').validate({
             submitHandler: function (form) {
-                $('#btn-save').html('Loading..');
+                $('#btn-save').html('<i class="fa fa-spin fa-spinner"></i>');
                 let answerArr = [];
                 let checks = document.getElementsByName('correct-answer');
                 for (let i = 0; i < checks.length; i++) {
@@ -320,8 +320,10 @@
                         oTable.fnDraw(false);
                     },
                     error: function (data) {
-                        alert('Lỗi: ' +
-                            'Hãy kiểm tra tất cả các trường');
+                        bootbox.alert({
+                            message: 'Lỗi: <p>'+ data.responseJSON.message +'</p>',
+                            backdrop:true
+                        });
                         console.log('Error: ', data);
                         $('#btn-save').html('Lưu');
                     }

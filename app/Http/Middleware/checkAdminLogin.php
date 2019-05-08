@@ -15,8 +15,12 @@ class checkAdminLogin
      */
     public function handle($request, Closure $next)
     {
-        if(session('AdminID') || session('EditorID'))
+        if(session('AdminID') || session('EditorID')) {
+            if(session('EditorID') && !request()->ajax())
+                return redirect()->route('adminLogin');
             return $next($request);
+        }
+
         else
             return redirect()->route('adminLogin');
     }

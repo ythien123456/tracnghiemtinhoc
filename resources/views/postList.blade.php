@@ -37,7 +37,7 @@
                                                     <article class="mu-blog-single-item">
                                                         <figure class="mu-blog-single-img">
                                                             <a href="{{url('p/'.$post->PostSlug)}}.html"><img
-                                                                        src="{{asset('public/images/modules/'.$post->ModuleID.'.jpg')}}"
+                                                                        src="{{$post->Thumbnail}}"
                                                                         alt="img"></a>
                                                             <figcaption class="mu-blog-caption">
                                                                 <h3><a href="{{url('p/'.$post->PostSlug)}}.html"
@@ -76,10 +76,12 @@
                                     <div class="mu-single-sidebar">
                                         <h3>Danh mục bài học</h3>
                                         <ul class="mu-sidebar-catg">
-                                            @foreach($moduleList as $module)
-                                                @if($module->ModuleType!=2)
+                                            @foreach($categoryList as $category)
+                                                @if($category->CategoryType!=2)
                                                     <li>
-                                                        <a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a>
+                                                        <a href="{{url('p/categories/'.$category->CategoryID)}}">
+                                                            {{$category->CategoryName}}
+                                                        </a>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -90,10 +92,12 @@
                                     <div class="mu-single-sidebar">
                                         <h3>Danh mục bài viết</h3>
                                         <ul class="mu-sidebar-catg">
-                                            @foreach($moduleList as $module)
-                                                @if($module->ModuleType!=1)
+                                            @foreach($categoryList as $category)
+                                                @if($category->CategoryType!=1)
                                                     <li>
-                                                        <a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a>
+                                                        <a href="{{url('p/categories/'.$category->CategoryID)}}">
+                                                            {{$category->CategoryName}}
+                                                        </a>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -109,7 +113,7 @@
                                                     <div class="media-left">
                                                         <a href="{{url('/p/'.$mvPost->PostSlug).'.html'}}">
                                                             <img class="media-object"
-                                                                 src="{{url('public/images/modules/'.$mvPost->ModuleID.'.jpg')}}"
+                                                                 src="{{url('public/images/categories/'.$mvPost->CategoryID.'.jpg')}}"
                                                                  alt="img">
                                                         </a>
                                                     </div>

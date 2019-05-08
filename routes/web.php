@@ -10,6 +10,7 @@
 | contains the 'web' middleware group. Now create something great!
 |
 */
+
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -39,9 +40,9 @@ Route::group(['prefix' => 'e', 'as' => 'exams'], function () {
 
 Route::group(['prefix' => 'p', 'as' => 'posts'], function () {
     Route::get('/', 'PostController@index');
-    Route::get('/{postSlug}.html', 'PostController@show');
-    Route::group(['prefix' => 'modules'], function () {
-        Route::get('/{moduleID}', 'PostController@getPostsByModuleID');
+    Route::get('/{postSlug}.html', 'PostController@show')->name('viewSinglePost');
+    Route::group(['prefix' => 'categories'], function () {
+        Route::get('/{categoryID}', 'PostController@getPostsByCategoryID')->name('postListByCategory');
     });
 });
 
@@ -58,20 +59,23 @@ Route::post('postAdminLogin', 'Admin\AdminLoginController@postLogin')->name('pos
 Route::get('getAdminLogout', 'Admin\AdminLoginController@getLogout')->name('getAdLogout');
 
 Route::group(['prefix' => 'tn-admin-th', 'middleware' => 'checkAdminLogin'], function () {
-    Route::get('/', 'Admin\DashboardController@show');
-    Route::get('/dashboard', 'Admin\DashboardController@show')->name('adminDashboard');
+    Route::get('/', 'Admin\AdminDashboardController@index');
+    Route::get('/dashboard', 'Admin\AdminDashboardController@index')->name('adminDashboard');
     Route::get('/questions', 'Admin\AdminQuestionController@index');
 
     Route::get('/exams', 'Admin\AdminExamController@index');
     Route::get('exams/{ExamID}', 'Admin\AdminExamController@showSingleExam')->name('viewExam');
     Route::get('/exams/{ExamID}/compose/manual','Admin\AdminExamController@manualCompose')
         ->name('examManualCompose');
-
+    Route::get('/modules','Admin\AdminModuleController@index');
 
     Route::get('/accounts', 'Admin\AdminAccountController@index');
+    Route::get('/roles','Admin\AdminRoleController@index');
+
     Route::get('/posts', 'Admin\AdminPostController@index');
     Route::get('/posts/view/{PostID}', 'Admin\AdminPostController@showSinglePost')->name('viewPost');
     Route::get('/posts/write', 'Admin\AdminPostController@write')->name('writePost');
+    Route::get('/categories','Admin\AdminCategoryController@index');
 
     /* AJAX Requests */
     Route::get('getQuestions', 'Admin\AdminQuestionController@getQuestions')->name('questionsTable');
@@ -98,15 +102,26 @@ Route::group(['prefix' => 'tn-admin-th', 'middleware' => 'checkAdminLogin'], fun
     Route::post('/exams/{ExamID}/compose/auto','Admin\AdminExamController@autoCompose')
         ->name('examAutoCompose');
 
+    Route::get('getModules','Admin\AdminModuleController@getModules')->name('modulesTable');
+    Route::get('modules/edit/{ModuleID}','Admin\AdminModuleController@edit')->name('editModule');
+    Route::post('modules/store','Admin\AdminModuleController@store')->name('storeModule');
+
     Route::get('getAccounts', 'Admin\AdminAccountController@getAccounts')->name('accountsTable');
     Route::get('accounts/edit/{AccountID}', 'Admin\AdminAccountController@edit')->name('editAccount');
     Route::get('accounts/delete/{AccountID}', 'Admin\AdminAccountController@destroy')->name('deleteAccount');
     Route::post('accounts/store', 'Admin\AdminAccountController@store')->name('storeAccount');
 
+    Route::get('getRoles','Admin\AdminRoleController@getRoles')->name('rolesTable');
+    Route::get('roles/edit/{RoleID}','Admin\AdminRoleController@edit')->name('editRole');
+    Route::post('roles/store','Admin\AdminRoleController@store')->name('storeRole');
+
     Route::get('getPosts', 'Admin\AdminPostController@getPosts')->name('postsTable');
     Route::post('/posts/edit', 'Admin\AdminPostController@edit')->name('editPost');
     Route::post('/posts/create', 'Admin\AdminPostController@create')->name('createPost');
     Route::get('/posts/delete/{PostID}', 'Admin\AdminPostController@destroy')->name('deletePost');
+
+    Route::get('getCategories','Admin\AdminCategoryController@getCategories')->name('categoriesTable');
+    Route::get('/categories/edit/{CategoryID}','Admin\AdminCategoryController@edit')->name('editCategory');
     /* END AJAX Requests */
 });
 
@@ -114,7 +129,7 @@ Route::get('editorLogin','Editor\EditorLoginController@index')->name('editorLogi
 Route::post('postEditorLogin','Editor\EditorLoginController@postLogin')->name('postEditorLogin');
 Route::get('getEditorLogout','Editor\EditorLoginController@getLogout')->name('getEditorLogout');
 
-Route::group(['prefix' => 'tn-editor-th', 'middleware' => 'checkEditorLogin'], function () {
+Route::group(['prefix' => 'editor', 'middleware' => 'checkEditorLogin'], function () {
     Route::get('/','Editor\EditorDashboardController@index');
     Route::get('/dashboard','Editor\EditorDashboardController@index')->name('editorDashboard');
     Route::get('/accounts', function() {

@@ -41,7 +41,7 @@
                                 Thông tin
                             </div>
                             <div class="panel-body">
-                                <p><i class="fa fa-pencil"></i> Người đăng: {{$post->AccountID}}</p>
+                                <p><i class="fa fa-pencil"></i> ID Người đăng: {{$post->AccountID}}</p>
                                 <input type="hidden" id="post-author" name="post-author" value="{{$post->AccountID}}">
                                 <p class="form-inline"><i class="fa fa-question"></i> Module:
                                     <select class="form-control" id="post-module" name="post-module">
@@ -98,7 +98,10 @@
                 type: 'post',
                 dataType: 'json',
                 success: function (data) {
-                    alert(data.message);
+                    bootbox.alert({
+                        message: data.message,
+                        backdrop:true
+                    });
                 },
                 error: function (data) {
                     alert('Lỗi: ' +

@@ -65,7 +65,7 @@ class AdminQuestionController extends Controller
 
     public function store(Request $request)
     {
-        if($request->ajax()) {
+        if ($request->ajax()) {
             $ExamID = $request->input('exam_id');
             $QuestionID = $request->input('question_id');
             $QuestionContent = $request->input('question-content');
@@ -76,6 +76,12 @@ class AdminQuestionController extends Controller
             $C = $request->input('answer-C');
             $D = $request->input('answer-D');
             $CorrectAnswers = $request->input('correct-answer');
+            $answerArr = array();
+            is_null($A) ? $answerArr['A'] = null : $answerArr['A'] = $A;
+            is_null($B) ? $answerArr['B'] = null : $answerArr['B'] = $B;
+            is_null($C) ? $answerArr['C'] = null : $answerArr['C'] = $C;
+            is_null($D) ? $answerArr['D'] = null : $answerArr['D'] = $D;
+            is_null($CorrectAnswers) ? $answerArr['CorrectAnswers'] = null : $answerArr['CorrectAnswers'] = $CorrectAnswers;
             $AnswerExplain = $request->input('question-explain');
             if (isset($QuestionID)) {
                 $question = Questions::updateOrCreate(
@@ -103,25 +109,30 @@ class AdminQuestionController extends Controller
             $question->QuestionContent = $QuestionContent;
             $question->ModuleID = $ModuleID;
             $question->QuestionType = $QuestionType;
-            if ($question->save()) {
-                $answer = new Answers;
-                $answer->QuestionID = $question->QuestionID;
-                $answer->A = $A;
-                $answer->B = $B;
-                $answer->C = $C;
-                $answer->D = $D;
-                $answer->CorrectAnswers = $CorrectAnswers;
-                $answer->AnswerExplain = $AnswerExplain;
-                $result = $answer->save();
-                if(!is_null($ExamID)) {
-                    $qd = new QuestionDetails;
-                    $qd->QuestionID = $question->QuestionID;
-                    $qd->ExamID = $ExamID;
-                    $qd->save();
+            if (!in_array(null, $answerArr)) {
+                if ($question->save()) {
+                    $answer = new Answers;
+                    $answer->QuestionID = $question->QuestionID;
+                    $answer->A = $A;
+                    $answer->B = $B;
+                    $answer->C = $C;
+                    $answer->D = $D;
+                    $answer->CorrectAnswers = $CorrectAnswers;
+                    if (!is_null($AnswerExplain))
+                        $answer->AnswerExplain = $AnswerExplain;
+                    $result = $answer->save();
+                    if (!is_null($ExamID)) {
+                        $qd = new QuestionDetails;
+                        $qd->QuestionID = $question->QuestionID;
+                        $qd->ExamID = $ExamID;
+                        $qd->save();
+                    }
+                    return response()->json(['message' => 'Lưu thành công', 'result' => $result]);
+                } else {
+                    return response()->json(['message' => 'Lưu thất bại!'],400);
                 }
-                return response()->json($result);
             } else {
-                return response()->json($question);
+                return response()->json(['message' => 'Câu hỏi thiếu thông tin!'],400);
             }
         }
         return view('errors.ad404');

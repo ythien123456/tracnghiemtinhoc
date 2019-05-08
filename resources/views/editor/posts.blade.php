@@ -80,7 +80,7 @@
                 columns: [
                     {data: 'PostID'},
                     {data: 'title'},
-                    {data: 'ModuleID'},
+                    {data: 'CategoryID'},
                     {data: 'AccountID'},
                     {data: 'status'},
                     {data: 'PostDate'},

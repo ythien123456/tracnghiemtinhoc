@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Modules extends Model
 {
+    public $timestamps = false;
+    public $primaryKey = 'ModuleID';
+    public $fillable = ['ModuleName','ModuleDescription'];
+
     public function questions() {
         return $this->hasMany('App\Http\Models\Questions');
     }

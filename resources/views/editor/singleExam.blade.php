@@ -384,7 +384,14 @@
                 type: 'get',
                 success: function (data) {
                     if (data >= total_questions) {
-                        alert('Đề thi này đã đủ số lượng ' + total_questions + ' câu!');
+                        let alr = bootbox.dialog({
+                            message: 'Đề thi này đã đủ số lượng ' + total_questions + ' câu!'
+                        });
+                        alr.init(function () {
+                            setTimeout(function () {
+                                alr.fadeOut();
+                            },1500);
+                        });
                         return false;
                     } else {
                         $('#btn-switch-mass-create').show();
@@ -438,8 +445,10 @@
                         oTable.fnDraw(false);
                     },
                     error: function (data) {
-                        alert('Lỗi: ' +
-                            'Hãy kiểm tra tất cả các trường');
+                        bootbox.alert({
+                            message: 'Lỗi: <p>'+ data.responseJSON.message +'</p>',
+                            backdrop:true
+                        });
                         console.log('Error: ', data);
                         $('#btn-save').html('Lưu');
                     }
@@ -484,8 +493,14 @@
                     url: '{!! url('tn-admin-th/exams/store') !!}',
                     dataType: 'json',
                     success: function (data) {
-                        alert('Sửa thông tin thành công');
-                        location.reload();
+                        $('#exam-modal').hide();
+                        bootbox.alert({
+                            message: 'Sửa thông tin thành công'
+                        });
+                        setTimeout(function () {
+                            location.reload();
+                        },1000);
+
                     },
                     error: function (data) {
                         console.log('Error: ', data);
@@ -497,55 +512,98 @@
 
         //delete all questions
         $('#btn-delete-all-quesions').click(function () {
-            if (confirm("Bạn có chắc chắn muốn xóa tất cả câu hỏi khỏi đề thi này?") === true) {
-                if (confirm("Chắc chắn chứ?") === true) {
-                    $.ajax({
-                        url: '{!! url('tn-admin-th/exams') !!}' + '/' + '{!! $examInfo->ExamID !!}' + '/removeAll',
-                        type: 'get',
-                        success: function (data) {
-                            alert('Xóa thành công!');
-                            let oTable = $('#questions-table').dataTable();
-                            oTable.fnDraw(false);
-                        },
-                        error: function (data) {
-                            console.log('Errors: ', data)
+            bootbox.confirm({
+                message: "<p>Bạn có chắc chắn muốn xóa tất cả câu hỏi khỏi đề thi này?</p>" +
+                    "<p>" +
+                    "Nhập tên đề hiện tại để xác nhận: <input type='text' id='delete-all-questions-confirm'>" +
+                    "<span id='delete-all-confirm-check'></span>" +
+                    "</p>",
+                backdrop: true,
+                buttons: {
+                    confirm: {
+                        label: 'Chắc chắn',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Hủy',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        if ('{!! $examInfo->ExamTitle !!}' !== $("#delete-all-questions-confirm").val()) {
+                            $('#delete-all-confirm-check').html('❌');
+                            return false;
                         }
-                    });
+                        $.ajax({
+                            url: '{!! url('tn-admin-th/exams') !!}' + '/' + '{!! $examInfo->ExamID !!}' + '/removeAll',
+                            type: 'get',
+                            success: function (data) {
+                                bootbox.alert({
+                                    message: 'Xóa thành công!',
+                                    callback: function () {
+                                        $(this).fadeOut();
+                                    }
+                                });
+                                let oTable = $('#questions-table').dataTable();
+                                oTable.fnDraw(false);
+                            },
+                            error: function (data) {
+                                console.log('Errors: ', data)
+                            }
+                        });
+                    }
                 }
-            }
+            });
         });
 
         //auto compose exam
         $('#btn-compose-auto').click(function () {
             let countRow = $('#questions-table').dataTable().fnGetData().length;
             if (countRow !== 0) {
-                alert('Soạn đề tự động yêu cầu đề thi hiện tại không có câu hỏi nào!');
+                let alr = bootbox.dialog({
+                    message: 'Soạn đề tự động yêu cầu đề thi hiện tại không có câu hỏi nào!',
+                });
+                alr.init(function () {
+                    setTimeout(function () {
+                        alr.fadeOut();
+                    },2000);
+                });
                 return false;
             } else {
-                if(confirm('Bạn có chắc muốn soạn đề tự động?')===true) {
-                    $('#btn-compose-auto').html('Đang soạn...');
-                    $.ajax({
-                        url: '{!! route('examAutoCompose',['ExamID' => $examInfo->ExamID]) !!}',
-                        type: 'post',
-                        success: function (data) {
-                            if(data.status===0)
-                                alert(data.message);
-                            else {
-                                alert('Soạn đề thành công!');
-                                $('#btn-compose-auto').html('Soạn đề (tự động)');
-                                let oTable = $('#questions-table').dataTable();
-                                oTable.fnDraw(false);
-                            }
-                        },
-                        error: function (data) {
-                            $('#btn-compose-auto').html('Soạn đề (tự động)');
-                            let oTable = $('#questions-table').dataTable();
-                            oTable.fnDraw(false);
-                            console.log('Errors: ',data);
-                        },
-                        timeout: 5000
-                    });
-                }
+                bootbox.confirm({
+                    message: 'Bạn có chắc muốn soạn đề tự động?',
+                    callback: function(result) {
+                        if(result) {
+                            $('#btn-compose-auto').html('<i class="fa fa-spin fa-spinner"></i> Đang soạn...');
+                            $.ajax({
+                                url: '{!! route('examAutoCompose',['ExamID' => $examInfo->ExamID]) !!}',
+                                type: 'post',
+                                success: function (data) {
+                                    if (data.status === 0)
+                                        bootbox.alert({
+                                            message: data.message
+                                        });
+                                    else {
+                                        bootbox.dialog({
+                                            message: 'Soạn đề thành công!'
+                                        });
+                                        $('#btn-compose-auto').html('Soạn đề (tự động)');
+                                        let oTable = $('#questions-table').dataTable();
+                                        oTable.fnDraw(false);
+                                    }
+                                },
+                                error: function (data) {
+                                    $('#btn-compose-auto').html('Soạn đề (tự động)');
+                                    let oTable = $('#questions-table').dataTable();
+                                    oTable.fnDraw(false);
+                                    console.log('Errors: ', data);
+                                },
+                                timeout: 5000
+                            });
+                        }
+                    }
+                });
             }
         });
     </script>

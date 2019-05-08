@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $totalPosts = count(Posts::all());
+        $totalPosts = count(Posts::where('Status',1)->get());
         $totalAccounts = count(Accounts::all());
         $totalExams = count(Exams::where('Status', '1')->get());
         $totalEditors = count(Accounts::where('Role', '2')->get());

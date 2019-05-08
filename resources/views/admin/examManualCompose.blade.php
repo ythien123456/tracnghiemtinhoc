@@ -4,16 +4,17 @@
     {{$exam->ExamTitle}} - Soạn đề thủ công
 @endpush
 
-@push('active-quan-ly')
-    active
-@endpush
-
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Thêm câu hỏi cho
-                <a href="{{route('viewExam',['ExamID' => $exam->ExamID])}}">"{{$exam->ExamTitle}}"</a>
-            </h1>
+            <div class="row page-header">
+                <div class="col-md-1">
+                    <a href="{{url()->previous()}}" title="Quay về trang trước"><h1><i class="fa fa-arrow-left"></i></h1></a>
+                </div>
+                <div class="col-md-11">
+                    <h1>Thêm câu hỏi cho "<a href="{{route('viewExam',['ExamID' => $exam->ExamID])}}">{{$exam->ExamTitle}}</a>"</h1>
+                </div>
+            </div>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -326,7 +327,9 @@
             let powerPointCount = parseInt($('#powerpoint-qcount').html());
             let sumCount = cnttCount + hdhCount + internetCount + wordCount + excelCount + powerPointCount;
             if (sumCount >= {!! $exam->TotalQuestions !!}) {
-                alert('Đã đủ số lượng {!! $exam->TotalQuestions !!} câu hỏi!');
+                bootbox.alert({
+                   message:  'Đã đủ số lượng {!! $exam->TotalQuestions !!} câu hỏi!',
+                });
                 return false;
             } else {
                 let questionID = $(this).data('id');
@@ -340,7 +343,6 @@
                         oTable.fnDraw(false);
                     },
                     error: function (data) {
-                        alert('Câu này đã có trong đề thi!');
                         console.log('Error: ', data);
                     },
                 });

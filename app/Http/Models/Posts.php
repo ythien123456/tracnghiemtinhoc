@@ -22,7 +22,7 @@ class Posts extends Model
     public static function getAllPosts()
     {
         $posts = DB::table('posts')
-            ->select('PostTitle',DB::raw('SUBSTRING(PostContent,1,150) as PostContent'),'PostSlug','ModuleID')
+            ->select('PostTitle',DB::raw('SUBSTRING(PostContent,1,150) as PostContent'),'PostSlug','CategoryID','Thumbnail')
             ->where('Status','=',1)
             ->orderBy('PostDate','desc');
         return $posts;
@@ -33,8 +33,8 @@ class Posts extends Model
         if(count(Posts::where('PostSlug',$postSlug)->where('Status',1)->get())>0) {
             $post = DB::table('posts as p')
                 ->join('accounts as a', 'p.AccountID', '=', 'a.AccountID')
-                ->select('a.FirstName', 'a.LastName', 'p.PostID', 'p.ModuleID', 'p.PostTitle', 'p.PostContent', 'p.PostSlug',
-                    DB::raw('DATE(p.PostDate) as PostDate'), 'p.ModuleID','p.Views')
+                ->select('a.FirstName', 'a.LastName', 'p.PostID', 'p.CategoryID', 'p.PostTitle', 'p.PostContent', 'p.PostSlug',
+                    DB::raw('DATE(p.PostDate) as PostDate'), 'p.Views','p.Thumbnail')
                 ->where('p.PostSlug', '=', $postSlug)
                 ->where('Status','=',1)
                 ->first();
@@ -46,11 +46,12 @@ class Posts extends Model
         return null;
     }
 
-    public static function getRelatedPosts($PostID,$ModuleID)
+    public static function getRelatedPosts($PostID,$CategoryID)
     {
         $relatedPosts = DB::table('posts')
-            ->select('PostTitle',DB::raw('SUBSTRING(PostContent,1,150) as PostContent'), 'PostContent as PostFullContent','PostSlug','ModuleID')
-            ->where('ModuleID','=',$ModuleID)
+            ->select('PostTitle',DB::raw('SUBSTRING(PostContent,1,150) as PostContent'),
+                'PostContent as PostFullContent','PostSlug','CategoryID','Thumbnail')
+            ->where('CategoryID','=',$CategoryID)
             ->where('PostID','<>',$PostID)
             ->where('Status','=',1)
             ->inRandomOrder()
@@ -59,11 +60,12 @@ class Posts extends Model
         return $relatedPosts;
     }
 
-    public static function getPostsByModuleID($ModuleID)
+    public static function getPostsByCategoryID($Category)
     {
         $posts = DB::table('posts')
-            ->select('PostTitle',DB::raw('SUBSTRING(PostContent,1,150) as PostContent'), 'PostContent as PostFullContent','PostSlug','ModuleID')
-            ->where('ModuleID','=',$ModuleID)
+            ->select('PostTitle',DB::raw('SUBSTRING(PostContent,1,150) as PostContent'),
+                'PostContent as PostFullContent','PostSlug','CategoryID','Thumbnail')
+            ->where('CategoryID','=',$Category)
             ->where('Status','=',1);
         return $posts;
     }

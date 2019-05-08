@@ -1,9 +1,5 @@
 @extends('admin.adminLayout')
 
-@push('active-quan-ly')
-    active
-@endpush
-
 @push('title')
     Thêm bài viết
 @endpush
@@ -18,6 +14,7 @@
 
 @section('content')
     <form method="POST" id="postForm">
+        @csrf
         <div class="row">
             <div class="col-lg-12">
                 <h3 class="page-header">Thêm bài viết mới</h3>
@@ -43,8 +40,8 @@
                             <div class="panel-body">
                                 <p><i class="fa fa-pencil"></i> Người đăng: {{session('AdminID')}}</p>
                                 <input type="hidden" id="post-author" name="post-author" value="{{session('AdminID')}}">
-                                <p class="form-inline"><i class="fa fa-question"></i> Module:
-                                    <select class="form-control" id="post-module" name="post-module">
+                                <p class="form-inline"><i class="fa fa-question"></i> Danh mục:
+                                    <select class="form-control" id="post-category" name="post-category">
                                         <option value="1">1 - CNTT</option>
                                         <option value="2">2 - Hệ điều hành</option>
                                         <option value="3">3 - Internet</option>
@@ -53,6 +50,7 @@
                                         <option value="6">6 - Powerpoint</option>
                                         <option value="7">7 - Hướng dẫn</option>
                                         <option value="8">8 - Tin tức</option>
+                                        <option value="9">9 - Kiến thức tổng hop</option>
                                     </select>
                                 </p>
                                 <p class="form-inline"><i class="fa fa-unlock"></i> Trạng thái:
@@ -94,7 +92,7 @@
                 dataType: 'json',
                 success: function (data) {
                     alert(data.message);
-                    window.location.href = '{!! url('tn-editor-th/posts/view') !!}' + '/' + data.PostID;
+                    window.location.href = '{!! url('tn-admin-th/posts/view') !!}' + '/' + data.PostID;
                 },
                 error: function (data) {
                     console.log('Error: ', data);
@@ -111,6 +109,7 @@
     <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/resizimg/jquery-resizable.min.js"></script>
     <!-- Import Trumbowyg plugins... -->
     <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/upload/trumbowyg.upload.min.js"></script>
+    <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/base64/trumbowyg.base64.js"></script>
     <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/colors/trumbowyg.colors.js"></script>
     <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/resizimg/trumbowyg.resizimg.js"></script>
     <script src="{!! asset('public') !!}/trumbowyg/dist/plugins/history/trumbowyg.history.js"></script>

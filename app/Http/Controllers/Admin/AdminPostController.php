@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Models\PostCategories;
 use App\Http\Models\Posts;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,14 +19,7 @@ class AdminPostController extends Controller
     {
         $posts = Posts::all();
         foreach ($posts as $p) {
-            $p->ModuleID == 1 ? $p->ModuleID = '1 - CNTT' : '';
-            $p->ModuleID == 2 ? $p->ModuleID = '2 - HĐH' : '';
-            $p->ModuleID == 3 ? $p->ModuleID = '3 - Internet' : '';
-            $p->ModuleID == 4 ? $p->ModuleID = '4 - Word' : '';
-            $p->ModuleID == 5 ? $p->ModuleID = '5 - Excel' : '';
-            $p->ModuleID == 6 ? $p->ModuleID = '6 - Powerpoint' : '';
-            $p->ModuleID == 7 ? $p->ModuleID = '7 - Hướng dẫn' : '';
-            $p->ModuleID == 8 ? $p->ModuleID = '8 - Tin tức' : '';
+            $p->CategoryID = Str::slug(PostCategories::select('CategoryName')->where('CategoryID',$p->CategoryID)->first()->CategoryName);
             $p->Status == 1 ? $p->Status = '✔️' : $p->Status = '❌';
             $p->PostDate = date('d-m-Y', strtotime($p->PostDate));
         }
@@ -46,10 +40,10 @@ class AdminPostController extends Controller
                     return $title;
                 })
                 ->addColumn('status', function ($posts) {
-                    $status = ''.$posts->Status;
+                    $status = '' . $posts->Status;
                     return $status;
                 })
-                ->rawColumns(['action', 'title','status'])
+                ->rawColumns(['action', 'title', 'status'])
                 ->make(true);
         }
         return view('errors.404');
@@ -74,7 +68,18 @@ class AdminPostController extends Controller
         $post->PostTitle = request()->input('post-title');
         $post->PostSlug = Str::slug($post->PostTitle);
         $post->PostContent = request()->input('post-content');
-        $post->ModuleID = request()->input('post-module');
+        $post->CategoryID = request()->input('post-category');
+        preg_match('/< *img[^>]*src *= *["\']?([^"\']*)/i', $post->PostContent, $thumbnail);
+        if ($thumbnail) {
+            $post->Thumbnail = $thumbnail[1];
+        } else {
+            for ($i = 1; $i <= 8; $i++) {
+                if($post->ModuleID==$i) {
+                    $post->Thumbnail = url('public/images/modules/'.$i.'.jpg');
+                    break;
+                }
+            }
+        }
         $post->Status = request()->input('post-status');
         $result = $post->save();
         return response()->json(['result' => $result, 'message' => 'Lưu thành công']);
@@ -92,20 +97,31 @@ class AdminPostController extends Controller
             return response()->json(['message' => 'Tên bài viết bị trùng']);
         $post = new Posts;
         $post->PostTitle = $request->input('post-title');
-        if(session('AdminID') || session('EditorID')) {
-            if(session('AdminID') && session('EditorID'))
+        if (session('AdminID') || session('EditorID')) {
+            if (session('AdminID') && session('EditorID'))
                 $post->AccountID = session('AdminID');
-            else if(session('AdminID'))
+            else if (session('AdminID'))
                 $post->AccountID = session('AdminID');
             else
                 $post->AccountID = session('EditorID');
         }
         $post->PostSlug = Str::slug($PostTitle);
         $post->PostContent = $request->input('post-content');
-        $post->ModuleID = $request->input('post-module');
+        $post->CategoryID = $request->input('post-category');
+        preg_match('/< *img[^>]*src *= *["\']?([^"\']*)/i', $post->PostContent, $thumbnail);
+        if ($thumbnail) {
+            $post->Thumbnail = $thumbnail[1];
+        } else {
+            for ($i = 1; $i <= 6; $i++) {
+                if($post->ModuleID==$i) {
+                    $post->Thumbnail = url('public/images/modules/'.$i.'.jpg');
+                    break;
+                }
+            }
+        }
         $post->Status = $request->input('post-status');
         if ($post->save())
-            return response()->json(['message' => 'Thêm bài viết thành công!','PostID' => $post->PostID]);
+            return response()->json(['message' => 'Thêm bài viết thành công!', 'PostID' => $post->PostID]);
     }
 
     public function destroy($PostID)

@@ -4,14 +4,17 @@
     Quản lý câu hỏi
 @endpush
 
-@push('active-quan-ly')
-    active
-@endpush
-
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Câu hỏi</h1>
+            <div class="row page-header">
+                <div class="col-md-1">
+                    <a href="{{url()->previous()}}" title="Quay về trang trước"><h1><i class="fa fa-arrow-left"></i></h1></a>
+                </div>
+                <div class="col-md-11">
+                    <h1>Câu hỏi</h1>
+                </div>
+            </div>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -285,7 +288,7 @@
         // Save button
         $('#questionForm').validate({
             submitHandler: function (form) {
-                $('#btn-save').html('Loading..');
+                $('#btn-save').html('<i class="fa fa-spin fa-spinner"></i>');
                 let answerArr = [];
                 let checks = document.getElementsByName('correct-answer');
                 for (let i = 0; i < checks.length; i++) {
@@ -320,8 +323,10 @@
                         oTable.fnDraw(false);
                     },
                     error: function (data) {
-                        alert('Lỗi: ' +
-                            'Hãy kiểm tra tất cả các trường');
+                        bootbox.alert({
+                            message: 'Lỗi: <p>'+ data.responseJSON.message +'</p>',
+                            backdrop:true
+                        });
                         console.log('Error: ', data);
                         $('#btn-save').html('Lưu');
                     }

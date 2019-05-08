@@ -36,7 +36,7 @@
                                         <div class="col-md-12">
                                             <article class="mu-blog-single-item">
                                                 <figure class="mu-blog-single-img">
-                                                    <a href="#"><img src="{{$thumbnail}}"
+                                                    <a href="#"><img src="{{$post->Thumbnail}}"
                                                                      title="{{$post->PostSlug}}"></a>
                                                     <figcaption class="mu-blog-caption">
                                                         <h3><a href="#">@if(isset($post))
@@ -69,15 +69,11 @@
                                                 <div class="mu-related-item-area">
                                                     <div id="mu-related-item-slide">
                                                         @foreach($relatedPosts as $relatedPost)
-                                                            @php
-                                                                preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $relatedPost->PostFullContent, $firstImageUrlInPost);
-                                                                $relatedThumbnail = isset($firstImageUrlInPost['src']) ? $firstImageUrlInPost['src'] : url('public/images/modules/'.$relatedPost->ModuleID.'.jpg');
-                                                            @endphp
                                                             <div class="col-md-6">
                                                                 <article class="mu-blog-single-item">
                                                                     <figure class="mu-blog-single-img">
                                                                         <a href="{{url('p/'.$relatedPost->PostSlug)}}.html"><img
-                                                                                    src="{{$relatedThumbnail}}"
+                                                                                    src="{{$relatedPost->Thumbnail}}"
                                                                                     title="{{$relatedPost->PostSlug}}"></a>
                                                                         <figcaption class="mu-blog-caption">
                                                                             <h3>
@@ -111,10 +107,12 @@
                                     <div class="mu-single-sidebar">
                                         <h3>Danh mục bài học</h3>
                                         <ul class="mu-sidebar-catg">
-                                            @foreach($moduleList as $module)
-                                                @if($module->ModuleType!=2)
+                                            @foreach($categoryList as $category)
+                                                @if($category->CategoryType!=2)
                                                     <li>
-                                                        <a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a>
+                                                        <a href="{{url('p/categories/'.$category->CategoryID)}}">
+                                                            {{$category->CategoryName}}
+                                                        </a>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -125,10 +123,12 @@
                                     <div class="mu-single-sidebar">
                                         <h3>Danh mục bài viết</h3>
                                         <ul class="mu-sidebar-catg">
-                                            @foreach($moduleList as $module)
-                                                @if($module->ModuleType!=1)
+                                            @foreach($categoryList as $category)
+                                                @if($category->CategoryType!=1)
                                                     <li>
-                                                        <a href="{{url('p/modules/'.$module->ModuleID)}}">{{$module->ModuleName}}</a>
+                                                        <a href="{{url('p/categories/'.$category->CategoryID)}}">
+                                                            {{$category->CategoryName}}
+                                                        </a>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -143,14 +143,18 @@
                                                 <div class="mu-sidebar-popular-courses">
                                                     <div class="media">
                                                         <div class="media-left">
-                                                            <a href="{{url('/p/'.$mvPost->PostSlug).'.html'}}">
+                                                            <a href="{{route('postsviewSinglePost',
+                                                                        ['postSlug' => $mvPost->PostSlug])}}">
                                                                 <img class="media-object"
-                                                                     src="{{url('public/images/modules/'.$mvPost->ModuleID.'.jpg')}}"
+                                                                     src="{{url('public/images/categories/'.$mvPost->CategoryID.'.jpg')}}"
                                                                      alt="img">
                                                             </a>
                                                         </div>
                                                         <div class="media-body">
-                                                            <h4 class="media-heading" style="font-size: 13px;"><a href="{{url('/p/'.$mvPost->PostSlug).'.html'}}">{{$mvPost->PostTitle}}</a></h4>
+                                                            <h4 class="media-heading" style="font-size: 13px;"><a
+                                                                        href="{{route('postsviewSinglePost',
+                                                                        ['postSlug' => $mvPost->PostSlug]) }}">{{$mvPost->PostTitle}}</a>
+                                                            </h4>
                                                             <span class="popular-course-price"><i class="fa fa-eye"></i> {{$mvPost->Views}}</span>
                                                         </div>
                                                     </div>
