@@ -95,7 +95,7 @@
 
         $('body').on('click', '#delete', function () {
             let postID = $(this).data("id");
-            if (confirm('Bạn muốn xóa câu hỏi ' + postID + ' ?') === true)
+            if (confirm('Bạn muốn xóa bài viết ' + postID + ' ?') === true)
                 $.ajax({
                     url: '{!! url('tn-admin-th/posts/delete') !!}' + '/' + postID,
                     type: "GET",
