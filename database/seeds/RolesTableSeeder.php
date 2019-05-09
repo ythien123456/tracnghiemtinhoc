@@ -26,7 +26,7 @@ class RolesTableSeeder extends Seeder
             1 => 
             array (
                 'RoleID' => 2,
-                'RoleTitle' => 'Giáo viên',
+                'RoleTitle' => 'Biên tập viên',
                 'RoleDescription' => 'Quản trị nội dung đề, ngân hàng câu hỏi',
             ),
             2 => 

@@ -24,11 +24,11 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'Email' => 'required|max:255|min:5',
+            'Email' => 'required|email|max:255|min:5',
             'Password' => 'required|min:5|max:255',
             'PasswordConfirmation' => 'required|same:Password',
-            'LastName' => 'max:30',
             'FirstName' => 'required|max:30',
+            'LastName' => 'max:30',
             'WorkPlace' => 'max:50',
             'PhoneNumber' => 'regex:/^0[0-9\s.-]{9,13}$/',
             'Address' => 'max:255'
@@ -42,7 +42,8 @@ class RegisterRequest extends FormRequest
             'max' => ':attribute không được vượt quá :max ký tự',
             'min' => ':attribute không được ít hơn :min ký tự',
             'same' => 'Mật khẩu xác nhận không trùng khớp!',
-            'regex' => ':attribute không đúng định dạng'
+            'regex' => ':attribute không đúng định dạng',
+            'email' => 'Hãy sử dụng một địa chỉ email hợp lệ!',
         ];
     }
 

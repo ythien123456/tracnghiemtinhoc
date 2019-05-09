@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(QuestionsTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(ScoresTableSeeder::class);
+        $this->call(PostcategoriesTableSeeder::class);
     }
 }
