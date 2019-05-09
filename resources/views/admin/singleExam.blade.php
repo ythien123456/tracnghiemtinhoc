@@ -604,8 +604,7 @@
                                    let oTable = $('#questions-table').dataTable();
                                    oTable.fnDraw(false);
                                    console.log('Errors: ', data);
-                               },
-                               timeout: 5000
+                               }
                            });
                        }
                    }

@@ -74,7 +74,7 @@
                         <div class="form-group">
                             <label for="category-name" class="col-sm-12">Tên</label>
                             <div class="col-sm-12">
-                                <input type="email" class="form-control" id="category-name" name="category-name"
+                                <input type="text" class="form-control" id="category-name" name="category-name"
                                        value=""
                                        maxlength="100" required="">
                             </div>
@@ -151,7 +151,7 @@
         //Delete button
         $('body').on('click', '#delete', function () {
             let categoryID = $(this).data("id");
-            if (confirm('Bạn có chắc muốn xóa tài khoản ' + categoryID + ' ?') === true)
+            if (confirm('Bạn có chắc muốn xóa danh mục ' + categoryID + ' ?') === true)
                 $.ajax({
                     type: "get",
                     url: '{!! url('tn-admin-th/categories/delete') !!}' + '/' + categoryID,

@@ -122,6 +122,40 @@
                 <!-- /.panel-body -->
             </div>
             <!-- /.panel -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-pie-chart fa-fw"></i> 5 bài làm mới nhất
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <table class="table table-striped table-hover table-responsive">
+                        <tr>
+                        <td><strong>Mã bài làm</strong></td>
+                        <td><strong>ID - Tên người làm</strong></td>
+                        <td><strong>Tên đề</strong></td>
+                        <td><strong>Số câu trong đề</strong></td>
+                        <td><strong>Số câu đúng</strong></td>
+                        <td><strong>Ngày thực hiện</strong></td>
+                        </tr>
+                        <tbody>
+                        @foreach($fiveNewScores as $score)
+                            <tr>
+                                <td>{{$score->ScoreID}}</td>
+                                <td>{{$score->AccountID}} - {{$score->LastName.' '.$score->FirstName}}</td>
+                                <td>
+                                    <a href="{{route('viewExam',['ExamID' => $score->ExamID])}}">{{$score->ExamTitle}}</a>
+                                </td>
+                                <td>{{$score->TotalQuestions}}</td>
+                                <td>{{$score->Score}}</td>
+                                <td>{{$score->Date}}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
         </div>
         <!-- /.col-lg-8 -->
         <div class="col-lg-4 col-md-6">
@@ -156,7 +190,8 @@
                 <div class="panel-body">
                     <div class="list-group">
                         @foreach($eightNewPosts as $post)
-                            <a href="{{route('viewPost',['PostID' => $post->PostID])}}" class="list-group-item" title="{{$post->PostTitle}}">
+                            <a href="{{route('viewPost',['PostID' => $post->PostID])}}" class="list-group-item"
+                               title="{{$post->PostTitle}}">
                                 <i class="fa fa-arrow-left fa-fw"></i> {{mb_strimwidth($post->PostTitle,0,30,'...')}}
                                 <span class="pull-right text-muted small"><em>{{date('d-m-Y',strtotime($post->PostDate))}}</em></span>
                             </a>
@@ -172,7 +207,6 @@
         <!-- /.col-lg-4 -->
     </div>
     <!-- /.row -->
-    {{date('d-m-Y')}}
 @endsection
 
 @push('additionalJS')

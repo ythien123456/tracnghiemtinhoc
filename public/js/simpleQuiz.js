@@ -25,7 +25,10 @@ function nextQuestion() {
     if (activeButtonID < totalQuestions)
         activateQuestion(activeButtonID, currentActiveButton, currentActiveTabContent, +1);
     else
-        alert('Đây là câu hỏi cuối cùng!');
+        bootbox.alert({
+            message: 'Đây là câu hỏi cuối cùng!',
+            backdrop: true
+        });
 }
 
 function previousQuestion() {
@@ -36,7 +39,10 @@ function previousQuestion() {
     if (activeButtonID > 1)
         activateQuestion(activeButtonID, currentActiveButton, currentActiveTabContent, -1);
     else
-        alert('Đây là câu hỏi đầu tiên!');
+        bootbox.alert({
+            message: 'Đây là câu hỏi đầu tiên!',
+            backdrop: true,
+        });
 }
 
 //Set tab-content & Button to active so they will both active at the same time
@@ -282,18 +288,37 @@ function submitExam() {
     {
         const remainTime = document.getElementById('remaining').innerText;
         localStorage.setItem('remainingTime',remainTime);
-        if (confirm("Bạn có chắc là muốn nộp bài?")) {
-            submitBtn.click();
-        } else {
-            return false;
-        }
+        bootbox.confirm({
+            message: 'Bạn có chắc là muốn nộp bài?',
+            backdrop: true,
+            buttons: {
+                confirm: {
+                    label: 'Nộp bài',
+                    className: 'btn-primary'
+                },
+                cancel: {
+                    label: 'Hủy',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if(result) {
+                    submitBtn.click();
+                }
+            }
+        });
     } else {
-        alert('Bạn vẫn còn câu hỏi chưa hoàn thành, đừng nộp bài vội!');
+        bootbox.alert({
+            message: 'Bạn vẫn còn câu hỏi chưa hoàn thành, đừng nộp bài vội!',
+            backdrop: true,
+        });
         return false;
     }
 }
 
 function forceSubmit() {
-    alert('Đã hết giờ làm bài! Hệ thống sẽ tự động nộp bài của bạn');
+    bootbox.dialog({
+        message: 'Đã hết giờ làm bài! Hệ thống sẽ tự động nộp bài của bạn'
+    });
     submitBtn.click();
 }

@@ -17,7 +17,14 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Bài viết</h1>
+            <div class="row page-header">
+                <div class="col-md-1">
+                    <a href="{{url()->previous()}}" title="Quay về trang trước"><h1><i class="fa fa-arrow-left"></i></h1></a>
+                </div>
+                <div class="col-md-11">
+                    <h1>Bài viết</h1>
+                </div>
+            </div>
         </div>
         <!-- /.col-lg-12 -->
     </div>

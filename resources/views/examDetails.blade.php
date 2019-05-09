@@ -430,7 +430,7 @@
             $(document).ready(function () {
                 var warning = bootbox.dialog({
                     title: 'Bạn cần phải đăng nhập để làm bài',
-                    message: '<p><i class="fa fa-spin fa-spinner"></i> Đang bạn sang trang đăng nhập...</p>'
+                    message: '<p><i class="fa fa-spin fa-spinner"></i> Đang chuyển bạn sang trang đăng nhập...</p>'
                 });
                 warning.init(function () {
                     setTimeout(function(){

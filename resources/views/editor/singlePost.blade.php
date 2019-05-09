@@ -43,19 +43,20 @@
                             <div class="panel-body">
                                 <p><i class="fa fa-pencil"></i> ID Người đăng: {{$post->AccountID}}</p>
                                 <input type="hidden" id="post-author" name="post-author" value="{{$post->AccountID}}">
-                                <p class="form-inline"><i class="fa fa-question"></i> Module:
-                                    <select class="form-control" id="post-module" name="post-module">
-                                        <option value="1" {{$post->ModuleID==1 ? 'selected' : ''}}>1 - CNTT</option>
-                                        <option value="2" {{$post->ModuleID==2 ? 'selected' : ''}}>2 - Hệ điều hành
+                                <p class="form-inline"><i class="fa fa-question"></i> Danh mục:
+                                    <select class="form-control" id="post-category" name="post-category">
+                                        <option value="1" {{$post->CategoryID==1 ? 'selected' : ''}}>1 - CNTT</option>
+                                        <option value="2" {{$post->CategoryID==2 ? 'selected' : ''}}>2 - Hệ điều hành
                                         </option>
-                                        <option value="3" {{$post->ModuleID==3 ? 'selected' : ''}}>3 - Internet</option>
-                                        <option value="4" {{$post->ModuleID==4 ? 'selected' : ''}}>4 - Word</option>
-                                        <option value="5" {{$post->ModuleID==5 ? 'selected' : ''}}>5 - Excel</option>
-                                        <option value="6" {{$post->ModuleID==6 ? 'selected' : ''}}>6 - Powerpoint
+                                        <option value="3" {{$post->CategoryID==3 ? 'selected' : ''}}>3 - Internet</option>
+                                        <option value="4" {{$post->CategoryID==4 ? 'selected' : ''}}>4 - Word</option>
+                                        <option value="5" {{$post->CategoryID==5 ? 'selected' : ''}}>5 - Excel</option>
+                                        <option value="6" {{$post->CategoryID==6 ? 'selected' : ''}}>6 - Powerpoint
                                         </option>
-                                        <option value="7" {{$post->ModuleID==7 ? 'selected' : ''}}>7 - Hướng dẫn
+                                        <option value="7" {{$post->CategoryID==7 ? 'selected' : ''}}>7 - Hướng dẫn
                                         </option>
-                                        <option value="8" {{$post->ModuleID==8 ? 'selected' : ''}}>8 - Tin tức</option>
+                                        <option value="8" {{$post->CategoryID==8 ? 'selected' : ''}}>8 - Tin tức</option>
+                                        <option value="9" {{$post->CategoryID==9 ? 'selected' : ''}}>9 - Kiến thức tổng hợp</option>
                                     </select>
                                 </p>
                                 <p><i class="fa fa-eye"></i> Lượt xem: {{$post->Views}}</p>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Editor;
 use App\Http\Models\Exams;
 use App\Http\Models\QuestionDetails;
 use App\Http\Models\Questions;
+use App\Http\Models\Scores;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -50,7 +51,11 @@ class EditorExamController extends Controller
                     $qcount = QuestionDetails::where('ExamID', $exams->ExamID)->get();
                     return count($qcount);
                 })
-                ->rawColumns(['action', 'title', 'currentQuestions'])
+                ->addColumn('TotalScores', function ($exams) {
+                    $scoreCounts = Scores::where('ExamID',$exams->ExamID)->get();
+                    return count($scoreCounts);
+                })
+                ->rawColumns(['action', 'title', 'currentQuestions','TotalScores'])
                 ->make(true);
         }
         return view('errors.404');

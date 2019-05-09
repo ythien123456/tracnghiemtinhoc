@@ -122,6 +122,8 @@ Route::group(['prefix' => 'tn-admin-th', 'middleware' => 'checkAdminLogin'], fun
 
     Route::get('getCategories','Admin\AdminCategoryController@getCategories')->name('categoriesTable');
     Route::get('/categories/edit/{CategoryID}','Admin\AdminCategoryController@edit')->name('editCategory');
+    Route::post('/categories/store','Admin\AdminCategoryController@store')->name('storeCategory');
+    Route::get('/categories/delete/{CategoryID}','Admin\AdminCategoryController@destroy')->name('deleteCategory');
     /* END AJAX Requests */
 });
 

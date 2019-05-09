@@ -53,7 +53,8 @@
                 <h2>Tại sao cần phải có kiến thức CNTT?</h2>
                 <p>Năm 2019 hiện tại chính là thời đại phát triển vượt bậc của công nghệ khi thế giới đã bước qua giai
                     đoạn 4.0, khi bạn đi bất cứ đâu cũng sẽ bắt gặp được thiết bị điện tử kể cả ở vùng quê.</p>
-                <a href="#" class="mu-read-more-btn">xem thêm</a>
+                <a href="{{route('postsviewSinglePost',['PostSlug' => 'tai-sao-ban-phai-biet-va-su-dung-cong-nghe-thong-tin'])}}"
+                   class="mu-read-more-btn">xem thêm</a>
             </div>
         </div>
         <!-- Start single slider item -->

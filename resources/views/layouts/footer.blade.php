@@ -18,9 +18,19 @@
                         <div class="mu-footer-widget">
                             <h4>Hướng dẫn</h4>
                             <ul>
-                                <li><a href="">Hướng dẫn làm bài thi</a></li>
-                                <li><a href="">Các phần mềm cần thiết</a></li>
-                                <li><a href="">Tổng hợp các vấn đề thường gặp</a></li>
+                                <li>
+                                    <a href="{{route('postsviewSinglePost',['PostSlug' => 'huong-dan-lam-bai-tren-he-thong-tnth'])}}">
+                                        Hướng dẫn làm bài thi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{route('postsviewSinglePost',['PostSlug' => 'cac-phan-mem-van-phong-can-thiet'])}}">
+                                        Các phần mềm cần thiết
+                                    </a></li>
+                                <li>
+                                    <a href="{{route('postsviewSinglePost',['PostSlug' => 'tong-hop-cac-loi-phan-mem-thuong-gap'])}}">
+                                        Tổng hợp các vấn đề thường gặp
+                                    </a></li>
                             </ul>
                         </div>
                     </div>
@@ -35,7 +45,7 @@
                             <h4>LIÊN HỆ</h4>
                             <address>
                                 <p>Trường Đại học Công nghiệp TP.HCM</p>
-                                <p>Số diện thoại: 0935029097 </p>
+                                <p>Số điện thoại: 0935029097 </p>
                             </address>
                         </div>
                     </div>

@@ -9,6 +9,7 @@ use App\Http\Models\Questions;
 use App\Http\Models\Scores;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends Controller
 {
@@ -22,7 +23,7 @@ class AdminDashboardController extends Controller
         $totalEditors = Accounts::where('Role',2)->count();
         $totalAdmins = Accounts::where('Role',3)->count();
         $totalAccounts = Accounts::all()->count();
-        $totalScores = Scores::all()->count();
+
         /*EXAMS*/
         $totalExams = Exams::all()->count();
         /*QUESTIONS*/
@@ -33,6 +34,17 @@ class AdminDashboardController extends Controller
         $totalQuestionsModule4 = Questions::where('ModuleID',4)->count();
         $totalQuestionsModule5 = Questions::where('ModuleID',5)->count();
         $totalQuestionsModule6 = Questions::where('ModuleID',6)->count();
+        /*SCORES*/
+        $totalScores = Scores::all()->count();
+        $fiveNewScores = DB::table('scores as s')
+            ->join('accounts as a','s.AccountID','=','a.AccountID')
+            ->join('exams as e','s.ExamID','=','e.ExamID')
+            ->select('s.ScoreID','s.AccountID','a.FirstName','a.LastName',
+                'e.ExamTitle', 'e.ExamID','e.TotalQuestions','s.Score','s.Date')
+            ->limit(5)
+            ->orderByDesc('s.ScoreID')
+            ->get();
+
         return view('admin.dashboard')
             ->with([
                 /*POSTS*/
@@ -54,7 +66,8 @@ class AdminDashboardController extends Controller
                 'totalQuestionsModule5' => $totalQuestionsModule5,
                 'totalQuestionsModule6' => $totalQuestionsModule6,
                 /*SCORES*/
-                'totalScores' => $totalScores
+                'totalScores' => $totalScores,
+                'fiveNewScores' => $fiveNewScores,
             ]);
     }
 }

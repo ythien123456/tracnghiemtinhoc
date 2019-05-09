@@ -97,8 +97,12 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="{{Request::is('tn-admin-th/exams') || Request::is('tn-admin-th/modules') ? 'active' : ''}}">
-                        <a href="#" class="{{Request::is('tn-admin-th/exams') || Request::is('tn-admin-th/modules') ? 'active' : ''}}">
+                    <li class="{{Request::is('tn-admin-th/exams') ||
+                    Request::is('tn-admin-th/exams/*') ||
+                    Request::is('tn-admin-th/modules') ? 'active' : ''}}">
+                        <a href="#" class="{{Request::is('tn-admin-th/exams') ||
+                        Request::is('tn-admin-th/exams/*') ||
+                        Request::is('tn-admin-th/modules') ? 'active' : ''}}">
                             <i class="fa fa-align-justify"></i> Đề thi<span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level">

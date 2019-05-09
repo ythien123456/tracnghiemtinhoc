@@ -41,8 +41,24 @@ class AdminCategoryController extends Controller
         return view('errors.ad404');
     }
 
-    public function test()
+    public function store(Request $request)
     {
-        return 'asd';
+        $CategoryID = $request->input('category_id');
+        $CategoryName = $request->input('category-name');
+        $CategoryDescription = $request->input('category-description');
+        $category = PostCategories::updateOrCreate(
+            ['CategoryID' => $CategoryID],
+            [
+                'CategoryName' => $CategoryName,
+                'CategoryDescription' => $CategoryDescription
+            ]
+        );
+        return response()->json($category);
+    }
+
+    public function destroy($CategoryID)
+    {
+        $result = PostCategories::where('CategoryID',$CategoryID)->first()->delete();
+        return response()->json($result);
     }
 }

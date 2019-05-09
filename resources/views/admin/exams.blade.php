@@ -39,6 +39,7 @@
                                 <th>Câu hỏi cần có</th>
                                 <th>Câu hỏi hiện có</th>
                                 <th>Thời gian</th>
+                                <th>Lượt Thi</th>
                                 <th>Trạng thái</th>
                                 <th>Ngày tạo</th>
                                 <th>Hành động</th>
@@ -167,6 +168,7 @@
                     {data: 'TotalQuestions'},
                     {data: 'currentQuestions'},
                     {data: 'TimeLimit'},
+                    {data: 'TotalScores'},
                     {data: 'Status'},
                     {data: 'DateCreated'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}

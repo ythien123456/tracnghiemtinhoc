@@ -36,7 +36,7 @@ class EditorPostController extends Controller
                     return $buttons;
                 })
                 ->addColumn('title', function ($posts) {
-                    $title = '<a href="' . route('viewPost', ['PostID' => $posts->PostID]) . '">
+                    $title = '<a href="' . route('editorViewPost', ['PostID' => $posts->PostID]) . '">
                     ' . $posts->PostTitle . '</a>';
                     return $title;
                 })

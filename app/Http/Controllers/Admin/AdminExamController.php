@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Models\Exams;
 use App\Http\Models\QuestionDetails;
 use App\Http\Models\Questions;
+use App\Http\Models\Scores;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +50,11 @@ class AdminExamController extends Controller
                     $qcount = QuestionDetails::where('ExamID', $exams->ExamID)->get();
                     return count($qcount);
                 })
-                ->rawColumns(['action', 'title', 'currentQuestions'])
+                ->addColumn('TotalScores', function ($exams) {
+                    $scoreCounts = Scores::where('ExamID',$exams->ExamID)->get();
+                    return count($scoreCounts);
+                })
+                ->rawColumns(['action', 'title', 'currentQuestions','TotalScores'])
                 ->make(true);
         }
         return view('errors.404');
@@ -59,7 +64,7 @@ class AdminExamController extends Controller
     {
         $questions = DB::table('questions AS q')
             ->JOIN('questiondetails AS qd', 'q.QuestionID', '=', 'qd.QuestionID')
-            ->JOIN('answers as a', 'q.QuestionID', '=', 'a.QuestionID')
+            ->JOIN('answers as a', 'q.QuestionID','=', 'a.QuestionID')
             ->JOIN('exams as e', 'qd.ExamID', '=', 'e.ExamID')
             ->select('q.QuestionID', 'q.QuestionContent', 'q.ModuleID')
             ->where('e.ExamID', '=', $examID)
@@ -276,6 +281,7 @@ class AdminExamController extends Controller
     {
         $examInfo = Exams::where('ExamID', $ExamID)->first();
         if ($examInfo->ExamType == 1) {
+
             for ($i = 1; $i <= 6; $i++) {
                 $questions = Questions::where('ModuleID', $i)
                     ->inRandomOrder()
