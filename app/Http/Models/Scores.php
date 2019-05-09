@@ -30,6 +30,14 @@ class Scores extends Model
         //select DISTINCT ExamID, (select count(ScoreID) from scores sc where sc.ExamID=s.ExamID) as TimesDone from scores s WHERE AccountID=1
     }
 
+    public static function getScoresByExamAndAccountID($ExamID,$AccountID)
+    {
+        $scores = Scores::where('ExamID', $ExamID)
+            ->where('AccountID', $AccountID)
+            ->orderByDesc('Date')->get();
+        return $scores;
+    }
+
     public static function getAllScoresByAccountID($AccountID)
     {
 //        $scores = DB::table('scores as s')

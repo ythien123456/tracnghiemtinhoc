@@ -50,9 +50,7 @@ class AccountController extends Controller
         $scores = array();
         foreach ($stats as $stat) {
             $i = 0;
-            $scoresByExamAndAccountID = Scores::where('ExamID', $stat->ExamID)
-                ->where('AccountID', session('AccountID'))
-                ->orderByDesc('Date')->get();
+            $scoresByExamAndAccountID = Scores::getScoresByExamAndAccountID($stat->ExamID,session('AccountID'));
             foreach ($scoresByExamAndAccountID as $sbe) {
                 $scores['score' . $stat->ExamID . '-' . $i] = $sbe->Score;
                 $scores['date' . $stat->ExamID . '-' . $i] = $sbe->Date;

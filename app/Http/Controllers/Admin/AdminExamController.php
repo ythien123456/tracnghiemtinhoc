@@ -277,17 +277,24 @@ class AdminExamController extends Controller
         ]);
     }
 
+    public function addQuestionToExamNonAjax($ExamID,$QuestionID)
+    {
+        $qd = new QuestionDetails;
+        $qd->ExamID = $ExamID;
+        $qd->QuestionID = $QuestionID;
+        return $qd->save();
+    }
+
     public function autoCompose($ExamID)
     {
         $examInfo = Exams::where('ExamID', $ExamID)->first();
         if ($examInfo->ExamType == 1) {
-
             for ($i = 1; $i <= 6; $i++) {
-                $questions = Questions::where('ModuleID', $i)
+                $random5questions = Questions::where('ModuleID', $i)
                     ->inRandomOrder()
                     ->limit(5)
                     ->get();
-                foreach ($questions as $q) {
+                foreach ($random5questions as $q) {
                     $qd = new QuestionDetails;
                     $qd->ExamID = $ExamID;
                     $qd->QuestionID = $q->QuestionID;
@@ -303,15 +310,15 @@ class AdminExamController extends Controller
             {
                 if($i>$examInfo->TotalQuestions)
                     break;
-                $question = Questions::select('QuestionID')
+                $randomQuestion = Questions::select('QuestionID')
                     ->inRandomOrder()
                     ->first();
-                if(in_array($question->QuestionID,$idArr))
+                if(in_array($randomQuestion->QuestionID,$idArr))
                     continue;
-                array_push($idArr, $question->QuestionID);
+                array_push($idArr, $randomQuestion->QuestionID);
                 $qd = new QuestionDetails;
                 $qd->ExamID = $ExamID;
-                $qd->QuestionID = $question->QuestionID;
+                $qd->QuestionID = $randomQuestion->QuestionID;
                 if (!$qd->save())
                     return response()->json(['status' => 0, 'message' => 'Lỗi']);
                 $i++;
@@ -330,17 +337,17 @@ class AdminExamController extends Controller
             {
                 if($i>$examInfo->TotalQuestions)
                     break;
-                $question = Questions::select('QuestionID')
+                $questionByModule = Questions::select('QuestionID')
                     ->where('ModuleID',$ModuleID)
                     ->inRandomOrder()
                     ->first();
-                if(in_array($question->QuestionID,$idArr)) {
+                if(in_array($questionByModule->QuestionID,$idArr)) {
                     continue;
                 }
-                array_push($idArr, $question->QuestionID);
+                array_push($idArr, $questionByModule->QuestionID);
                 $qd = new QuestionDetails;
                 $qd->ExamID = $ExamID;
-                $qd->QuestionID = $question->QuestionID;
+                $qd->QuestionID = $questionByModule->QuestionID;
                 if (!$qd->save())
                     return response()->json(['status' => 0, 'message' => 'Lỗi']);
                 $i++;

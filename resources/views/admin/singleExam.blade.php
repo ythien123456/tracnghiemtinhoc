@@ -103,12 +103,21 @@
                             <label class="col-sm-12" for="exam-type">Module</label>
                             <div class="col-sm-12">
                                 <select class="form-control" id="question-module" name="question-module">
-                                    <option value="1">1 - CNTT</option>
-                                    <option value="2">2 - Hệ điều hành</option>
-                                    <option value="3">3 - Internet</option>
-                                    <option value="4">4 - Word</option>
-                                    <option value="5">5 - Excel</option>
-                                    <option value="6">6 - Powerpoint</option>
+                                    @if($examInfo->ExamType <= 2)
+                                        <option value="1">1 - CNTT</option>
+                                        <option value="2">2 - Hệ điều hành</option>
+                                        <option value="3">3 - Internet</option>
+                                        <option value="4">4 - Word</option>
+                                        <option value="5">5 - Excel</option>
+                                        <option value="6">6 - Powerpoint</option>
+                                    @else
+                                        {!! $examInfo->ExamType==3 ? '<option value="3">Internet</option>' : ''!!}
+                                        {!! $examInfo->ExamType==4 ? '<option value="2">Hệ điều hành</option>' : ''!!}
+                                        {!! $examInfo->ExamType==5? '<option value="1">CNTT</option>' : ''!!}
+                                        {!! $examInfo->ExamType==6? '<option value="4">Word</option>' : ''!!}
+                                        {!! $examInfo->ExamType==7? '<option value="5">Excel</option>' : ''!!}
+                                        {!! $examInfo->ExamType==8? '<option value="6">Powerpoint</option>' : ''!!}
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -394,8 +403,8 @@
                         });
                         alr.init(function () {
                             setTimeout(function () {
-                               alr.fadeOut();
-                            },1500);
+                                alr.fadeOut();
+                            }, 1500);
                         });
                         return false;
                     } else {
@@ -444,7 +453,7 @@
                     dataType: 'json',
                     success: function (data) {
                         $('#questionForm').trigger('reset');
-                        if(!mass_create_status)
+                        if (!mass_create_status)
                             $('#question-modal').modal('hide');
                         $('#btn-save').html('Lưu');
                         let oTable = $('#questions-table').dataTable();
@@ -452,8 +461,8 @@
                     },
                     error: function (data) {
                         bootbox.alert({
-                            message: 'Lỗi: <p>'+ data.responseJSON.message +'</p>',
-                            backdrop:true
+                            message: 'Lỗi: <p>' + data.responseJSON.message + '</p>',
+                            backdrop: true
                         });
                         console.log('Error: ', data);
                         $('#btn-save').html('Lưu');
@@ -505,7 +514,7 @@
                         });
                         setTimeout(function () {
                             location.reload();
-                        },1000);
+                        }, 1000);
 
                     },
                     error: function (data) {
@@ -573,41 +582,41 @@
                 alr.init(function () {
                     setTimeout(function () {
                         alr.fadeOut();
-                    },2000);
+                    }, 2000);
                 });
                 return false;
             } else {
                 bootbox.confirm({
-                   message: 'Bạn có chắc muốn soạn đề tự động?',
-                   callback: function(result) {
-                       if(result) {
-                           $('#btn-compose-auto').html('<i class="fa fa-spin fa-spinner"></i> Đang soạn...');
-                           $.ajax({
-                               url: '{!! route('examAutoCompose',['ExamID' => $examInfo->ExamID]) !!}',
-                               type: 'post',
-                               success: function (data) {
-                                   if (data.status === 0)
-                                       bootbox.alert({
-                                           message: data.message
-                                       });
-                                   else {
-                                       bootbox.dialog({
-                                           message: 'Soạn đề thành công!'
-                                       });
-                                       $('#btn-compose-auto').html('Soạn đề (tự động)');
-                                       let oTable = $('#questions-table').dataTable();
-                                       oTable.fnDraw(false);
-                                   }
-                               },
-                               error: function (data) {
-                                   $('#btn-compose-auto').html('Soạn đề (tự động)');
-                                   let oTable = $('#questions-table').dataTable();
-                                   oTable.fnDraw(false);
-                                   console.log('Errors: ', data);
-                               }
-                           });
-                       }
-                   }
+                    message: 'Bạn có chắc muốn soạn đề tự động?',
+                    callback: function (result) {
+                        if (result) {
+                            $('#btn-compose-auto').html('<i class="fa fa-spin fa-spinner"></i> Đang soạn...');
+                            $.ajax({
+                                url: '{!! route('examAutoCompose',['ExamID' => $examInfo->ExamID]) !!}',
+                                type: 'post',
+                                success: function (data) {
+                                    if (data.status === 0)
+                                        bootbox.alert({
+                                            message: data.message
+                                        });
+                                    else {
+                                        bootbox.dialog({
+                                            message: 'Soạn đề thành công!'
+                                        });
+                                        $('#btn-compose-auto').html('Soạn đề (tự động)');
+                                        let oTable = $('#questions-table').dataTable();
+                                        oTable.fnDraw(false);
+                                    }
+                                },
+                                error: function (data) {
+                                    $('#btn-compose-auto').html('Soạn đề (tự động)');
+                                    let oTable = $('#questions-table').dataTable();
+                                    oTable.fnDraw(false);
+                                    console.log('Errors: ', data);
+                                }
+                            });
+                        }
+                    }
                 });
             }
         });
