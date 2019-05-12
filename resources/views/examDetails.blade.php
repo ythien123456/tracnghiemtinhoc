@@ -68,7 +68,8 @@
                                             <p>{!! $qArr['QuestionContent'.$i] !!}</p>
                                         </div>
                                         <hr>
-                                        <ul class="answerList @if(session()->has('score'))actionDisabled @endif">
+                                        <ul class="answerList @if(session()->has('score')) actionDisabled
+                                            {{old('question'.$qArr['QuestionID'.$i])==null ? 'unanswered' : ''}} @endif">
                                             @if($qArr['QuestionType'.$i]==1)
                                                 <li class="question{{$i+1}}
                                                 @if(session()->has('answersArray'))
@@ -215,6 +216,20 @@
                     </form>
                 </div>
                 <div class="col-md-4 rightContent">
+                    @if(session()->has('score'))
+                        <div class="panel panel-default">
+                            <div class="panel-heading text-center text-uppercase">
+                                <strong>Chú thích</strong>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-3"><span style="color: #ff5b51;">▇</span> Sai</div>
+                                    <div class="col-sm-4"><span style="color: lightgreen;">▇</span> Đúng</div>
+                                    <div class="col-sm-5"><span style="color: orange;">▇</span> Chưa chọn</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     <div class="numbers">
                         <div class="questionsNum">
                             <ul class="nav nav-pills">
@@ -244,10 +259,12 @@
                                         }
                                         !isWrong ? questionNumList[i].classList.add('answered') : '';
                                     }
-                                    const allRadio = $(".answerList li.rightAnswer");
-                                    for(let z = 1; z <= totalQuestions; z++)
-                                    {
-                                        let answer = $(".answerList li")[z];
+                                    for (let z = 0; z <= questionNumList.length - 1; z++) {
+                                        let answerList = document.getElementsByClassName('answerList');
+                                        if (answerList[z].classList.contains("unanswered")) {
+                                            questionNumList[z].classList.remove('answered');
+                                            questionNumList[z].classList.add('unAnsweredQuestion');
+                                        }
                                     }
                                 </script>
                             @endif
@@ -438,7 +455,7 @@
                     message: '<p><i class="fa fa-spin fa-spinner"></i> Đang chuyển bạn sang trang đăng nhập...</p>'
                 });
                 warning.init(function () {
-                    setTimeout(function(){
+                    setTimeout(function () {
                         document.location.href = '{!! route('login') !!}';
                     }, 2000);
                 });

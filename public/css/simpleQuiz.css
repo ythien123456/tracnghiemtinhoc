@@ -122,7 +122,11 @@
 }
 
 .quizWrapper .rightContent .numbers .questionsNum .wrongAnsweredQuestion {
-    background: lightpink;
+    background: #ff5b51;
+}
+
+.quizWrapper .rightContent .numbers .questionsNum .unAnsweredQuestion {
+    background: orange;
 }
 
 .quizWrapper .numbers .questionsNum .answered {
