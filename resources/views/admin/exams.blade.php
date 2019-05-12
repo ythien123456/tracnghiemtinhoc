@@ -80,7 +80,7 @@
                             <label for="exam-description" class="col-sm-12">Mô tả</label>
                             <div class="col-sm-12">
                                 <textarea class="form-control" id="exam-description" name="exam-description"
-                                          value=""></textarea>
+                                          value="" required></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -219,6 +219,7 @@
                     type: "get",
                     url: '{!! url('tn-admin-th/exams/delete') !!}' + '/' + examID,
                     success: function (data) {
+                        alert(data.message);
                         let oTable = $('#exam-table').dataTable();
                         oTable.fnDraw(false);
                     },

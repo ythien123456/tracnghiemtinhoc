@@ -33,9 +33,9 @@
                 <div class="col-md-8">
                     <a href="javascript:void(0)" type="button" id="btn-edit-exam" class="btn btn-primary"><i
                                 class="fa fa-edit"></i> Sửa thông tin đề</a> |
-                    <a href="javascript:void(0)" type="button" id="btn-add-question" class="btn btn-success"
-                       data-id="{{$examInfo->ExamType}}"><i
-                                class="fa fa-plus"></i> Nhập thêm câu hỏi</a> |
+{{--                    <a href="javascript:void(0)" type="button" id="btn-add-question" class="btn btn-success"--}}
+{{--                       data-id="{{$examInfo->ExamType}}"><i--}}
+{{--                                class="fa fa-plus"></i> Nhập thêm câu hỏi</a> |--}}
                     <a href="{{route('examManualCompose',['ExamID' => $examInfo->ExamID])}}" class="btn btn-info">
                         <i class="fa fa-plus"></i> Soạn đề (thủ công)</a>
                     <a href="javascript:void(0)" class="btn btn-info" id="btn-compose-auto"
@@ -51,7 +51,69 @@
                     </a>
                 </div>
             </div>
-            <br><br>
+            <h3 class="text-center">Số lượng câu hỏi mỗi module</h3>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            CNTT
+                        </div>
+                        <div class="panel-body">
+                            <span id="cntt-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            HĐH
+                        </div>
+                        <div class="panel-body">
+                            <span id="hdh-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            Internet
+                        </div>
+                        <div class="panel-body">
+                            <span id="internet-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            Word
+                        </div>
+                        <div class="panel-body">
+                            <span id="word-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            Excel
+                        </div>
+                        <div class="panel-body">
+                            <span id="excel-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            Powerpoint
+                        </div>
+                        <div class="panel-body">
+                            <span id="powerpoint-qcount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4>Số câu: {{$examInfo->TotalQuestions}} - Thời gian: {{$examInfo->TimeLimit}}m </h4>
@@ -82,6 +144,7 @@
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
+
     <div class="modal fade" id="question-modal" aria-hidden="true">
         <div class="modal-dialog" style="width:70%;">
             <form id="questionForm" name="questionForm" class="form-horizontal">
@@ -275,7 +338,27 @@
 @push('additionalJS')
     <script>
         let mass_create_status = false;
+        function moduleQuestionsCount() {
+            $.ajax({
+                url: '{!! route('countQuestionsInModule',['ExamID' => $examInfo->ExamID]) !!}',
+                type: 'get',
+                success: function (data) {
+                    $('#cntt-qcount').html(data.module1);
+                    $('#hdh-qcount').html(data.module2);
+                    $('#internet-qcount').html(data.module3);
+                    $('#word-qcount').html(data.module4);
+                    $('#excel-qcount').html(data.module5);
+                    $('#powerpoint-qcount').html(data.module6);
+                    let sum = data.module1 + data.module2 + data.module3 + data.module4 + data.module5 + data.module6;
+                    $('#sum-qcount').html(sum);
+                },
+                error: function (data) {
+                    console.log('Error', data);
+                }
+            });
+        }
         $(document).ready(function () {
+            moduleQuestionsCount();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -308,6 +391,7 @@
                     success: function (data) {
                         let oTable = $('#questions-table').dataTable();
                         oTable.fnDraw(false);
+                        moduleQuestionsCount();
                     },
                     error: function (data) {
                         console.log('Error: ', data);
@@ -390,36 +474,36 @@
             }
         });
 
-        //add new question to exam
-        $('#btn-add-question').click(function () {
-            let total_questions = {{$examInfo->TotalQuestions}};
-            $.ajax({
-                url: '{!! route('sumQuestions',['ExamID' => $examInfo->ExamID]) !!}',
-                type: 'get',
-                success: function (data) {
-                    if (data >= total_questions) {
-                        let alr = bootbox.dialog({
-                            message: 'Đề thi này đã đủ số lượng ' + total_questions + ' câu!'
-                        });
-                        alr.init(function () {
-                            setTimeout(function () {
-                                alr.fadeOut();
-                            }, 1500);
-                        });
-                        return false;
-                    } else {
-                        $('#btn-switch-mass-create').show();
-                        $('#question_id').val('');
-                        $('#questionForm').trigger("reset");
-                        $('#question-modal-title').html("Thêm câu hỏi mới");
-                        $('#question-modal').modal('show');
-                    }
-                },
-                error: function (data) {
-                    console.log('Error', data);
-                }
-            });
-        });
+        {{--//add new question to exam--}}
+        {{--$('#btn-add-question').click(function () {--}}
+        {{--    let total_questions = {{$examInfo->TotalQuestions}};--}}
+        {{--    $.ajax({--}}
+        {{--        url: '{!! route('sumQuestions',['ExamID' => $examInfo->ExamID]) !!}',--}}
+        {{--        type: 'get',--}}
+        {{--        success: function (data) {--}}
+        {{--            if (data >= total_questions) {--}}
+        {{--                let alr = bootbox.dialog({--}}
+        {{--                    message: 'Đề thi này đã đủ số lượng ' + total_questions + ' câu!'--}}
+        {{--                });--}}
+        {{--                alr.init(function () {--}}
+        {{--                    setTimeout(function () {--}}
+        {{--                        alr.fadeOut();--}}
+        {{--                    }, 1500);--}}
+        {{--                });--}}
+        {{--                return false;--}}
+        {{--            } else {--}}
+        {{--                $('#btn-switch-mass-create').show();--}}
+        {{--                $('#question_id').val('');--}}
+        {{--                $('#questionForm').trigger("reset");--}}
+        {{--                $('#question-modal-title').html("Thêm câu hỏi mới");--}}
+        {{--                $('#question-modal').modal('show');--}}
+        {{--            }--}}
+        {{--        },--}}
+        {{--        error: function (data) {--}}
+        {{--            console.log('Error', data);--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
 
         // Save question button
         $('#questionForm').validate({
@@ -557,6 +641,7 @@
                                 bootbox.alert({
                                     message: 'Xóa thành công!',
                                     callback: function () {
+                                        moduleQuestionsCount();
                                         $(this).fadeOut();
                                     }
                                 });
@@ -595,6 +680,7 @@
                                 url: '{!! route('examAutoCompose',['ExamID' => $examInfo->ExamID]) !!}',
                                 type: 'post',
                                 success: function (data) {
+                                    moduleQuestionsCount();
                                     if (data.status === 0)
                                         bootbox.alert({
                                             message: data.message

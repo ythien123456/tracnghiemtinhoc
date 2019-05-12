@@ -1,6 +1,11 @@
-@if(session('message'))
+@if(session('errMessage'))
+    <div class="alert alert-danger">
+        {{session('errMessage')}}
+    </div>
+@endif
+@if(session('successMessage'))
     <div class="alert alert-success">
-        {{session('message')}}
+        {{session('successMessage')}}
     </div>
 @endif
 @if(count($errors)>0)

@@ -35,13 +35,19 @@ class AccountController extends Controller
         $acc->LastName = $request->input('LastName');
         $acc->Gender = $request->input('Gender');
         $acc->Address = $request->input('Address');
+        $phoneNumberCheck = Accounts::select('PhoneNumber')
+            ->where('PhoneNumber',$request->input('PhoneNumber'))
+            ->where('AccountID','<>',$accountID)->first();
+        if($phoneNumberCheck)
+            return back()
+                ->with(['errMessage' => 'Số điện thoại '.$phoneNumberCheck->PhoneNumber.' đã tồn tại trong hệ thống!']);
         $acc->PhoneNumber = $request->input('PhoneNumber');
         $acc->WorkPlace = $request->input('WorkPlace');
         if ($acc->save())
             return back()
-                ->with(['message' => 'Thay đổi thông tin thành công!']);
+                ->with(['successMessage' => 'Thay đổi thông tin thành công!']);
         return back()
-            ->with(['message' => 'Thay đổi thông tin thất bại!']);
+            ->with(['errMessage' => 'Thay đổi thông tin thất bại!']);
     }
 
     public function getScoreHistory()
@@ -68,9 +74,13 @@ class AccountController extends Controller
         $currentPassword = $request->input('CurrentPassword');
         $newPassword = $request->input('NewPassword');
         $account = Accounts::where('AccountID', $AccountID)->where('Password', md5($currentPassword))->first();
+
         if (!$account)
             return back()
                 ->with(['errorMessage' => 'Mật khẩu hiện tại không đúng!']);
+        if($account->Password==md5($newPassword))
+            return back()
+                ->with(['errorMessage' => 'Mật khẩu mới không được trùng với mật khẩu cũ!']);
         $account->Password = md5($newPassword);
         if ($account->save())
             return back()

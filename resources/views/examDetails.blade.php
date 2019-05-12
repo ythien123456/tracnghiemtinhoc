@@ -244,6 +244,11 @@
                                         }
                                         !isWrong ? questionNumList[i].classList.add('answered') : '';
                                     }
+                                    const allRadio = $(".answerList li.rightAnswer");
+                                    for(let z = 1; z <= totalQuestions; z++)
+                                    {
+                                        let answer = $(".answerList li")[z];
+                                    }
                                 </script>
                             @endif
                         </div>

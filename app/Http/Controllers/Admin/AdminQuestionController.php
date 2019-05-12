@@ -84,6 +84,8 @@ class AdminQuestionController extends Controller
             is_null($CorrectAnswers) ? $answerArr['CorrectAnswers'] = null : $answerArr['CorrectAnswers'] = $CorrectAnswers;
             $AnswerExplain = $request->input('question-explain');
             if (isset($QuestionID)) {
+                if($answerArr['A']==null || $answerArr['B']==null || $answerArr['C']==null || $answerArr['D']==null)
+                    return response()->json(['message' => 'Câu hỏi thiếu thông tin!'],400);
                 $question = Questions::updateOrCreate(
                     ['QuestionID' => $QuestionID],
                     [

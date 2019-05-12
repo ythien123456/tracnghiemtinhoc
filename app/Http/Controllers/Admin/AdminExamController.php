@@ -107,10 +107,13 @@ class AdminExamController extends Controller
             $TotalQuestions = $request->input('exam-total-questions');
             $TimeLimit = $request->input('exam-time-limit');
         } else {
-            $TotalQuestions = 30;
-            $TimeLimit = 30;
+            $TotalQuestions = 40;
+            $TimeLimit = 40;
         }
         $Status = $request->input('exam-status');
+        if(!$ExamID) {
+            $Status = 0;
+        }
         $exam = Exams::updateOrCreate(
             ['ExamID' => $ExamID],
             [
@@ -128,6 +131,9 @@ class AdminExamController extends Controller
     public function destroy($ExamID)
     {
         if (request()->ajax()) {
+            $score = Scores::where('ExamID',$ExamID)->first();
+            if($score)
+                return response()->json(['message' => 'Xóa thất bại, đề thi này đã có người làm và chấm điểm']);
             QuestionDetails::where('ExamID', $ExamID)->delete();
             $examDelete = Exams::where('ExamID', $ExamID)->delete();
             return response()->json($examDelete);
@@ -149,6 +155,9 @@ class AdminExamController extends Controller
     {
         if (request()->ajax()) {
             $question = QuestionDetails::where('ExamID', $ExamID)->delete();
+            $exam = Exams::where('ExamID',$ExamID)->first();
+            $exam->Status = 0;
+            $exam->save();
             return response()->json($question);
         }
         return view('errors.ad404');
@@ -289,12 +298,15 @@ class AdminExamController extends Controller
     {
         $examInfo = Exams::where('ExamID', $ExamID)->first();
         if ($examInfo->ExamType == 1) {
+            $idArr = array();
             for ($i = 1; $i <= 6; $i++) {
                 $random5questions = Questions::where('ModuleID', $i)
+                    ->select('QuestionID')
                     ->inRandomOrder()
-                    ->limit(5)
+                    ->limit(6)
                     ->get();
                 foreach ($random5questions as $q) {
+                    array_push($idArr,$q->QuestionID);
                     $qd = new QuestionDetails;
                     $qd->ExamID = $ExamID;
                     $qd->QuestionID = $q->QuestionID;
@@ -302,6 +314,24 @@ class AdminExamController extends Controller
                         return response()->json(['status' => 0, 'message' => 'Lỗi']);
                 }
             }
+            while(1) {
+                $randomQuestion = Questions::where('ModuleID',rand(1,6))
+                    ->select('QuestionID')
+                    ->inRandomOrder()
+                    ->first();
+                if(sizeof($idArr)>=40)
+                    break;
+                if(!in_array($randomQuestion->QuestionID,$idArr)) {
+                    array_push($idArr,$randomQuestion->QuestionID);
+                    $qd = new QuestionDetails;
+                    $qd->ExamID = $ExamID;
+                    $qd->QuestionID = $randomQuestion->QuestionID;
+                    if (!$qd->save())
+                        return response()->json(['status' => 0, 'message' => 'Lỗi']);
+                }
+            }
+            $examInfo->Status = 1;
+            $examInfo->save();
             return response()->json(['status' => 1, 'message' => 'Thành công!']);
         } elseif ($examInfo->ExamType == 2) {
             $idArr = array();
@@ -323,6 +353,8 @@ class AdminExamController extends Controller
                     return response()->json(['status' => 0, 'message' => 'Lỗi']);
                 $i++;
             }
+            $examInfo->Status = 1;
+            $examInfo->save();
             return response()->json(['status' => 1, 'message' => 'Thành công!']);
         } else {
             $examInfo->ExamType==3 ? $ModuleID = 3 : '';
@@ -352,6 +384,8 @@ class AdminExamController extends Controller
                     return response()->json(['status' => 0, 'message' => 'Lỗi']);
                 $i++;
             }
+            $examInfo->Status = 1;
+            $examInfo->save();
             return response()->json(['status' => 1, 'message' => 'Thành công!']);
         }
     }
