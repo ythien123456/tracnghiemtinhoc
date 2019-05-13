@@ -35,13 +35,17 @@ class AccountController extends Controller
         $acc->LastName = $request->input('LastName');
         $acc->Gender = $request->input('Gender');
         $acc->Address = $request->input('Address');
-        $phoneNumberCheck = Accounts::select('PhoneNumber')
-            ->where('PhoneNumber',$request->input('PhoneNumber'))
-            ->where('AccountID','<>',$accountID)->first();
-        if($phoneNumberCheck)
-            return back()
-                ->with(['errMessage' => 'Số điện thoại '.$phoneNumberCheck->PhoneNumber.' đã tồn tại trong hệ thống!']);
-        $acc->PhoneNumber = $request->input('PhoneNumber');
+        if($request->input('PhoneNumber')!=null) {
+            $phoneNumberCheck = Accounts::select('PhoneNumber')
+                ->where('PhoneNumber',$request->input('PhoneNumber'))
+                ->where('AccountID','<>',$accountID)->first();
+            if($phoneNumberCheck)
+                return back()
+                    ->with(['errMessage' => 'Số điện thoại '.$phoneNumberCheck->PhoneNumber.' đã tồn tại trong hệ thống!']);
+            $acc->PhoneNumber = $request->input('PhoneNumber');
+        } else {
+            $acc->PhoneNumber = null;
+        }
         $acc->WorkPlace = $request->input('WorkPlace');
         if ($acc->save())
             return back()

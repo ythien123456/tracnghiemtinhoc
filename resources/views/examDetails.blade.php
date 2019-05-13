@@ -225,7 +225,7 @@
                                 <div class="row">
                                     <div class="col-sm-3"><span style="color: #ff5b51;">▇</span> Sai</div>
                                     <div class="col-sm-4"><span style="color: lightgreen;">▇</span> Đúng</div>
-                                    <div class="col-sm-5"><span style="color: orange;">▇</span> Chưa chọn</div>
+                                    <div class="col-sm-5"><span style="color: orange;">▇</span> Chưa làm</div>
                                 </div>
                             </div>
                         </div>

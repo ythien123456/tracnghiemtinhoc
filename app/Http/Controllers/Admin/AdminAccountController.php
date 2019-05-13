@@ -53,6 +53,17 @@ class AdminAccountController extends Controller
         $WorkPlace = $request->input('account-wplace');
         $PhoneNumber = $request->input('account-phone');
         $Address = $request->input('account-address');
+        if(!is_null($AccountID)) {
+            $emailCheck = Accounts::where('Email',$Email)->where('AccountID','<>',$AccountID)->first();
+            $phoneCheck = Accounts::where('PhoneNumber',$PhoneNumber)->where('AccountID','<>',$AccountID)->first();
+            if($emailCheck || $phoneCheck)
+                return response()->json(['message' => 'Email hoặc số điện thoại đã có người sử dụng!', 'status' => 0]);
+        } else {
+            $emailCheck = Accounts::where('Email',$Email)->first();
+            $phoneCheck = Accounts::where('PhoneNumber',$PhoneNumber)->first();
+            if($emailCheck || $phoneCheck)
+                return response()->json(['message' => 'Email hoặc số điện thoại đã có người sử dụng!', 'status' => 0]);
+        }
         $account = Accounts::updateOrCreate(
             ['AccountID' => $AccountID],
             [

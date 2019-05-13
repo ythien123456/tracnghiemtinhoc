@@ -44,6 +44,15 @@ class AdminModuleController extends Controller
         $ModuleID  = $request->input('module_id');
         $ModuleName = $request->input('module-name');
         $ModuleDescription = $request->input('module-description');
+        if(!is_null($ModuleID)) {
+            $nameCheck = Modules::where('ModuleName',$ModuleName)->where('ModuleID','<>',$ModuleID)->first();
+            if($nameCheck)
+                return response()->json(['message' => 'Tên module bị trùng!', 'status' => 0]);
+        } else {
+            $nameCheck = Modules::where('ModuleName',$ModuleName)->first();
+            if($nameCheck)
+                return response()->json(['message' => 'Tên module bị trùng!', 'status' => 0]);
+        }
         $module = Modules::updateOrCreate(
             ['ModuleID' => $ModuleID],
             [

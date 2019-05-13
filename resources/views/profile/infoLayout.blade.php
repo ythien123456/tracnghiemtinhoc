@@ -11,10 +11,22 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mu-page-breadcrumb-area">
-                        <h2>THÔNG TIN CÁ NHÂN</h2>
+                        <h2>
+                           Thông tin cá nhân
+                        </h2>
                         <ol class="breadcrumb">
                             <li><a href="#">Trang Chủ</a></li>
-                            <li class="active">THÔNG TIN CÁ NHÂN</li>
+                            <li class="active">
+                                @if(Request::is('info.html'))
+                                    Sửa thông tin
+                                @elseif(Request::is('score.html'))
+                                    Lịch sử thi
+                                @elseif(Request::is('change-password.html'))
+                                    Đổi mật khẩu
+                                @elseif(Request::is('profile.html'))
+                                    Thông tin cá nhân
+                                @endif
+                            </li>
                         </ol>
                     </div>
                 </div>

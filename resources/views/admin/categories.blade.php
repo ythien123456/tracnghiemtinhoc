@@ -160,6 +160,7 @@
                         oTable.fnDraw(false);
                     },
                     error: function (data) {
+                        alert('Xóa thất bại!');
                         console.log('Error: ', data);
                     }
                 });
@@ -175,13 +176,19 @@
                     url: '{!! url('tn-admin-th/categories/store') !!}',
                     dataType: 'json',
                     success: function (data) {
-                        $('#categoryForm').trigger('reset');
-                        $('#category-modal').modal('hide');
-                        $('#btn-save').html('Lưu');
-                        let oTable = $('#categories-table').dataTable();
-                        oTable.fnDraw(false);
+                        if(data.status!==0) {
+                            $('#categoryForm').trigger('reset');
+                            $('#category-modal').modal('hide');
+                            $('#btn-save').html('Lưu');
+                            let oTable = $('#categories-table').dataTable();
+                            oTable.fnDraw(false);
+                        } else {
+                            alert(data.message);
+                            $('#btn-save').html('Lưu');
+                        }
                     },
                     error: function (data) {
+                        alert('Lưu thất bại');
                         console.log('Error: ', data);
                         $('#btn-save').html('Lưu');
                     }

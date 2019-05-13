@@ -132,9 +132,11 @@ Route::post('postEditorLogin','Editor\EditorLoginController@postLogin')->name('p
 Route::get('getEditorLogout','Editor\EditorLoginController@getLogout')->name('getEditorLogout');
 
 Route::group(['prefix' => 'editor', 'middleware' => 'checkEditorLogin'], function () {
-    Route::get('/','Editor\EditorDashboardController@index');
-    Route::get('/dashboard','Editor\EditorDashboardController@index')->name('editorDashboard');
+    Route::get('/','Editor\EditorExamController@index');
     Route::get('/accounts', function() {
+        return view('errors.ed404');
+    });
+    Route::get('/dashboard', function() {
         return view('errors.ed404');
     });
     Route::get('/exams','Editor\EditorExamController@index')->name('editorExams');

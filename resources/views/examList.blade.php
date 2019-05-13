@@ -10,10 +10,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mu-page-breadcrumb-area">
-                        <h2>Đề tổng hợp</h2>
+                        <h2>{{$examType->TypeTitle}}</h2>
                         <ol class="breadcrumb">
                             <li><a href="#">Trang chủ</a></li>
-                            <li class="active">Đề tổng hợp</li>
+                            <li class="active">{{$examType->TypeTitle}}</li>
                         </ol>
                     </div>
                 </div>

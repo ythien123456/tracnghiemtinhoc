@@ -25,10 +25,7 @@ function nextQuestion() {
     if (activeButtonID < totalQuestions)
         activateQuestion(activeButtonID, currentActiveButton, currentActiveTabContent, +1);
     else
-        bootbox.alert({
-            message: 'Đây là câu hỏi cuối cùng!',
-            backdrop: true
-        });
+        alert('Đây là câu hỏi cuối cùng!');
 }
 
 function previousQuestion() {
@@ -39,10 +36,7 @@ function previousQuestion() {
     if (activeButtonID > 1)
         activateQuestion(activeButtonID, currentActiveButton, currentActiveTabContent, -1);
     else
-        bootbox.alert({
-            message: 'Đây là câu hỏi đầu tiên!',
-            backdrop: true,
-        });
+        alert('Đây là câu hỏi đầu tiên!');
 }
 
 //Set tab-content & Button to active so they will both active at the same time
@@ -317,6 +311,8 @@ function submitExam() {
 }
 
 function forceSubmit() {
+    const remainTime = document.getElementById('remaining').innerText;
+    localStorage.setItem('remainingTime',remainTime);
     bootbox.dialog({
         message: 'Đã hết giờ làm bài! Hệ thống sẽ tự động nộp bài của bạn'
     });

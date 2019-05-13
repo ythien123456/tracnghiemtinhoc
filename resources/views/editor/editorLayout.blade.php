@@ -42,7 +42,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="{{route('editorDashboard')}}">TNTH Editor Panel</a>
+            <a class="navbar-brand" href="{{url('editor')}}">TNTH Editor Panel</a>
         </div>
 
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -145,11 +145,11 @@
 {{--                        </div>--}}
 {{--                        <!-- /input-group -->--}}
                     </li>
-                    <li>
-                        <a href="{{url('/editor/dashboard')}}"
-                           class="{{Request::is('editor/dashboard') ? 'active' : ''}}"><i
-                                    class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                    </li>
+{{--                    <li>--}}
+{{--                        <a href="{{url('/editor/dashboard')}}"--}}
+{{--                           class="{{Request::is('editor/dashboard') ? 'active' : ''}}"><i--}}
+{{--                                    class="fa fa-dashboard fa-fw"></i> Dashboard</a>--}}
+{{--                    </li>--}}
                     <li>
                         <a href="{{url('/editor/exams')}}"
                            class="{{Request::is('editor/exams') ||

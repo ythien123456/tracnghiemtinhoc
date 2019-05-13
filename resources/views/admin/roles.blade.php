@@ -164,11 +164,16 @@
                     url: '{!! route('storeRole') !!}',
                     dataType: 'json',
                     success: function (data) {
-                        $('#roleForm').trigger('reset');
-                        $('#role-modal').modal('hide');
-                        $('#btn-save').html('Lưu');
-                        let oTable = $('#roles-table').dataTable();
-                        oTable.fnDraw(false);
+                        if(data.status!==0) {
+                            $('#roleForm').trigger('reset');
+                            $('#role-modal').modal('hide');
+                            $('#btn-save').html('Lưu');
+                            let oTable = $('#roles-table').dataTable();
+                            oTable.fnDraw(false);
+                        } else {
+                            alert(data.message);
+                            $('#btn-save').html('Lưu');
+                        }
                     },
                     error: function (data) {
                         console.log('Error: ', data);

@@ -46,6 +46,15 @@ class AdminCategoryController extends Controller
         $CategoryID = $request->input('category_id');
         $CategoryName = $request->input('category-name');
         $CategoryDescription = $request->input('category-description');
+        if(!is_null($CategoryID)) {
+            $categoryCheck = PostCategories::where('CategoryName',$CategoryName)->where('CategoryID','<>',$CategoryID)->first();
+            if($categoryCheck)
+                return response()->json(['message' => 'Tên danh mục bị trùng', 'status' => 0]);
+        } else {
+            $categoryCheck = PostCategories::where('CategoryName',$CategoryName)->first();
+            if($categoryCheck)
+                return response()->json(['message' => 'Tên danh mục bị trùng', 'status' => 0]);
+        }
         $category = PostCategories::updateOrCreate(
             ['CategoryID' => $CategoryID],
             [

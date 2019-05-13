@@ -75,7 +75,7 @@
                     <div class="modal-body">
                         <input type="hidden" name="account_id" id="account_id">
                         <div class="form-group">
-                            <label for="account-email" class="col-sm-12">Email
+                            <label for="account-email" class="col-sm-12">Email (<span style="color:red;">*</span>)
                                 <span id="default-password">(Mật khẩu mặc định: 123456)</span>
                             </label>
                             <div class="col-sm-12">
@@ -95,7 +95,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="account-fname" class="col-sm-12">Tên</label>
+                                    <label for="account-fname" class="col-sm-12">Tên (<span style="color:red;">*</span>)</label>
                                     <div class="col-sm-12">
                                         <input type="text" class="form-control" id="account-fname" name="account-fname"
                                                value=""
@@ -259,11 +259,16 @@
                     url: '{!! url('tn-admin-th/accounts/store') !!}',
                     dataType: 'json',
                     success: function (data) {
-                        $('#accountForm').trigger('reset');
-                        $('#account-modal').modal('hide');
-                        $('#btn-save').html('Lưu');
-                        let oTable = $('#accounts-table').dataTable();
-                        oTable.fnDraw(false);
+                        if(data.status===0) {
+                            alert(data.message);
+                            $('#btn-save').html('Lưu');
+                        } else {
+                            $('#accountForm').trigger('reset');
+                            $('#account-modal').modal('hide');
+                            $('#btn-save').html('Lưu');
+                            let oTable = $('#accounts-table').dataTable();
+                            oTable.fnDraw(false);
+                        }
                     },
                     error: function (data) {
                         console.log('Error: ', data);

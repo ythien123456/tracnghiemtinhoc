@@ -158,11 +158,16 @@
                     url: '{!! url('tn-admin-th/modules/store') !!}',
                     dataType: 'json',
                     success: function (data) {
-                        $('#moduleForm').trigger('reset');
-                        $('#module-modal').modal('hide');
-                        $('#btn-save').html('Lưu');
-                        let oTable = $('#modules-table').dataTable();
-                        oTable.fnDraw(false);
+                        if(data.status===0) {
+                            alert(data.message);
+                            $('#btn-save').html('Lưu');
+                        } else {
+                            $('#moduleForm').trigger('reset');
+                            $('#module-modal').modal('hide');
+                            $('#btn-save').html('Lưu');
+                            let oTable = $('#modules-table').dataTable();
+                            oTable.fnDraw(false);
+                        }
                     },
                     error: function (data) {
                         console.log('Error: ', data);

@@ -41,6 +41,15 @@ class AdminRoleController extends Controller
         $RoleID = $request->input('role_id');
         $RoleTitle = $request->input('role-title');
         $RoleDescription = $request->input('role-description');
+        if(!is_null($RoleID)) {
+            $roleCheck = Roles::where('RoleTitle',$RoleTitle)->where('RoleID','<>',$RoleID)->first();
+            if($roleCheck)
+                return response()->json(['message' => 'Quyền đã bị trùng!', 'status' => 0]);
+        } else {
+            $roleCheck = Roles::where('RoleTitle',$RoleTitle)->first();
+            if($roleCheck)
+                return response()->json(['message' => 'Quyền đã bị trùng!', 'status' => 0]);
+        }
         $role = Roles::updateOrCreate(
             ['RoleID' => $RoleID],
             [
