@@ -32,7 +32,7 @@
                                 <td>{{date('d/m/Y',strtotime($scores['date'.$stat->ExamID.'-'.$i]))}}</td>
                                 <td>{{date('H:m',strtotime($scores['date'.$stat->ExamID.'-'.$i]))}}</td>
                                 <td>{{$scores['score'.$stat->ExamID.'-'.$i]}}</td>
-                                <td>{{($scores['score'.$stat->ExamID.'-'.$i]/$stat->TotalQuestions)*10}}</td>
+                                <td>{{round(($scores['score'.$stat->ExamID.'-'.$i]/$stat->TotalQuestions)*10,2)}}</td>
                             </tr>
                         @endfor
                     </table>
