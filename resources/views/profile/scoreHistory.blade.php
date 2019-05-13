@@ -25,12 +25,14 @@
                             <th>Ngày thi</th>
                             <th>Vào lúc</th>
                             <th>Số câu đúng</th>
+                            <th>Điểm (thang 10)</th>
                         </tr>
                         @for($i=0;$i<$stat->TimesDone;$i++)
                             <tr>
                                 <td>{{date('d/m/Y',strtotime($scores['date'.$stat->ExamID.'-'.$i]))}}</td>
                                 <td>{{date('H:m',strtotime($scores['date'.$stat->ExamID.'-'.$i]))}}</td>
                                 <td>{{$scores['score'.$stat->ExamID.'-'.$i]}}</td>
+                                <td>{{($scores['score'.$stat->ExamID.'-'.$i]/$stat->TotalQuestions)*10}}</td>
                             </tr>
                         @endfor
                     </table>
