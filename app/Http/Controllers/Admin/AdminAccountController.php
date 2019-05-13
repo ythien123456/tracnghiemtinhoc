@@ -55,12 +55,18 @@ class AdminAccountController extends Controller
         $Address = $request->input('account-address');
         if(!is_null($AccountID)) {
             $emailCheck = Accounts::where('Email',$Email)->where('AccountID','<>',$AccountID)->first();
-            $phoneCheck = Accounts::where('PhoneNumber',$PhoneNumber)->where('AccountID','<>',$AccountID)->first();
+            if($PhoneNumber!=null)
+                $phoneCheck = Accounts::where('PhoneNumber',$PhoneNumber)->where('AccountID','<>',$AccountID)->first();
+            else
+                $phoneCheck = null;
             if($emailCheck || $phoneCheck)
                 return response()->json(['message' => 'Email hoặc số điện thoại đã có người sử dụng!', 'status' => 0]);
         } else {
             $emailCheck = Accounts::where('Email',$Email)->first();
-            $phoneCheck = Accounts::where('PhoneNumber',$PhoneNumber)->first();
+            if($PhoneNumber!=null)
+                $phoneCheck = Accounts::where('PhoneNumber',$PhoneNumber)->first();
+            else
+                $phoneCheck = null;
             if($emailCheck || $phoneCheck)
                 return response()->json(['message' => 'Email hoặc số điện thoại đã có người sử dụng!', 'status' => 0]);
         }
