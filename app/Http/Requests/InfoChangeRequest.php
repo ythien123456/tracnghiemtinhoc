@@ -27,7 +27,7 @@ class InfoChangeRequest extends FormRequest
             'LastName' => 'max:30',
             'FirstName' => 'required|max:30',
             'WorkPlace' => 'max:50',
-            'PhoneNumber' => 'nullable|regex:/^[\d\s]*$/|max:13|min:10',
+            'PhoneNumber' => 'nullable|regex:/^[\d\s]*$/|max:10|min:10',
             'Address' => 'max:255'
         ];
     }
