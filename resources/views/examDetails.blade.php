@@ -23,6 +23,24 @@
         </div>
     </section>
     <section id="mu-course-content">
+{{--        @if(!session()->has('score'))--}}
+{{--            <div class="row" style="background: #d7d7d7; margin: 10px auto; width: 70%; border-radius: 10px; padding: 10px;">--}}
+{{--                <div class="col-md-6">--}}
+{{--                    <span class="pull-right"><img src="https://img.webnots.com/2014/03/Left-Arrow1.png" height="35px"> : Câu trước</span>--}}
+{{--                </div>--}}
+{{--                <div class="col-md-6">--}}
+{{--                    <img src="https://img.webnots.com/2014/03/Right-Arrow1.png" height="35px"> : Câu sau--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="row" style="background: #d7d7d7; margin: 10px auto; width: 70%; border-radius: 10px; padding: 10px;">--}}
+{{--                <div class="col-md-2"><img src="https://img.webnots.com/2014/03/and-1.png" height="35px">: A</div>--}}
+{{--                <div class="col-md-2"><img src="https://img.webnots.com/2014/03/@-and-2.png" height="35px">: B</div>--}}
+{{--                <div class="col-md-2"><img src="https://img.webnots.com/2014/03/and-3.png" height="35px">: C</div>--}}
+{{--                <div class="col-md-2"><img src="https://img.webnots.com/2014/03/and-4.png" height="35px">: D</div>--}}
+{{--                <div class="col-md-2"><img src="https://img.webnots.com/2014/03/@-and-2.png" height="35px">: Gắn cờ</div>--}}
+{{--                <div class="col-md-2"><img src="https://img.webnots.com/2014/03/@-and-2.png" height="35px">: Tự chuyển</div>--}}
+{{--            </div>--}}
+{{--        @endif--}}
         @if(session()->has('score'))
             <div class="scoreShow">
                 <h2 class="text-center">Bạn đã làm đúng: {{session()->get('score')}}/{{$examInfo->TotalQuestions}}

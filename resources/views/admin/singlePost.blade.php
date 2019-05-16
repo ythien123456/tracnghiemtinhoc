@@ -96,6 +96,10 @@
 
         $('#btn-save').click(function () {
             let formData = $('#postForm').serialize();
+            if($('#post-title').val()==='' || $('#post-content').val()==='') {
+                alert('Tiêu đề và nội dung không được để trống!');
+                return;
+            }
             $.ajax({
                 data: formData,
                 url: '{!! route('editPost') !!}',
