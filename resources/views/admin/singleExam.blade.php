@@ -474,6 +474,14 @@
             }
         });
 
+        //On change question type
+        $('#question-type').change(function () {
+            if ($('#question-type').val() === '2')
+                $('input:radio').prop('type', 'checkbox');
+            else
+                $('input:checkbox').prop('type', 'radio');
+        });
+
         {{--//add new question to exam--}}
         {{--$('#btn-add-question').click(function () {--}}
         {{--    let total_questions = {{$examInfo->TotalQuestions}};--}}

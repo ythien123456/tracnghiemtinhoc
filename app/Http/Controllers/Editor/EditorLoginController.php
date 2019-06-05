@@ -24,7 +24,7 @@ class EditorLoginController extends Controller
         if (!is_null($account)) {
             $request->session()->put('EditorID', $account->AccountID);
             $request->session()->put('EditorEmail', $account->Email);
-            return redirect()->route('editorDashboard');
+            return redirect()->route('editorExams');
         } else {
             return back()
                 ->with(['errMessage' => 'Sai tên đăng nhập hoặc mật khẩu']);
