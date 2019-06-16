@@ -30,7 +30,7 @@
                                         <ul class="mu-top-social-nav">
                                             {!! session('Role')==3 ?
                                             '<li><a href="'.route('adminDashboard').'">Admin Panel</a></li>' :
-                                            '<li><a href="'.route('editorDashboard').'">Editor Panel</a></li>' !!}
+                                            '<li><a href="'.route('editorExams').'">Editor Panel</a></li>' !!}
                                         </ul>
                                     </nav>
                                 </div>
